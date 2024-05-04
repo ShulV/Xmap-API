@@ -6,3 +6,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/xmap
     username: postgres
     password: 12345
+
+
+server:
+  #для HTTPS, SSL шифрования и использования keypair
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:ssl/xmap_ssl.pfx
+    key-store-password: rootroot
