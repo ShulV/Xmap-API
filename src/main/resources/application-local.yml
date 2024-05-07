@@ -6,10 +6,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/xmap
     username: postgres
     password: 12345
-  output:
-    ansi:
-      enabled: DETECT
 
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true  # SQL более читабельный, разбивается на несколько строк
 
 server:
   port: 8080
@@ -21,13 +23,21 @@ server:
     key-store-password: rootroot
 
 logging:
-
-  file.name: logs/application-debug.log
+  file.name: logs/main.log
   level:
-    root: ERROR
-    org.springframework.web: ERROR
-    org.hibernate: ERROR
-    com.xmap_api: DEBUG
+    org:
+      springframework:
+        web: error
+        jpa: error
+        jdbc: error
+        data: error
+      hibernate:
+        sql: trace
+        orm.jdbc.bind: TRACE  # для вывода значений параметров SQL
+    com.xmap_api: trace  # для логов текущего проекта
+
+# с паттерном пропадают цвета, нужно юзать плагин
 #  pattern:
-#    console: %d{yyyy-MM-dd HH:mm:ss} - %msg%n
-#    file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+#    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
+#    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+

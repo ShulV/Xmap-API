@@ -6,3 +6,6 @@ spring:
     url:
     username:
     password:
+
+logging:
+  file.name: logs/main.log
