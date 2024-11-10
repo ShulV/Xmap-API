@@ -8,6 +8,8 @@ P.S. можно создавать несколько конфигов для п
 1) Задание профиля в команде (для сервака):
 ```bash
 java -jar myapp.jar --spring.profiles.active=имя_профиля
+# например
+java -jar /home/viktor/xmap-api/Xmap-API-0.0.1-SNAPSHOT.jar --spring.profiles.active=remote_server
 ```
 
 2) Задание профиля в Intellij IDEA:
