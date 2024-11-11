@@ -1,17 +1,21 @@
 spring:
   application:
     name: Xmap-API
+  liquibase:
+    enabled: true
+    default-schema: public
+    change-log: classpath:db/changelog/main-changelog.xml
 
   datasource:
     url: jdbc:postgresql://localhost:5432/xmap
     username: postgres
-    password: 12345
+    password: postgres
 
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true  # SQL более читабельный, разбивается на несколько строк
+  #jpa:
+    #show-sql: true
+    #properties:
+      #hibernate:
+        #format_sql: true  # SQL более читабельный, разбивается на несколько строк
 
 server:
   port: 8080
@@ -25,6 +29,7 @@ server:
 logging:
   file.name: logs/main.log
   level:
+    #liquibase: DEBUG
     org:
       springframework:
         web: error
@@ -32,9 +37,9 @@ logging:
         jdbc: error
         data: error
       hibernate:
-        sql: trace
-        orm.jdbc.bind: TRACE  # для вывода значений параметров SQL
-    com.xmap_api: trace  # для логов текущего проекта
+        #sql: trace
+        #orm.jdbc.bind: TRACE  # для вывода значений параметров SQL
+    #com.xmap_api: trace  # для логов текущего проекта
 
 # с паттерном пропадают цвета, нужно юзать плагин
 #  pattern:
