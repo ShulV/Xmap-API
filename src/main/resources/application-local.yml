@@ -8,7 +8,7 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/xmap
-    username: postgres
+    username: postgres # локальные данные спалили :_)
     password: postgres
 
   #jpa:
@@ -20,11 +20,11 @@ spring:
 server:
   port: 8080
   #для HTTPS, SSL шифрования и использования keypair
-  ssl:
-    enabled: true
-    key-store-type: PKCS12
-    key-store: classpath:ssl/xmap_ssl.pfx
-    key-store-password: rootroot
+  # ssl: Пока без ssl на линуксе
+  #  enabled: true
+  #  key-store-type: PKCS12
+  #  key-store: classpath:ssl/xmap_ssl.pfx
+  #  key-store-password: rootroot
 
 logging:
   file.name: logs/main.log

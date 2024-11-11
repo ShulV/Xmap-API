@@ -3,9 +3,9 @@ spring:
     name: Xmap-API
 
   datasource:
-    url:
-    username:
-    password:
+    url: jdbc:postgresql://localhost:5432/xmap
+    username: viktor # локальные данные сервера спалили :_) #TODO потом убрать как там будет что-то важное
+    password: 123
 
 logging:
   file.name: logs/main.log
