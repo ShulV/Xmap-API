@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "spot")
@@ -12,28 +14,27 @@ import java.util.Date;
 @Setter
 public class Spot {
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "lat")
+    @Column(name = "lat", nullable = false)
     private Double latitude;
 
-    @Column(name = "lon")
+    @Column(name = "lon", nullable = false)
     private Double longitude;
 
-    @Column(name = "accepted")
+    @Column(name = "accepted", nullable = false)
     private Boolean accepted;
 
-    @Column(name = "adding_date")
-    private Date addingDate;
+    @Column(name = "inserted_at", nullable = false)
+    private Date insertedAt;
 
-    @Column(name = "updating_date")
-    private Date updatingDate;
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 }
