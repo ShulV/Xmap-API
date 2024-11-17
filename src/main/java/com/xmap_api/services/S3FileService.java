@@ -1,18 +1,28 @@
 package com.xmap_api.services;
 
+import com.xmap_api.dao.S3FileDAO;
 import com.xmap_api.models.S3File;
-import com.xmap_api.repos.S3FileRepo;
+import com.xmap_api.util.DBCode;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 @Service
 public class S3FileService {
-    private final S3FileRepo s3FileRepo;
+    private final S3FileDAO s3FileDAO;
 
-    public S3FileService(S3FileRepo s3FileRepo) {
-        this.s3FileRepo = s3FileRepo;
+    public S3FileService(S3FileDAO s3FileDAO) {
+        this.s3FileDAO = s3FileDAO;
     }
 
-    public void createS3File(S3File s3File) {
-        s3FileRepo.save(s3File);
+    @Transactional
+    public UUID createS3File(MultipartFile file, DBCode.S3File.FileType fileType) {
+        UUID newId = s3FileDAO.insert(new S3File(file, fileType));
+        switch (fileType) {
+            case SPOT_IMAGE -> {}
+        }
+        return newId;
     }
 }

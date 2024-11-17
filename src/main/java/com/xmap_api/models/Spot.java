@@ -14,27 +14,27 @@ import java.util.UUID;
 @Setter
 public class Spot {
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "lat", nullable = false)
+    @Column(name = "lat")
     private Double latitude;
 
-    @Column(name = "lon", nullable = false)
+    @Column(name = "lon")
     private Double longitude;
 
-    @Column(name = "accepted", nullable = false)
+    @Column(name = "accepted")
     private Boolean accepted;
 
-    @Column(name = "inserted_at", nullable = false)
+    @Column(name = "inserted_at")
     private Date insertedAt;
 
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 }

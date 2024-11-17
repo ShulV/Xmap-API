@@ -1,20 +1,20 @@
 package com.xmap_api.services;
 
+import com.xmap_api.dao.SpotDAO;
 import com.xmap_api.models.Spot;
-import com.xmap_api.repos.SpotRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class SpotService {
-    private final SpotRepo spotRepo;
+    private final SpotDAO spotDAO;
 
-    public SpotService(SpotRepo spotRepo) {
-        this.spotRepo = spotRepo;
+    public SpotService(SpotDAO spotDAO) {
+        this.spotDAO = spotDAO;
     }
 
     public List<Spot> getAll() {
-        return spotRepo.findAll();
+        return spotDAO.findAll();
     }
 }
