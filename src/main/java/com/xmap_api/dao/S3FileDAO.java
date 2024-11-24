@@ -16,11 +16,11 @@ public class S3FileDAO {
 
     public UUID insert(S3File s3File) {
         return jdbcTemplate.queryForObject("""
-                INSERT INTO s3_file (original_file_name, file_size, file_content, file_extension, file_type)
-                     VALUES (?, ?, ?, ?, ?)
+                INSERT INTO s3_file (original_file_name, file_size, file_content, file_extension, content_type, file_type)
+                     VALUES (?, ?, ?, ?, ?, ?)
                   RETURNING id
                 """, UUID.class,
                 s3File.getOriginalFileName(), s3File.getFileSize(), s3File.getFileContent(), s3File.getFileExtension(),
-                s3File.getFileType().name());
+                s3File.getContentType(), s3File.getFileType().name());
     }
 }

@@ -35,6 +35,9 @@ public class S3File {
     @Column(name = "file_extension")
     private String fileExtension;
 
+    @Column(name = "content_type")
+    private String contentType;
+
     @Column(name = "file_type")
     @Enumerated(EnumType.STRING)
     private DBCode.S3File.FileType fileType;
@@ -57,6 +60,7 @@ public class S3File {
             this.fileSize = file.getSize();
             this.fileContent = file.getBytes();
             this.fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+            this.contentType = file.getContentType();
             this.fileType = fileType;
         } catch (IOException e) {
             //TODO log

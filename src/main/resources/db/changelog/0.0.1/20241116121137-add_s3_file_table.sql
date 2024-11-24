@@ -9,6 +9,7 @@ CREATE TABLE s3_file
     file_size          BIGINT                              NOT NULL,
     file_content       bytea,
     file_extension     VARCHAR(10)                         NOT NULL,
+    content_type       VARCHAR(20)                         NOT NULL,
     file_type          VARCHAR(15)                         NOT NULL,
     uploaded_at        TIMESTAMP DEFAULT current_timestamp NOT NULL,
     s3_object_key      uuid,
@@ -27,6 +28,8 @@ COMMENT ON COLUMN s3_file.file_size IS 'Размер файла в байтах'
 COMMENT ON COLUMN s3_file.file_content IS 'Содержимое файла (байты)';
 
 COMMENT ON COLUMN s3_file.file_extension IS 'Расширение файла';
+
+COMMENT ON COLUMN s3_file.content_type IS 'Content-Type для ответов';
 
 COMMENT ON COLUMN s3_file.file_type IS 'Тип файла в xmap';
 
