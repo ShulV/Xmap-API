@@ -32,9 +32,6 @@ public class S3File {
     @Column(name = "file_content")
     private byte[] fileContent;
 
-    @Column(name = "file_extension")
-    private String fileExtension;
-
     @Column(name = "content_type")
     private String contentType;
 
@@ -56,15 +53,22 @@ public class S3File {
 
     public S3File(MultipartFile file, DBCode.S3File.FileType fileType) {
         try {
-            this.originalFileName = FilenameUtils.removeExtension(file.getOriginalFilename());
+            this.originalFileName = file.getOriginalFilename();
             this.fileSize = file.getSize();
             this.fileContent = file.getBytes();
-            this.fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
             this.contentType = file.getContentType();
             this.fileType = fileType;
         } catch (IOException e) {
             //TODO log
             throw new XmapApiException();
         }
+    }
+
+    public String getFileExtension() {
+        return FilenameUtils.getExtension(originalFileName);
+    }
+
+    public String getFileName() {
+        return FilenameUtils.removeExtension(originalFileName);
     }
 }
