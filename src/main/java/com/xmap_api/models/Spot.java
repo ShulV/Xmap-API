@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,4 +37,12 @@ public class Spot {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany
+    @JoinTable(
+            name = "spot_s3_file",
+            joinColumns = @JoinColumn(name = "spot_id"),
+            inverseJoinColumns = @JoinColumn(name = "s3_file_id")
+    )
+    private List<S3File> s3Files;
 }
