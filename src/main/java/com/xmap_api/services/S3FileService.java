@@ -1,6 +1,7 @@
 package com.xmap_api.services;
 
 import com.xmap_api.dao.S3FileDAO;
+import com.xmap_api.dto.inside.DownloadedFileDTO;
 import com.xmap_api.models.S3File;
 import com.xmap_api.util.DBCode;
 import jakarta.transaction.Transactional;
@@ -28,5 +29,9 @@ public class S3FileService {
     public void createSpotImage(MultipartFile file, UUID spotId) {
         UUID s3FileId =  s3FileDAO.insert(new S3File(file, DBCode.S3File.FileType.SPOT_IMAGE));
         spotS3FileService.insert(spotId, s3FileId);
+    }
+
+    public DownloadedFileDTO downloadFile(UUID s3FileId) {
+        return s3FileDAO.getForDownloading(s3FileId);
     }
 }

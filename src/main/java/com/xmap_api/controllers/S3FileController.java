@@ -1,7 +1,10 @@
 package com.xmap_api.controllers;
 
+import com.xmap_api.dto.inside.DownloadedFileDTO;
 import com.xmap_api.services.S3FileService;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,5 +33,14 @@ public class S3FileController {
                                              @PathVariable("spotId") UUID spotId) {
         s3FileService.createSpotImage(file, spotId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/spot-image/{spotId}")
+    public ResponseEntity<Resource> getSpotImage(@PathVariable("spotId") UUID spotId) {
+        DownloadedFileDTO fileDTO = s3FileService.downloadFile(spotId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, fileDTO.returnedFilename());
+        headers.add(HttpHeaders.CONTENT_TYPE, fileDTO.contentType());
+        return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(fileDTO.content()));
     }
 }
