@@ -5,13 +5,20 @@ import com.xmap_api.dto.inside.DownloadedFileDTO;
 import com.xmap_api.models.S3File;
 import com.xmap_api.util.DBCode;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class S3FileService {
+    @Value("${xmap-api.spot-image.download-urn-template}")
+    private String spotDownloadUrnTemplate;
+    @Value("${xmap-api.spot-image.download-urn-path-param}")
+    private String downloadUrnPathParam;
+
     private final S3FileDAO s3FileDAO;
     private final SpotS3FileService spotS3FileService;
 
@@ -33,5 +40,11 @@ public class S3FileService {
 
     public DownloadedFileDTO downloadFile(UUID s3FileId) {
         return s3FileDAO.getForDownloading(s3FileId);
+    }
+
+    public List<String> getSpotImageLinks(UUID spotId) {
+        return s3FileDAO.getSpotImageLinks(spotId).stream()
+                .map(s3FileId -> spotDownloadUrnTemplate.replace(downloadUrnPathParam, s3FileId.toString()))
+                .toList();
     }
 }

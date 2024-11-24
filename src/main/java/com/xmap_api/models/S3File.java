@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -50,6 +51,9 @@ public class S3File {
 
     @Column(name = "uploaded_in_s3_at")
     private LocalDateTime uploadedInS3At;
+
+    @ManyToMany(mappedBy = "s3Files")
+    private List<Spot> spots;
 
     public S3File(MultipartFile file, DBCode.S3File.FileType fileType) {
         try {

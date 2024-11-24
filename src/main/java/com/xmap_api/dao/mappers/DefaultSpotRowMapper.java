@@ -1,24 +1,23 @@
 package com.xmap_api.dao.mappers;
 
-import com.xmap_api.models.Spot;
+import com.xmap_api.dto.response.DefaultSpotDTO;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class DefaultSpotRowMapper implements RowMapper<Spot> {
+public class DefaultSpotRowMapper implements RowMapper<DefaultSpotDTO> {
     @Override
-    public Spot mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Spot spot = new Spot();
-        spot.setId(UUID.fromString(rs.getString("id")));
-        spot.setName(rs.getString("name"));
-        spot.setLatitude(rs.getDouble("lat"));
-        spot.setLongitude(rs.getDouble("lon"));
-        spot.setAccepted(rs.getBoolean("accepted"));
-        spot.setInsertedAt(rs.getTimestamp("inserted_at"));
-        spot.setUpdatedAt(rs.getTimestamp("updated_at"));
-        spot.setDescription(rs.getString("description"));
-        return spot;
+    public DefaultSpotDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return DefaultSpotDTO.builder()
+                .id(UUID.fromString(rs.getString("id")))
+                .name(rs.getString("name"))
+                .latitude(rs.getDouble("lat"))
+                .longitude(rs.getDouble("lon"))
+                .insertedAt(rs.getTimestamp("inserted_at"))
+                .updatedAt(rs.getTimestamp("updated_at"))
+                .description(rs.getString("description"))
+                .build();
     }
 }

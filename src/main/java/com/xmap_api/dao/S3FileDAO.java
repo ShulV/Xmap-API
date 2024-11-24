@@ -1,11 +1,12 @@
 package com.xmap_api.dao;
 
 import com.xmap_api.dto.inside.DownloadedFileDTO;
+import com.xmap_api.exceptions.XmapApiException;
 import com.xmap_api.models.S3File;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -39,9 +40,19 @@ public class S3FileDAO {
                                 .contentType(rs.getString("content_type"))
                                 .build();
                     } else {
-                        throw new SQLException("Cannot find s3_file with id=" + s3FileId);
+                        //TODO
+                        throw new XmapApiException();
                     }
                 },
                 s3FileId);
+    }
+
+    public List<UUID> getSpotImageLinks(UUID spotId) {
+        return jdbcTemplate.queryForList("""
+                  SELECT sf.id
+                    FROM s3_file sf
+               LEFT JOIN spot_s3_file ssf ON ssf.s3_file_id = sf.id
+                   WHERE ssf.spot_id = ?
+              """, UUID.class, spotId);
     }
 }
