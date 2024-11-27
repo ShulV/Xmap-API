@@ -10,4 +10,5 @@ public class XmapApiApplication {
 		SpringApplication.run(XmapApiApplication.class, args);
 	}
 
+	//TODO обработать XmapApiException, научить его принимать сообщения
 }
