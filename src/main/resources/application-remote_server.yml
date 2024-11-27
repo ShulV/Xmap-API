@@ -1,6 +1,10 @@
 spring:
   application:
     name: Xmap-API
+  liquibase:
+    enabled: true
+    default-schema: public
+    change-log: classpath:db/changelog/main-changelog.xml
 
   datasource:
     url: jdbc:postgresql://localhost:5432/xmap
@@ -9,3 +13,9 @@ spring:
 
 logging:
   file.name: logs/main.log
+
+xmap-api:
+  spot-image:
+    # URN (Uniform Resource Name) - URL без scheme (без http://)
+    download-urn-template: "/api/v1/s3-file/spot-image/{spotId}"
+    download-urn-path-param: "{spotId}"
