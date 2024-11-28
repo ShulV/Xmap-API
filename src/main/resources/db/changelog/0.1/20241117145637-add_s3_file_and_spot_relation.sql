@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset Shulpov Victor:20241117145637 splitStatements:true
-CREATE TABLE spot_s3_file (
+CREATE TABLE IF NOT EXISTS spot_s3_file (
       spot_id uuid NOT NULL,
       s3_file_id uuid NOT NULL,
       PRIMARY KEY (spot_id, s3_file_id),

@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset Shulpov Victor:20241111215937-add-spot-table splitStatements:true
-CREATE TABLE spot(
+CREATE TABLE IF NOT EXISTS spot(
                      id uuid DEFAULT gen_random_uuid() NOT NULL CONSTRAINT spot_pk PRIMARY KEY,
                      "name" varchar(50) NOT NULL,
                      lat DOUBLE PRECISION NOT NULL,
