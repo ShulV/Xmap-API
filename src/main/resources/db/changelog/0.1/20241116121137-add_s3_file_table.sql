@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset Shulpov Victor:20241116121137 splitStatements:true
-CREATE TABLE s3_file
+CREATE TABLE IF NOT EXISTS s3_file
 (
     id uuid DEFAULT gen_random_uuid() NOT NULL
             CONSTRAINT s3_file_pk
