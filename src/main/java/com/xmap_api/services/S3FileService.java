@@ -38,6 +38,14 @@ public class S3FileService {
         spotS3FileService.insert(spotId, s3FileId);
     }
 
+    @Transactional
+    public void createSpotImages(List<MultipartFile> files, UUID spotId) {
+        List<S3File> s3Files = files.stream()
+                .map(file -> new S3File(file, DBCode.S3File.FileType.SPOT_IMAGE))
+                .toList();
+        s3FileDAO.batchInsertAndLink(s3Files, spotId);
+    }
+
     public DownloadedFileDTO downloadFile(UUID s3FileId) {
         return s3FileDAO.getForDownloading(s3FileId);
     }

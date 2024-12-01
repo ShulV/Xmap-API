@@ -27,6 +27,27 @@ public class S3FileDAO {
                 s3File.getFileType().name());
     }
 
+    public void batchInsertAndLink(List<S3File> s3Files, UUID spotId) {
+        List<Object[]> batchData = s3Files.stream()
+                .map(s3File -> new Object[]{
+                        s3File.getOriginalFileName(),
+                        s3File.getFileSize(),
+                        s3File.getFileContent(),
+                        s3File.getContentType(),
+                        s3File.getFileType().name(),
+                        spotId
+                }).toList();
+        jdbcTemplate.batchUpdate("""
+            WITH inserted_row as (
+                    INSERT INTO s3_file (original_file_name, file_size, file_content, content_type, file_type)
+                     VALUES (?, ?, ?, ?, ?)
+                  RETURNING id
+            )
+            INSERT INTO spot_s3_file (spot_id, s3_file_id)
+            VALUES (?, (SELECT id FROM inserted_row))
+            """, batchData);
+    }
+
     public DownloadedFileDTO getForDownloading(UUID s3FileId) {
         return jdbcTemplate.query("""
                 SELECT file_content, original_file_name, content_type FROM s3_file

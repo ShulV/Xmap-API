@@ -1,6 +1,7 @@
 package com.xmap_api.dao;
 
 import com.xmap_api.dao.mappers.DefaultSpotRowMapper;
+import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -30,5 +31,13 @@ public class SpotDAO {
                     FROM spot
                    WHERE id = ?
               """, defaultSpotRowMapper, spotId).getFirst();
+    }
+
+    public UUID addNewSpot(NewSpotDTO spot) {
+        return jdbcTemplate.queryForObject("""
+                  INSERT INTO spot (name, lat, lon, inserted_at, updated_at, description)
+                       VALUES (?, ?, ?, DEFAULT, DEFAULT, ?)
+                    RETURNING id
+              """, UUID.class, spot.name(), spot.latitude(), spot.longitude(), spot.description());
     }
 }
