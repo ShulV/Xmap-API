@@ -38,4 +38,6 @@ public class SpotController {
                                                      @RequestPart("files") List<MultipartFile> files) {
         return ResponseEntity.ok(new SpotIdDTO(spotService.createSpotForModeration(dto, files)));
     }
+
+    //метод для модерации имеет смысл делать, когда будет какая-либо авторизация
 }
