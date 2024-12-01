@@ -38,7 +38,7 @@ public class SpotService {
     }
 
     @Transactional
-    public UUID createSpotForModeration(NewSpotDTO dto, MultipartFile[] files) {
+    public UUID createSpotForModeration(NewSpotDTO dto, List<MultipartFile> files) {
         UUID newSpotId = spotDAO.addNewSpot(dto);
         s3FileService.createSpotImages(files, newSpotId);
         return newSpotId;

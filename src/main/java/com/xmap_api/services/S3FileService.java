@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,8 +39,8 @@ public class S3FileService {
     }
 
     @Transactional
-    public void createSpotImages(MultipartFile[] files, UUID spotId) {
-        List<S3File> s3Files = Arrays.stream(files)
+    public void createSpotImages(List<MultipartFile> files, UUID spotId) {
+        List<S3File> s3Files = files.stream()
                 .map(file -> new S3File(file, DBCode.S3File.FileType.SPOT_IMAGE))
                 .toList();
         s3FileDAO.batchInsertAndLink(s3Files, spotId);
