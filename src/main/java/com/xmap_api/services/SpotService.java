@@ -1,10 +1,13 @@
 package com.xmap_api.services;
 
 import com.xmap_api.dao.SpotDAO;
+import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
 import com.xmap_api.dto.response.SpotWithImageLinksDTO;
 import com.xmap_api.exceptions.XmapApiException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,5 +35,12 @@ public class SpotService {
         } catch (NoSuchElementException e) {
             throw new XmapApiException();
         }
+    }
+
+    @Transactional
+    public UUID createSpotForModeration(NewSpotDTO dto, List<MultipartFile> files) {
+        UUID newSpotId = spotDAO.addNewSpot(dto);
+        s3FileService.createSpotImages(files, newSpotId);
+        return newSpotId;
     }
 }

@@ -23,9 +23,9 @@ public class S3FileController {
 
     //TODO добавить сваггер
     //@PostMapping("/{fileType}")
-    //public ResponseEntity<S3FileIdResponse> createS3File(@RequestParam("file") MultipartFile file,
+    //public ResponseEntity<S3FileIdDTO> createS3File(@RequestParam("file") MultipartFile file,
     //                                                     @PathVariable("fileType") DBCode.S3File.FileType fileType) {
-    //    return ResponseEntity.ok(new S3FileIdResponse(s3FileService.createS3File(file, fileType)));
+    //    return ResponseEntity.ok(new S3FileIdDTO(s3FileService.createS3File(file, fileType)));
     //}
 
     @PostMapping("/spot-image/{spotId}")
