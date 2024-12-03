@@ -39,7 +39,8 @@ public class S3FileController {
     public ResponseEntity<Resource> getSpotImage(@PathVariable("spotId") UUID spotId) {
         DownloadedFileDTO fileDTO = s3FileService.downloadFile(spotId);
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, fileDTO.returnedFilename());
+        //так файл скачается, а нам это не надо
+        //headers.add(HttpHeaders.CONTENT_DISPOSITION, fileDTO.returnedFilename());
         headers.add(HttpHeaders.CONTENT_TYPE, fileDTO.contentType());
         return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(fileDTO.content()));
     }
