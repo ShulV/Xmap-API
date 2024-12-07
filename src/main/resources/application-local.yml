@@ -26,28 +26,35 @@ server:
   #  key-store: classpath:ssl/xmap_ssl.pfx
   #  key-store-password: rootroot
 
-logging:
-  file.name: logs/main.log
-  level:
-    #liquibase: DEBUG
-    org:
-      springframework:
-        web: error
-        jpa: error
-        jdbc: error
-        data: error
-      hibernate:
-        #sql: trace
-        #orm.jdbc.bind: TRACE  # для вывода значений параметров SQL
-    #com.xmap_api: trace  # для логов текущего проекта
 
-# с паттерном пропадают цвета, нужно юзать плагин
-#  pattern:
-#    console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
-#    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+logging:
+  file:
+    # magic is spring will transfer logging.file.path into System properties LOG_PATH
+    path: /home/victor/xmap-app/Xmap-API/logs
 
 xmap-api:
   spot-image:
     # URN (Uniform Resource Name) - URL без scheme (без http://)
     download-urn-template: "/api/v1/s3-file/spot-image/{spotId}"
     download-urn-path-param: "{spotId}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

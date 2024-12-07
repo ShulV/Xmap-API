@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProfile name="local">
+    </springProfile>
+
+    <springProfile name="remote_server">
+    </springProfile>
+
+    <!--_________________________________________________APPENDERS___________________________________________________-->
+    <appender name="MAIN_FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_PATH}/main.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Имя файла архива с датой -->
+            <fileNamePattern>${LOG_PATH}/archived/spot.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- Максимальный размер одного файла до его ротации (например, 10 МБ) -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- Ограничение общего размера архивированных файлов (например, 500 МБ) -->
+            <totalSizeCap>500MB</totalSizeCap>
+            <!-- Количество дней, в течение которых файлы будут храниться перед удалением (например, 30 дней) -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="SPOT_FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_PATH}/spot.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--_________________________________________________LOGGERS_____________________________________________________-->
+    <logger name="MAIN_LOG" level="INFO" additivity="false">
+        <appender-ref ref="MAIN_FILE_APPENDER"/>
+    </logger>
+
+    <logger name="SPOT_LOG" level="INFO" additivity="false">
+        <appender-ref ref="SPOT_FILE_APPENDER"/>
+        <appender-ref ref="MAIN_FILE_APPENDER"/>
+    </logger>
+</configuration>
