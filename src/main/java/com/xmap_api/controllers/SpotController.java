@@ -5,6 +5,10 @@ import com.xmap_api.dto.response.DefaultSpotDTO;
 import com.xmap_api.dto.response.SpotIdDTO;
 import com.xmap_api.dto.response.SpotWithImageLinksDTO;
 import com.xmap_api.services.SpotService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +27,16 @@ public class SpotController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DefaultSpotDTO>> getAll() {
-        return ResponseEntity.ok(spotService.getDefaultAll());
+    public ResponseEntity<Page<DefaultSpotDTO>> getAll(@RequestParam(defaultValue = "0", value = "page") int page,
+                                                       @RequestParam(defaultValue = "10", value = "size") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<DefaultSpotDTO> pagedResult = spotService.getDefaultAll(paging);
+
+        if (pagedResult.hasContent()) {
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/{spotId}")

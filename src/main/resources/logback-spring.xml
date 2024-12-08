@@ -15,7 +15,7 @@
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Имя файла архива с датой -->
-            <fileNamePattern>${LOG_PATH}/archived/spot.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/archived/main.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
             <!-- Максимальный размер одного файла до его ротации (например, 10 МБ) -->
             <maxFileSize>10MB</maxFileSize>
             <!-- Ограничение общего размера архивированных файлов (например, 500 МБ) -->
@@ -32,13 +32,25 @@
         </encoder>
     </appender>
 
+    <appender name="APP_FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_PATH}/app.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!--_________________________________________________LOGGERS_____________________________________________________-->
-    <logger name="MAIN_LOG" level="INFO" additivity="false">
+    <logger name="MAIN_LOG" level="WARN" additivity="false">
         <appender-ref ref="MAIN_FILE_APPENDER"/>
     </logger>
 
     <logger name="SPOT_LOG" level="INFO" additivity="false">
         <appender-ref ref="SPOT_FILE_APPENDER"/>
+        <appender-ref ref="MAIN_FILE_APPENDER"/>
+    </logger>
+
+    <logger name="APP_LOG" level="INFO" additivity="false">
+        <appender-ref ref="APP_FILE_APPENDER"/>
         <appender-ref ref="MAIN_FILE_APPENDER"/>
     </logger>
 </configuration>
