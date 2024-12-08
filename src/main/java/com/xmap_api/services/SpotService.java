@@ -8,6 +8,8 @@ import com.xmap_api.exceptions.XmapApiException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,9 +31,10 @@ public class SpotService {
         this.s3FileService = s3FileService;
     }
 
-    public List<DefaultSpotDTO> getDefaultAll() {
-        log.info("Getting all default spots");//TODO тест логгер, потом убрать
-        return spotDAO.findAllDefaultSpots();
+    public Page<DefaultSpotDTO> getDefaultAll(Pageable pageable) {
+        log.info("Getting all default spots with pagination: [page = '{}', size = '{}']",
+                pageable.getPageNumber(), pageable.getPageSize());//TODO пока нагрузки нет, пусть логируется
+        return spotDAO.findAllDefaultSpots(pageable);
     }
 
     public SpotWithImageLinksDTO getSpotWithImageLinks(UUID spotId) {
