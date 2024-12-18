@@ -21,13 +21,6 @@ public class S3FileController {
         this.s3FileService = s3FileService;
     }
 
-    //TODO добавить сваггер
-    //@PostMapping("/{fileType}")
-    //public ResponseEntity<S3FileIdDTO> createS3File(@RequestParam("file") MultipartFile file,
-    //                                                     @PathVariable("fileType") DBCode.S3File.FileType fileType) {
-    //    return ResponseEntity.ok(new S3FileIdDTO(s3FileService.createS3File(file, fileType)));
-    //}
-
     @PostMapping("/spot-image/{spotId}")
     public ResponseEntity<Void> addSpotImage(@RequestParam("file") MultipartFile file,
                                              @PathVariable("spotId") UUID spotId) {
@@ -39,7 +32,7 @@ public class S3FileController {
     public ResponseEntity<Resource> getSpotImage(@PathVariable("spotId") UUID spotId) {
         DownloadedFileDTO fileDTO = s3FileService.downloadFile(spotId);
         HttpHeaders headers = new HttpHeaders();
-        //так файл скачается, а нам это не надо
+        //так файл скачается, а нам это пока не надо
         //headers.add(HttpHeaders.CONTENT_DISPOSITION, fileDTO.returnedFilename());
         headers.add(HttpHeaders.CONTENT_TYPE, fileDTO.contentType());
         return ResponseEntity.ok().headers(headers).body(new ByteArrayResource(fileDTO.content()));

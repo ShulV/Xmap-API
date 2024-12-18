@@ -33,7 +33,7 @@ public class SpotService {
 
     public Page<DefaultSpotDTO> getDefaultAll(Pageable pageable) {
         log.info("Getting all default spots with pagination: [page = '{}', size = '{}']",
-                pageable.getPageNumber(), pageable.getPageSize());//TODO пока нагрузки нет, пусть логируется
+                pageable.getPageNumber(), pageable.getPageSize());//пока нагрузки нет, пусть логируется
         return spotDAO.findAllDefaultSpots(pageable);
     }
 

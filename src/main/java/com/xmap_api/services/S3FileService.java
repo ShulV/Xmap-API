@@ -27,11 +27,6 @@ public class S3FileService {
         this.spotS3FileService = spotS3FileService;
     }
 
-    //@Transactional
-    //public UUID createS3File(MultipartFile file, DBCode.S3File.FileType fileType) {
-    //    return s3FileDAO.insert(new S3File(file, fileType));
-    //}
-
     @Transactional
     public void createSpotImage(MultipartFile file, UUID spotId) {
         UUID s3FileId =  s3FileDAO.insert(new S3File(file, DBCode.S3File.FileType.SPOT_IMAGE));
