@@ -12,7 +12,9 @@ spring:
     password: 123
 
 logging:
-  file.name: logs/main.log
+  file:
+    # magic is spring will transfer logging.file.path into System properties LOG_PATH
+    path: /home/viktor/xmap-api/logs
 
 xmap-api:
   spot-image:
