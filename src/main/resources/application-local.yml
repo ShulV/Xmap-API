@@ -8,8 +8,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/xmap
-    username: postgres # локальные данные спалили :_)
-    password: postgres
+    username: xmap_admin # локальные данные спалили :_)
+    password: 3485
 
   #jpa:
     #show-sql: true
@@ -18,25 +18,28 @@ spring:
         #format_sql: true  # SQL более читабельный, разбивается на несколько строк
 
 server:
-  port: 8080
+  port: 8090
   #для HTTPS, SSL шифрования и использования keypair
-  # ssl: Пока без ssl на линуксе
-  #  enabled: true
-  #  key-store-type: PKCS12
-  #  key-store: classpath:ssl/xmap_ssl.pfx
-  #  key-store-password: rootroot
-
+  ssl:
+    enabled: true
+    # формат файла, в котором хранится открытый и закрытый ключи
+    key-store-type: PKCS12
+    key-store: classpath:ssl/xmap_certificate.pfx
+    key-store-password: rootroot
+    # провайдер (движок), который реализует CryptoAPI (включен в jdk)
+    key-store-provider: SunJSSE
 
 logging:
   file:
     # magic is spring will transfer logging.file.path into System properties LOG_PATH
-    path: /home/victor/xmap-app/Xmap-API/logs
+    path: /Users/victor/xmap-app/Xmap-API/logs
 
 xmap-api:
   spot-image:
     # URN (Uniform Resource Name) - URL без scheme (без http://)
     download-urn-template: "/api/v1/s3-file/spot-image/{spotId}"
     download-urn-path-param: "{spotId}"
+  frontend.url: https://localhost:4200
 
 
 
