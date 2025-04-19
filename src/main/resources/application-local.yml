@@ -24,8 +24,8 @@ server:
     enabled: true
     # формат файла, в котором хранится открытый и закрытый ключи
     key-store-type: PKCS12
-    key-store: classpath:ssl/xmap_certificate.pfx
-    key-store-password: rootroot
+    key-store: classpath:ssl/spotic_container.p12
+    key-store-password: changeit
     # провайдер (движок), который реализует CryptoAPI (включен в jdk)
     key-store-provider: SunJSSE
 
