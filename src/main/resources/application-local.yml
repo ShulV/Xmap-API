@@ -11,7 +11,14 @@ spring:
     username: xmap_admin # локальные данные спалили :_)
     password: 3485
 
-  #jpa:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # сертификаты auth server для проверки access token
+          jwk-set-uri: https://localhost:8443/realms/xmap-realm/protocol/openid-connect/certs
+
+      #jpa:
     #show-sql: true
     #properties:
       #hibernate:

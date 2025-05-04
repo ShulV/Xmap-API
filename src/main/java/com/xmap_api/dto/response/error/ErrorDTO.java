@@ -1,9 +1,14 @@
 package com.xmap_api.dto.response.error;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
+import java.util.Map;
+
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ErrorDTO(
-        String message
+        String message,
+        Map<String, Object> params
 ) {
 }
