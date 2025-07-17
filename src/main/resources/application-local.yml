@@ -1,3 +1,5 @@
+debug: true
+
 spring:
   application:
     name: Xmap-API
@@ -39,7 +41,11 @@ server:
 logging:
   file:
     # magic is spring will transfer logging.file.path into System properties LOG_PATH
-    path: /Users/victor/xmap-app/Xmap-API/logs
+    path: ./logs
+  level:
+    root: debug
+    org.springframework: debug
+
 
 xmap-api:
   spot-image:

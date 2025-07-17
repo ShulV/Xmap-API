@@ -39,3 +39,10 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Так будет в jar в /META-INF/MANIFEST.MF строка с указанием main-класса
+jar {
+	manifest {
+		attributes 'Main-class' : 'com.xmap_api.XmapApiApplication'
+	}
+}

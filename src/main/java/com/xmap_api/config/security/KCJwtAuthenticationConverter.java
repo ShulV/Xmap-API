@@ -22,7 +22,7 @@ public class KCJwtAuthenticationConverter implements Converter<Jwt, JwtAuthentic
         List<String> roles = new ArrayList<>();
         try {
             roles = ((Map<String, Map<String, List<String>>>) jwt.getClaims()
-                    .get("resource_access")).get("xmap-frontend-client-id").get("roles");//TODO сделать красивее
+                    .get("resource_access")).get("xmap-bff-client-id").get("roles");//TODO сделать красивее
         } catch (Exception e) {
             roles.add("anonymous");
         }

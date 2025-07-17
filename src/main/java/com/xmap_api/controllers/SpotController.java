@@ -27,7 +27,7 @@ public class SpotController {
         this.spotService = spotService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<Page<DefaultSpotDTO>> getAll(@RequestParam(defaultValue = "0", value = "page") int page,
                                                        @RequestParam(defaultValue = "10", value = "size") int size) {
