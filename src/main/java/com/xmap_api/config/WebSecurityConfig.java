@@ -58,8 +58,14 @@ public class WebSecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .authorizeHttpRequests(ahr -> ahr
+                        .requestMatchers("/", "/login").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .formLogin(fl -> fl
                         .loginPage("/login")
+                        .defaultSuccessUrl("/profile")
+                        .failureUrl("/login?error=true")
                 )
                 .build();
 //                .csrf(AbstractHttpConfigurer::disable)
