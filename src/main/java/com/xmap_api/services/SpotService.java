@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.xmap_api.config.LogbackConfig.Logger.SPOT_LOG;
+//import static com.xmap_api.config.LogbackConfig.Logger.SPOT_LOG;
 
 @Service
 public class SpotService {
-    private final Logger log = LoggerFactory.getLogger(SPOT_LOG);
+//    private final Logger log = LoggerFactory.getLogger(SPOT_LOG);
 
     private final SpotDAO spotDAO;
     private final S3FileService s3FileService;
@@ -32,8 +32,8 @@ public class SpotService {
     }
 
     public Page<DefaultSpotDTO> getDefaultAll(Pageable pageable) {
-        log.info("Getting all default spots with pagination: [page = '{}', size = '{}']",
-                pageable.getPageNumber(), pageable.getPageSize());//пока нагрузки нет, пусть логируется
+//        log.info("Getting all default spots with pagination: [page = '{}', size = '{}']",
+//                pageable.getPageNumber(), pageable.getPageSize());//пока нагрузки нет, пусть логируется
         return spotDAO.findAllDefaultSpots(pageable);
     }
 
@@ -43,7 +43,7 @@ public class SpotService {
             List<String> spotImageLinks = s3FileService.getSpotImageLinks(spotId);
             return new SpotWithImageLinksDTO(defaultSpotDTO, spotImageLinks);
         } catch (NoSuchElementException e) {
-            log.error("No default spot found with: [id ='{}']", spotId);
+//            log.error("No default spot found with: [id ='{}']", spotId);
             throw new XmapApiException();
         }
     }

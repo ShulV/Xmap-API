@@ -1,4 +1,4 @@
-package com.xmap_api.controllers;
+package com.xmap_api.rest_controllers;
 
 import com.xmap_api.dto.inside.DownloadedFileDTO;
 import com.xmap_api.services.S3FileService;
@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/s3-file")
-public class S3FileController {
+public class S3FileRestController {
 
     private final S3FileService s3FileService;
 
-    public S3FileController(S3FileService s3FileService) {
+    public S3FileRestController(S3FileService s3FileService) {
         this.s3FileService = s3FileService;
     }
 

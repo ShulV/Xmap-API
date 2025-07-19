@@ -1,4 +1,4 @@
-package com.xmap_api.controllers;
+package com.xmap_api.rest_controllers;
 
 import com.xmap_api.dto.response.error.ErrorDTO;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ import static com.xmap_api.config.LogbackConfig.Logger.APP_LOG;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private final Logger log = LoggerFactory.getLogger(APP_LOG);
+//    private final Logger log = LoggerFactory.getLogger(APP_LOG);
 
     private final MessageSource messageSource;
 
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorDTO> handleException(Exception e, Locale locale) {
-        log.error("Unhandled message", e);
+//        log.error("Unhandled message", e);
         String errorMessage = messageSource.getMessage("error.exception.unhandled", null, locale);
         ErrorDTO response = ErrorDTO.builder().message(errorMessage).build();
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
