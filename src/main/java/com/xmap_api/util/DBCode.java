@@ -9,4 +9,9 @@ public class DBCode {
             SPOT_IMAGE,
         }
     }
+
+    public enum Authority {
+        USER,
+        ADMIN,
+    }
 }

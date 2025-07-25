@@ -2,22 +2,15 @@ package com.xmap_api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -52,6 +45,10 @@ public class WebSecurityConfig  {
                 "SELECT username, password_hash, enabled FROM \"user\" WHERE username = ?");
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
                 "SELECT username, authority FROM authority WHERE username = ?");
+        jdbcUserDetailsManager.setCreateUserSql(
+                "INSERT INTO \"user\" (username, password_hash, enabled) VALUES (?, ?, ?)");
+        jdbcUserDetailsManager.setCreateAuthoritySql(
+                "INSERT INTO authority (username, authority) VALUES (?, ?)");
         return jdbcUserDetailsManager;
     }
 
@@ -59,7 +56,7 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(ahr -> ahr
-                        .requestMatchers("/", "/login").permitAll()
+                        .requestMatchers("/", "/login", "/logout", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(fl -> fl
@@ -67,25 +64,11 @@ public class WebSecurityConfig  {
                         .defaultSuccessUrl("/profile")
                         .failureUrl("/login?error=true")
                 )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID")
+                )
                 .build();
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(authorizeRequests ->
-//                        authorizeRequests
-//                                .requestMatchers("/login", "/register").permitAll()
-//                                .anyRequest().authenticated()
-//                )
-//                .httpBasic(AbstractHttpConfigurer::disable)
-//                .formLogin(formLogin ->
-//                        formLogin
-//                                .loginPage("/login")
-//                                .defaultSuccessUrl("/profile", true)
-//                                .failureUrl("/login?error")
-//                )
-//                .logout(logout ->
-//                        logout
-//                                .logoutSuccessUrl("/login?logout")
-//                )
-//                .build();
-
     }
 }

@@ -1,4 +1,4 @@
-package com.xmap_api.rest_controllers;
+package com.xmap_api.controllers.rest;
 
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;

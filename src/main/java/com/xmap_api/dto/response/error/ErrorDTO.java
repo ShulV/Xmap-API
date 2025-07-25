@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record ErrorDTO(
-        String message
+        String message,
+        String log //TODO tmp
 ) {
 }
