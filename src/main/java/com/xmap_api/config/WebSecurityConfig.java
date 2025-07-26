@@ -46,6 +46,8 @@ public class WebSecurityConfig  {
                 "SELECT username, password_hash, enabled FROM \"user\" WHERE username = ?");
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
                 "SELECT username, authority FROM authority WHERE username = ?");
+        jdbcUserDetailsManager.setUserExistsSql(
+                "SELECT username FROM \"user\" WHERE username = ?");
         jdbcUserDetailsManager.setCreateUserSql(
                 "INSERT INTO \"user\" (username, password_hash, enabled) VALUES (?, ?, ?)");
         jdbcUserDetailsManager.setCreateAuthoritySql(
@@ -57,15 +59,15 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(ahr -> ahr
-                        .requestMatchers("/", "/login", "/logout", "/register").permitAll()
+                        .requestMatchers("/", "/sign-in", "/logout", "/sign-up").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)//todo tmp (api запросы 403)
                 .formLogin(fl -> fl
-                        .loginPage("/login")
+                        .loginPage("/sign-in")
                         .defaultSuccessUrl("/profile")
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/sign-in?error=true")
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

@@ -1,12 +1,2 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="shortcut icon" href="/favicon.ico" />
-</head>
-<body>
-<div>index :)</div>
-<a href="/login">log in</a>
-</body>
-</html>
+<div th:replace="layouts/base :: base(title='Главная', contentFragment='fragments/main')"></div>

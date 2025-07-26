@@ -1,7 +1,7 @@
 package com.xmap_api.controllers;
 
 import com.xmap_api.dto.request.NewUserDTO;
-import com.xmap_api.services.RegistrationService;
+import com.xmap_api.services.SignUpService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class RegistrationController {
+public class SignUpController {
 
-    private final RegistrationService registrationService;
+    private final SignUpService signUpService;
 
-    public RegistrationController(RegistrationService registrationService) {
-        this.registrationService = registrationService;
+    public SignUpController(SignUpService signUpService) {
+        this.signUpService = signUpService;
     }
 
-    @GetMapping("/register")
+    @GetMapping("/sign-up")
     public String registrationPage(Model model) {
         model.addAttribute("user", new NewUserDTO("", ""));
-        return "register";
+        return "sign-up";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/sign-up")
     public String registerUser(@Valid @ModelAttribute("user") NewUserDTO user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "register";
+            return "sign-up";
         }
-        registrationService.createUser(user, bindingResult);
-        return "redirect:/login?registered=true";
+        signUpService.createUser(user, bindingResult);
+        return "redirect:/sign-in?registered=true";
     }
 }

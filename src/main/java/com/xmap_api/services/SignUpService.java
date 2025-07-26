@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
-public class RegistrationService {
+public class SignUpService {
 
     private final UserDetailsManager userDetailsManager;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(UserDetailsManager userDetailsManager, PasswordEncoder passwordEncoder) {
+    public SignUpService(UserDetailsManager userDetailsManager, PasswordEncoder passwordEncoder) {
         this.userDetailsManager = userDetailsManager;
         this.passwordEncoder = passwordEncoder;
     }
