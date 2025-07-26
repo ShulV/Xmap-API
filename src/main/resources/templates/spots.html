@@ -12,16 +12,15 @@
     <div>filter</div>
 
     <a th:each="spot : ${spotList}"
-       th:href="@{/spot/{spotId}(spotId=${spot.id()})}"
+       th:href="@{/spot/{spotId}(spotId=${spot.id().toString()})}"
        style="border: 1px solid black; margin-top: 5px;">
         <img src="https://rideukbmx.com/wp-content/uploads/2022/08/Adam-LV-Photography-Junction-4-skatepark-41-1-680x380.jpg"
              width="30%" alt="img">
-        <span th:text="${spot.name()}"></span>
-        <span th:text="${spot.description()}"></span>
-        <span th:text="${spot.insertedAt()}"></span>
+        <div th:text="${spot.name()}"></div>
+        <div th:text="${spot.description()}"></div>
+        <div th:text="${spot.insertedAt()}"></div>
     </a>
 </div>
-
 
 </body>
 </html>

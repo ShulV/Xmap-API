@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -57,8 +58,10 @@ public class WebSecurityConfig  {
         return http
                 .authorizeHttpRequests(ahr -> ahr
                         .requestMatchers("/", "/login", "/logout", "/register").permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().authenticated()
                 )
+                .csrf(AbstractHttpConfigurer::disable)//todo tmp (api запросы 403)
                 .formLogin(fl -> fl
                         .loginPage("/login")
                         .defaultSuccessUrl("/profile")
