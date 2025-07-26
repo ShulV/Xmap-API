@@ -31,6 +31,9 @@ public class SignUpController {
             return "sign-up";
         }
         signUpService.createUser(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "sign-up";
+        }
         return "redirect:/sign-in?registered=true";
     }
 }
