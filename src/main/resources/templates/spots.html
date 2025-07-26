@@ -1,26 +1,2 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>spots</h1>
-
-<div>
-    <div>sort</div>
-    <div>filter</div>
-
-    <a th:each="spot : ${spotList}"
-       th:href="@{/spot/{spotId}(spotId=${spot.id().toString()})}"
-       style="border: 1px solid black; margin-top: 5px;">
-        <img src="https://rideukbmx.com/wp-content/uploads/2022/08/Adam-LV-Photography-Junction-4-skatepark-41-1-680x380.jpg"
-             width="30%" alt="img">
-        <div th:text="${spot.name()}"></div>
-        <div th:text="${spot.description()}"></div>
-        <div th:text="${spot.insertedAt()}"></div>
-    </a>
-</div>
-
-</body>
-</html>
+<div th:replace="layouts/base :: base(title='Список спотов', contentFragment='fragments/spot-list')"></div>

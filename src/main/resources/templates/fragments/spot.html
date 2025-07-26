@@ -1,0 +1,15 @@
+<div>
+  <div th:if="${#lists.isEmpty(spot.spotImageLinks())}">
+    Картинки для спота отсутствуют
+  </div>
+  <div th:if="${not #lists.isEmpty(spot.spotImageLinks())}">
+    <img th:each="link : ${spot.spotImageLinks()}"
+         th:src="@{${link}}"
+         width="300px"
+         alt="img">
+  </div>
+
+</div>
+<div th:text="${spot.name()}"></div>
+<div th:text="${spot.description()}"></div>
+<div th:text="${spot.insertedAt()}"></div>
