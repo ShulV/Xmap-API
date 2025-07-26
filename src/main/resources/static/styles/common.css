@@ -1,0 +1,10 @@
+body {
+    font-family: PT Sans, Helvetica, Arial, sans-serif;
+    width: 100%;
+    margin: 0;
+    position: relative;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}

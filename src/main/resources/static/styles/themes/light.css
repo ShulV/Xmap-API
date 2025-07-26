@@ -1,0 +1,21 @@
+.menu-nav {
+    box-shadow: 0 -2px 8px #00000026;
+    background-color: #fff;
+}
+
+.menu-nav__list {
+    background: #fff;
+}
+
+.menu-nav__icon-svg {
+    fill: #afafaf;
+    color: transparent;
+}
+
+.menu-nav__icon-svg path {
+    fill: #afafaf;
+}
+
+.menu-nav__title {
+    color: #8c8c8c;
+}
