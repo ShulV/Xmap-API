@@ -10,6 +10,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/xmap
     username: xmap_admin # локальные данные спалили :_)
     password: 123
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
 
   #jpa:
     #show-sql: true
@@ -19,6 +23,8 @@ spring:
 
 server:
   port: 8080
+  # для доступа в локальной сети
+  address: 0.0.0.0
   #для HTTPS, SSL шифрования и использования keypair
   # ssl: Пока без ssl на линуксе
   #  enabled: true
