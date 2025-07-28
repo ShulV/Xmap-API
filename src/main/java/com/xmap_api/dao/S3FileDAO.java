@@ -4,6 +4,7 @@ import com.xmap_api.dto.inside.DownloadedFileDTO;
 import com.xmap_api.exceptions.XmapApiException;
 import com.xmap_api.models.S3File;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.UUID;
 @Repository
 public class S3FileDAO {
     private final JdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
-    public S3FileDAO(JdbcTemplate jdbcTemplate) {
+    public S3FileDAO(JdbcTemplate jdbcTemplate, JdbcClient jdbcClient) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jdbcClient = jdbcClient;
     }
 
     public UUID insert(S3File s3File) {
@@ -96,5 +99,17 @@ public class S3FileDAO {
                LEFT JOIN spot_s3_file ssf ON ssf.s3_file_id = sf.id
                    WHERE ssf.spot_id = ?
               """, UUID.class, spotId);
+    }
+
+    public List<UUID> getSpotCreationRequestImageLinks(UUID spotCreationRequestId) {
+        return jdbcClient.sql("""
+                  SELECT sf.id
+                    FROM s3_file sf
+               LEFT JOIN spot_creation_request_s3_file scrsf ON scrsf.s3_file_id = sf.id
+                   WHERE scrsf.spot_creation_request_id = :spotCreationRequestId
+              """)
+                .param("spotCreationRequestId", spotCreationRequestId)
+                .query(UUID.class)
+                .list();
     }
 }

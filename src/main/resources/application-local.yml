@@ -43,10 +43,10 @@ server:
 #    jakarta: debug
 
 xmap-api:
-  spot-image:
+  s3-file:
     # URN (Uniform Resource Name) - URL без scheme (без http://)
-    download-urn-template: "/api/v1/s3-file/spot-image/{spotId}"
-    download-urn-path-param: "{spotId}"
+    download-link-template: "/api/v1/s3-file/{id}"
+    download-link-path-param: "{id}"
 
 
 

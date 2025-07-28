@@ -28,9 +28,9 @@ public class S3FileRestController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/spot-image/{spotId}")
-    public ResponseEntity<Resource> getSpotImage(@PathVariable("spotId") UUID spotId) {
-        DownloadedFileDTO fileDTO = s3FileService.downloadFile(spotId);
+    @GetMapping("/{s3FileId}")
+    public ResponseEntity<Resource> getImage(@PathVariable("s3FileId") UUID s3FileId) {
+        DownloadedFileDTO fileDTO = s3FileService.downloadFile(s3FileId);
         HttpHeaders headers = new HttpHeaders();
         //так файл скачается, а нам это пока не надо
         //headers.add(HttpHeaders.CONTENT_DISPOSITION, fileDTO.returnedFilename());

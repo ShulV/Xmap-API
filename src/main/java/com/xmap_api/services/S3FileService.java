@@ -14,10 +14,10 @@ import java.util.UUID;
 
 @Service
 public class S3FileService {
-    @Value("${xmap-api.spot-image.download-urn-template}")
-    private String spotDownloadUrnTemplate;
-    @Value("${xmap-api.spot-image.download-urn-path-param}")
-    private String downloadUrnPathParam;
+    @Value("${xmap-api.s3-file.download-link-template}")
+    private String s3FileDownloadLinkTemplate;
+    @Value("${xmap-api.s3-file.download-link-path-param}")
+    private String s3FileDownloadLinkPathParam;
 
     private final S3FileDAO s3FileDAO;
     private final SpotS3FileService spotS3FileService;
@@ -55,7 +55,13 @@ public class S3FileService {
 
     public List<String> getSpotImageLinks(UUID spotId) {
         return s3FileDAO.getSpotImageLinks(spotId).stream()
-                .map(s3FileId -> spotDownloadUrnTemplate.replace(downloadUrnPathParam, s3FileId.toString()))
+                .map(s3FileId -> s3FileDownloadLinkTemplate.replace(s3FileDownloadLinkPathParam, s3FileId.toString()))
+                .toList();
+    }
+
+    public List<String> getSpotCreationRequestImageLinks(UUID spotCreationRequestId) {
+        return s3FileDAO.getSpotCreationRequestImageLinks(spotCreationRequestId).stream()
+                .map(s3FileId -> s3FileDownloadLinkTemplate.replace(s3FileDownloadLinkPathParam, s3FileId.toString()))
                 .toList();
     }
 }

@@ -68,6 +68,10 @@ public class S3File {
         }
     }
 
+    public S3File(UUID id) {
+        this.id = id;
+    }
+
     public String getFileExtension() {
         return FilenameUtils.getExtension(originalFileName);
     }

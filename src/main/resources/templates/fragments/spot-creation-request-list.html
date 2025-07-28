@@ -1,0 +1,16 @@
+<h2>Мои заявки</h2>
+
+<div>
+  <div>sort</div>
+  <div>filter</div>
+
+  <a th:each="item : ${minSpotCreationRequestList}"
+     th:href="@{/spot-creation-request/{scrId}(scrId=${item.id()})}"
+     style="border: 1px solid black; margin-top: 5px; padding: 5px; display: block;">
+    <img th:src="${item.firstImageLink()}"
+         width="30%" alt="img">
+    <div th:text="${item.spotName()}"></div>
+    <div th:text="${item.spotLatitude()}"></div>
+    <div th:text="${item.spotLongitude()}"></div>
+  </a>
+</div>
