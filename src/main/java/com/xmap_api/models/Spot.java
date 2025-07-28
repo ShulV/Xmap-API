@@ -26,9 +26,6 @@ public class Spot {
     @Column(name = "lon")
     private Double longitude;
 
-    @Column(name = "accepted")
-    private Boolean accepted;
-
     @Column(name = "inserted_at")
     private Date insertedAt;
 

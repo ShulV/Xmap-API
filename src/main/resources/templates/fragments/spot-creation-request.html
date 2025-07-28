@@ -1,0 +1,39 @@
+<h2>Добавление спота</h2>
+
+<div style="width: 100%; margin: auto; padding-top: 2em; border-radius: 5px; background-color: #fefefe; box-shadow: 0 0 10px rgba(0,0,0,.1);">
+  <!-- Форматируем страницу с формой -->
+  <form action="#" method="post" enctype="multipart/form-data" th:action="@{'/spot-creation-request'}" th:object="${formData}">
+
+    <div>
+      <label for="spotName">Название спота:</label><br/>
+      <input type="text" id="spotName" name="spotName" required placeholder="Введите название" autofocus th:field="*{spotName}"/><br/><br/>
+    </div>
+
+    <div>
+      <label for="lat">Широта:</label><br/>
+      <input type="number" step="any" id="lat" name="lat" required placeholder="Широта" th:field="*{spotLat}"/><br/><br/>
+    </div>
+
+    <div>
+      <label for="lon">Долгота:</label><br/>
+      <input type="number" step="any" id="lon" name="lon" required placeholder="Долгота" th:field="*{spotLon}"/><br/><br/>
+    </div>
+
+    <div>
+      <label for="description">Описание:</label><br/>
+      <textarea rows="4" cols="50" id="description" name="description" required placeholder="Опишите спот" th:field="*{spotDescription}"></textarea><br/><br/>
+    </div>
+
+    <div>
+      <label for="comment">Комментарий:</label><br/>
+      <textarea rows="4" cols="50" id="comment" name="comment" required placeholder="Дополнительные комментарии" th:field="*{comment}"></textarea><br/><br/>
+    </div>
+
+    <div>
+      <label for="photos">Фотографии (можно выбрать несколько изображений):</label><br/>
+      <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}"/><br/><br/>
+    </div>
+
+    <button type="submit">Отправить заявку</button>
+  </form>
+</div>

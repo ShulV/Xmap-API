@@ -27,7 +27,7 @@ public class S3FileDAO {
                 s3File.getFileType().name());
     }
 
-    public void batchInsertAndLink(List<S3File> s3Files, UUID spotId) {
+    public void batchInsertSpotWithS3Files(List<S3File> s3Files, UUID spotId) {
         List<Object[]> batchData = s3Files.stream()
                 .map(s3File -> new Object[]{
                         s3File.getOriginalFileName(),
@@ -38,12 +38,33 @@ public class S3FileDAO {
                         spotId
                 }).toList();
         jdbcTemplate.batchUpdate("""
-            WITH inserted_row as (
+            WITH inserted_row AS (
                     INSERT INTO s3_file (original_file_name, file_size, file_content, content_type, file_type)
                      VALUES (?, ?, ?, ?, ?)
                   RETURNING id
             )
             INSERT INTO spot_s3_file (spot_id, s3_file_id)
+            VALUES (?, (SELECT id FROM inserted_row))
+            """, batchData);
+    }
+
+    public void batchInsertSpotCreationRequestWithS3Files(List<S3File> s3Files, UUID spotCreationRequestId) {
+        List<Object[]> batchData = s3Files.stream()
+                .map(s3File -> new Object[]{
+                        s3File.getOriginalFileName(),
+                        s3File.getFileSize(),
+                        s3File.getFileContent(),
+                        s3File.getContentType(),
+                        s3File.getFileType().name(),
+                        spotCreationRequestId
+                }).toList();
+        jdbcTemplate.batchUpdate("""
+            WITH inserted_row AS (
+                    INSERT INTO s3_file (original_file_name, file_size, file_content, content_type, file_type)
+                     VALUES (?, ?, ?, ?, ?)
+                  RETURNING id
+            )
+            INSERT INTO spot_creation_request_s3_file (spot_creation_request_id, s3_file_id)
             VALUES (?, (SELECT id FROM inserted_row))
             """, batchData);
     }

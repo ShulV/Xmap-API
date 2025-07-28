@@ -38,7 +38,15 @@ public class S3FileService {
         List<S3File> s3Files = files.stream()
                 .map(file -> new S3File(file, DBCode.S3File.FileType.SPOT_IMAGE))
                 .toList();
-        s3FileDAO.batchInsertAndLink(s3Files, spotId);
+        s3FileDAO.batchInsertSpotWithS3Files(s3Files, spotId);
+    }
+
+    @Transactional
+    public void createSpotCreationRequestImages(List<MultipartFile> files, UUID spotCreationRequestId) {
+        List<S3File> s3Files = files.stream()
+                .map(file -> new S3File(file, DBCode.S3File.FileType.SPOT_IMAGE))
+                .toList();
+        s3FileDAO.batchInsertSpotCreationRequestWithS3Files(s3Files, spotCreationRequestId);
     }
 
     public DownloadedFileDTO downloadFile(UUID s3FileId) {
