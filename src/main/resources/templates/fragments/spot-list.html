@@ -1,4 +1,4 @@
-<h2>spots</h2>
+<h2>Споты</h2>
 
 <div>
   <div>sort</div>
@@ -6,7 +6,7 @@
 
   <a th:each="spot : ${spotList}"
      th:href="@{/spot/{spotId}(spotId=${spot.id().toString()})}"
-     style="border: 1px solid black; margin-top: 5px;">
+     style="border: 1px solid black; margin-top: 5px; padding: 5px; display: block;">
     <img src="https://rideukbmx.com/wp-content/uploads/2022/08/Adam-LV-Photography-Junction-4-skatepark-41-1-680x380.jpg"
          width="30%" alt="img">
     <div th:text="${spot.name()}"></div>

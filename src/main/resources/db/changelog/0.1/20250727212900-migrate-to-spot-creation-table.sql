@@ -1,5 +1,6 @@
 --liquibase formatted sql
 --changeset Shulpov Victor:20250727212900-migrate-to-spot-creation-table splitStatements:true
+alter table spot add column if not exists accepted boolean;
 alter table spot drop column accepted;
 
 CREATE TABLE IF NOT EXISTS spot_creation_request(
@@ -7,7 +8,7 @@ CREATE TABLE IF NOT EXISTS spot_creation_request(
     spot_name varchar(50) NOT NULL,
     spot_lat DOUBLE PRECISION NOT NULL,
     spot_lon DOUBLE PRECISION NOT NULL,
-    accepted BOOLEAN NOT NULL DEFAULT FALSE,
+    status VARCHAR(20) NOT NULL,
     inserted_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
     accepted_at TIMESTAMP,
     spot_description varchar(300) NOT NULL,

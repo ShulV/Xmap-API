@@ -1,5 +1,6 @@
 package com.xmap_api.models;
 
+import com.xmap_api.models.status.SpotCreationRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,10 @@ public class SpotCreationRequest {
 
     @Column(name = "spot_lon")
     private Double spotLongitude;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SpotCreationRequestStatus status;
 
     @Column(name = "inserted_at")
     private Date insertedAt;

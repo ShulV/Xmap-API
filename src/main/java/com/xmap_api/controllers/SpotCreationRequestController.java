@@ -21,13 +21,21 @@ public class SpotCreationRequestController {
 
     @GetMapping("/spot-creation-request")
     public String getSpotCreationRequestPage(Model model) {
-        model.addAttribute("formData", new NewSpotCreationRequestDTO("", 0, 0, "", "", new ArrayList<>(0)));
+        model.addAttribute("formData",
+                new NewSpotCreationRequestDTO("", 0, 0, "", "", new ArrayList<>(0)));
         return "spot-creation-request";
     }
 
     @PostMapping("/spot-creation-request")
     public String create(@AuthenticationPrincipal UserDetails userDetails, NewSpotCreationRequestDTO formData) {
         spotCreationRequestService.create(formData, userDetails.getUsername());
-        return "/spots";//todo
+        return "redirect:/spot-creation-request-list";//todo
+    }
+
+    @GetMapping("/spot-creation-request-list")
+    public String getSpotCreationRequestsPage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        model.addAttribute("minSpotCreationRequestList",
+                spotCreationRequestService.getWithFirstImageLink(userDetails.getUsername()));
+        return "spot-creation-request-list";
     }
 }
