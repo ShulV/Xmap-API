@@ -3,7 +3,7 @@ package com.xmap_api.services;
 import com.xmap_api.dao.SpotAddingRequestDAO;
 import com.xmap_api.dao.UserDAO;
 import com.xmap_api.dto.request.NewSpotAddingRequestDTO;
-import com.xmap_api.dto.response.MinSpotAddingRequest;
+import com.xmap_api.dto.thymeleaf_model.MinSpotAddingRequest;
 import com.xmap_api.models.SpotAddingRequest;
 import com.xmap_api.models.User;
 import com.xmap_api.models.status.SpotAddingRequestStatus;
@@ -55,5 +55,9 @@ public class SpotAddingRequestService {
         UUID userId = userService.getId(username);
         return spotAddingRequestDAO.getWithFirstImageLink(
                 userId, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
+    }
+
+    public SpotAddingRequest getById(UUID spotAddingRequestId) {
+        return spotAddingRequestDAO.getById(spotAddingRequestId);
     }
 }

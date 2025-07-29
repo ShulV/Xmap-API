@@ -1,0 +1,19 @@
+<h2 th:text="${spotAddingRequest.spotName()}"></h2>
+<div>
+  <div th:if="${#lists.isEmpty(spotAddingRequest.spotImageLinks())}">
+    Картинки для спота отсутствуют
+  </div>
+  <div th:if="${not #lists.isEmpty(spotAddingRequest.spotImageLinks())}">
+    <img th:each="link : ${spotAddingRequest.spotImageLinks()}"
+         th:src="@{${link}}"
+         width="300px"
+         alt="img">
+  </div>
+
+</div>
+
+<div th:text="${spotAddingRequest.spotDescription()}"></div>
+<div th:text="${spotAddingRequest.comment()}"></div>
+<div th:text="${spotAddingRequest.status()}"></div>
+<div th:text="${spotAddingRequest.adderId()}"></div>
+<div th:text="${spotAddingRequest.acceptorId()}"></div>

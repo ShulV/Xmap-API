@@ -2,6 +2,7 @@ package com.xmap_api.dao.mappers;
 
 import com.xmap_api.models.SpotAddingRequest;
 import com.xmap_api.models.User;
+import com.xmap_api.models.status.SpotAddingRequestStatus;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ public class SpotAddingRequestRowMapper implements RowMapper<SpotAddingRequest> 
                 .spotName(rs.getString("spot_name"))
                 .spotLatitude(rs.getDouble("spot_lat"))
                 .spotLongitude(rs.getDouble("spot_lon"))
+                .status(SpotAddingRequestStatus.valueOf(rs.getString("status")))
                 .insertedAt(rs.getTimestamp("inserted_at"))
                 .acceptedAt(rs.getTimestamp("accepted_at"))
                 .spotDescription(rs.getString("spot_description"))

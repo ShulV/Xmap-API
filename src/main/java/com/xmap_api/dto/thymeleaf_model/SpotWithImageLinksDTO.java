@@ -1,5 +1,6 @@
-package com.xmap_api.dto.response;
+package com.xmap_api.dto.thymeleaf_model;
 
+import com.xmap_api.dto.response.DefaultSpotDTO;
 import lombok.Builder;
 
 import java.util.Date;

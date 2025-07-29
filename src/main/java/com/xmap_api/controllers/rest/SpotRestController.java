@@ -3,7 +3,7 @@ package com.xmap_api.controllers.rest;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
 import com.xmap_api.dto.response.SpotIdDTO;
-import com.xmap_api.dto.response.SpotWithImageLinksDTO;
+import com.xmap_api.dto.thymeleaf_model.SpotWithImageLinksDTO;
 import com.xmap_api.services.SpotService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

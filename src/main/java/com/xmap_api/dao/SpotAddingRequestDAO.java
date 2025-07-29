@@ -1,7 +1,7 @@
 package com.xmap_api.dao;
 
 import com.xmap_api.dao.mappers.SpotAddingRequestRowMapper;
-import com.xmap_api.dto.response.MinSpotAddingRequest;
+import com.xmap_api.dto.thymeleaf_model.MinSpotAddingRequest;
 import com.xmap_api.models.SpotAddingRequest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -59,5 +59,12 @@ public class SpotAddingRequestDAO {
                         fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")))
                 )
                 .list();
+    }
+
+    public SpotAddingRequest getById(UUID id) {
+        return jdbcClient.sql("SELECT * FROM spot_adding_request WHERE id = :id")
+                .param("id", id)
+                .query(spotAddingRequestRowMapper)
+                .single();
     }
 }
