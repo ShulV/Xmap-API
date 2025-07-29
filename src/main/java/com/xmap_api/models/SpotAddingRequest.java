@@ -1,6 +1,6 @@
 package com.xmap_api.models;
 
-import com.xmap_api.models.status.SpotCreationRequestStatus;
+import com.xmap_api.models.status.SpotAddingRequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "spot_creation_request")
+@Table(name = "spot_adding_request")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SpotCreationRequest {
+public class SpotAddingRequest {
     @Id
     @Column(name = "id", updatable = false)
     private UUID id;
@@ -31,7 +31,7 @@ public class SpotCreationRequest {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SpotCreationRequestStatus status;
+    private SpotAddingRequestStatus status;
 
     @Column(name = "inserted_at")
     private Date insertedAt;
@@ -46,8 +46,8 @@ public class SpotCreationRequest {
     private String comment;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private User creator;
+    @JoinColumn(name = "adder_id")
+    private User adder;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "acceptor_id")
@@ -55,8 +55,8 @@ public class SpotCreationRequest {
 
     @ManyToMany
     @JoinTable(
-            name = "spot_creation_request_s3_file",
-            joinColumns = @JoinColumn(name = "spot_creation_request_id"),
+            name = "spot_adding_request_s3_file",
+            joinColumns = @JoinColumn(name = "spot_adding_request_id"),
             inverseJoinColumns = @JoinColumn(name = "s3_file_id")
     )
     private List<S3File> s3Files;

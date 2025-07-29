@@ -1,12 +1,12 @@
 package com.xmap_api.services;
 
-import com.xmap_api.dao.SpotCreationRequestDAO;
+import com.xmap_api.dao.SpotAddingRequestDAO;
 import com.xmap_api.dao.UserDAO;
-import com.xmap_api.dto.request.NewSpotCreationRequestDTO;
-import com.xmap_api.dto.response.MinSpotCreationRequest;
-import com.xmap_api.models.SpotCreationRequest;
+import com.xmap_api.dto.request.NewSpotAddingRequestDTO;
+import com.xmap_api.dto.response.MinSpotAddingRequest;
+import com.xmap_api.models.SpotAddingRequest;
 import com.xmap_api.models.User;
-import com.xmap_api.models.status.SpotCreationRequestStatus;
+import com.xmap_api.models.status.SpotAddingRequestStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,45 +15,45 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SpotCreationRequestService {
+public class SpotAddingRequestService {
 
     @Value("${xmap-api.s3-file.download-link-template}")
     private String s3FileDownloadLinkTemplate;
     @Value("${xmap-api.s3-file.download-link-path-param}")
     private String s3FileDownloadLinkPathParam;
 
-    private final SpotCreationRequestDAO spotCreationRequestDAO;
+    private final SpotAddingRequestDAO spotAddingRequestDAO;
     private final S3FileService s3FileService;
     private final UserService userService;
     private final UserDAO userDAO;
 
-    public SpotCreationRequestService(SpotCreationRequestDAO spotCreationRequestDAO, S3FileService s3FileService, UserService userService, UserDAO userDAO) {
-        this.spotCreationRequestDAO = spotCreationRequestDAO;
+    public SpotAddingRequestService(SpotAddingRequestDAO spotAddingRequestDAO, S3FileService s3FileService, UserService userService, UserDAO userDAO) {
+        this.spotAddingRequestDAO = spotAddingRequestDAO;
         this.s3FileService = s3FileService;
         this.userService = userService;
         this.userDAO = userDAO;
     }
 
     @Transactional
-    public UUID create(NewSpotCreationRequestDTO requestDTO, String username) {
+    public UUID create(NewSpotAddingRequestDTO requestDTO, String username) {
         UUID userId = userService.getId(username);
-        SpotCreationRequest spotCreationRequest = SpotCreationRequest.builder()
+        SpotAddingRequest spotAddingRequest = SpotAddingRequest.builder()
                 .spotName(requestDTO.spotName())
                 .spotLatitude(requestDTO.spotLat())
                 .spotLongitude(requestDTO.spotLon())
-                .status(SpotCreationRequestStatus.PENDING_APPROVAL)
+                .status(SpotAddingRequestStatus.PENDING_APPROVAL)
                 .spotDescription(requestDTO.spotDescription())
-                .creator(new User(userId))
+                .adder(new User(userId))
                 .comment(requestDTO.comment())
                 .build();
-        UUID spotCreationRequestId = spotCreationRequestDAO.create(spotCreationRequest);
-        s3FileService.createSpotCreationRequestImages(requestDTO.files(), spotCreationRequestId);
-        return spotCreationRequestId;
+        UUID spotAddingRequestId = spotAddingRequestDAO.create(spotAddingRequest);
+        s3FileService.createSpotAddingRequestImages(requestDTO.files(), spotAddingRequestId);
+        return spotAddingRequestId;
     }
 
-    public List<MinSpotCreationRequest> getWithFirstImageLink(String username) {
+    public List<MinSpotAddingRequest> getWithFirstImageLink(String username) {
         UUID userId = userService.getId(username);
-        return spotCreationRequestDAO.getWithFirstImageLink(
+        return spotAddingRequestDAO.getWithFirstImageLink(
                 userId, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 }

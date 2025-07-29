@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public record NewSpotCreationRequestDTO(
+public record NewSpotAddingRequestDTO(
         String spotName,
         double spotLat,
         double spotLon,

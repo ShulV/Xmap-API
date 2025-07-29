@@ -4,8 +4,8 @@
   <div>sort</div>
   <div>filter</div>
 
-  <a th:each="item : ${minSpotCreationRequestList}"
-     th:href="@{/spot-creation-request/{scrId}(scrId=${item.id()})}"
+  <a th:each="item : ${minSpotAddingRequestList}"
+     th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}"
      style="border: 1px solid black; margin-top: 5px; padding: 5px; display: block;">
     <img th:src="${item.firstImageLink()}"
          width="30%" alt="img">

@@ -1,6 +1,6 @@
 package com.xmap_api.dto.response;
 
-public record MinSpotCreationRequest(
+public record MinSpotAddingRequest(
         String id,
         String spotName,
         double spotLatitude,

@@ -1,6 +1,6 @@
 package com.xmap_api.models.status;
 
-public enum SpotCreationRequestStatus {
+public enum SpotAddingRequestStatus {
     /**
      * Ожидает одобрения
      */

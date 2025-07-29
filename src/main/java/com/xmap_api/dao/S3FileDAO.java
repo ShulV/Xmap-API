@@ -51,7 +51,7 @@ public class S3FileDAO {
             """, batchData);
     }
 
-    public void batchInsertSpotCreationRequestWithS3Files(List<S3File> s3Files, UUID spotCreationRequestId) {
+    public void batchInsertSpotAddingRequestWithS3Files(List<S3File> s3Files, UUID spotAddingRequestId) {
         List<Object[]> batchData = s3Files.stream()
                 .map(s3File -> new Object[]{
                         s3File.getOriginalFileName(),
@@ -59,7 +59,7 @@ public class S3FileDAO {
                         s3File.getFileContent(),
                         s3File.getContentType(),
                         s3File.getFileType().name(),
-                        spotCreationRequestId
+                        spotAddingRequestId
                 }).toList();
         jdbcTemplate.batchUpdate("""
             WITH inserted_row AS (
@@ -67,7 +67,7 @@ public class S3FileDAO {
                      VALUES (?, ?, ?, ?, ?)
                   RETURNING id
             )
-            INSERT INTO spot_creation_request_s3_file (spot_creation_request_id, s3_file_id)
+            INSERT INTO spot_adding_request_s3_file (spot_adding_request_id, s3_file_id)
             VALUES (?, (SELECT id FROM inserted_row))
             """, batchData);
     }
@@ -101,14 +101,14 @@ public class S3FileDAO {
               """, UUID.class, spotId);
     }
 
-    public List<UUID> getSpotCreationRequestImageLinks(UUID spotCreationRequestId) {
+    public List<UUID> getSpotAddingRequestImageLinks(UUID spotAddingRequestId) {
         return jdbcClient.sql("""
                   SELECT sf.id
                     FROM s3_file sf
-               LEFT JOIN spot_creation_request_s3_file scrsf ON scrsf.s3_file_id = sf.id
-                   WHERE scrsf.spot_creation_request_id = :spotCreationRequestId
+               LEFT JOIN spot_adding_request_s3_file scrsf ON scrsf.s3_file_id = sf.id
+                   WHERE scrsf.spot_adding_request_id = :spotAddingRequestId
               """)
-                .param("spotCreationRequestId", spotCreationRequestId)
+                .param("spotAddingRequestId", spotAddingRequestId)
                 .query(UUID.class)
                 .list();
     }

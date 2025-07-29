@@ -1,6 +1,6 @@
 package com.xmap_api.dao.mappers;
 
-import com.xmap_api.models.SpotCreationRequest;
+import com.xmap_api.models.SpotAddingRequest;
 import com.xmap_api.models.User;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -8,12 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class SpotCreationRequestRowMapper implements RowMapper<SpotCreationRequest> {
+public class SpotAddingRequestRowMapper implements RowMapper<SpotAddingRequest> {
 
     @Override
-    public SpotCreationRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public SpotAddingRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
         String acceptorId = rs.getString("acceptor_id");
-        return SpotCreationRequest.builder()
+        return SpotAddingRequest.builder()
                 .id(UUID.fromString(rs.getString("id")))
                 .spotName(rs.getString("spot_name"))
                 .spotLatitude(rs.getDouble("spot_lat"))
@@ -22,7 +22,7 @@ public class SpotCreationRequestRowMapper implements RowMapper<SpotCreationReque
                 .acceptedAt(rs.getTimestamp("accepted_at"))
                 .spotDescription(rs.getString("spot_description"))
                 .comment(rs.getString("comment"))
-                .creator(new User(UUID.fromString(rs.getString("creator_id"))))
+                .adder(new User(UUID.fromString(rs.getString("adder_id"))))
                 .acceptor(acceptorId == null ? null : new User(UUID.fromString(acceptorId)))
                 .build();
     }
