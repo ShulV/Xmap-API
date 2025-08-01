@@ -1,5 +1,16 @@
 <div>profile :)</div>
+<div>
+    Logged user: <span sec:authentication="name">Bob</span>
+    Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+
+</div>
 
 <div>
-    <a href="/spot-adding-request-list">Мои заявки</a>
+    <ul>
+        <li>
+            <a href="/spot-adding-request-list">Мои заявки</a></li>
+        <li sec:authorize="hasAuthority('ACCEPTOR')">
+            <a href="/spot-adding-request-list?status=PENDING_APPROVAL">Новые заявки</a>
+        </li>
+    </ul>
 </div>

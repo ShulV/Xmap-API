@@ -51,10 +51,15 @@ public class SpotAddingRequestService {
         return spotAddingRequestId;
     }
 
-    public List<MinSpotAddingRequest> getWithFirstImageLink(String username) {
+    public List<MinSpotAddingRequest> getWithFirstImageLinkByUsername(String username) {
         UUID userId = userService.getId(username);
-        return spotAddingRequestDAO.getWithFirstImageLink(
+        return spotAddingRequestDAO.getWithFirstImageLinkByUserId(
                 userId, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
+    }
+
+    public List<MinSpotAddingRequest> getWithFirstImageLinkByStatusList(List<String> statusList) {
+        return spotAddingRequestDAO.getWithFirstImageLinkByStatusList(
+                statusList, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 
     public SpotAddingRequest getById(UUID spotAddingRequestId) {

@@ -12,6 +12,7 @@ public class DBCode {
 
     public enum Authority {
         USER,
+        ACCEPTOR,
         ADMIN,
     }
 }

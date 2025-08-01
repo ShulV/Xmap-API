@@ -1,4 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       th:fragment="base(title, contentFragment)">
 <head>
   <meta charset="utf-8">
@@ -19,6 +21,13 @@
 
 <!-- Место для уникального контента -->
 <div th:replace="${contentFragment}" class="container my-3">
+</div>
+
+<div>
+  Logged user: <span sec:authentication="name">Bob</span>
+</div>
+<div sec:authorize="isAuthenticated()">
+  authenticated
 </div>
 
 <a href="/sign-in">войти</a>
