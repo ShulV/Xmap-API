@@ -4,6 +4,7 @@ import com.xmap_api.dto.response.error.ErrorDTO;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,6 +19,16 @@ public class GlobalExceptionHandler {
 
     public GlobalExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<ErrorDTO> handleAccessDeniedException(AccessDeniedException e, Locale locale) {
+        String errorMessage = messageSource.getMessage("error.exception.access-denied", null, locale);
+        ErrorDTO response = ErrorDTO.builder()
+                .message(errorMessage)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)
