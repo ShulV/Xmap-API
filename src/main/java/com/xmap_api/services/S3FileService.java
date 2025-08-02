@@ -64,4 +64,8 @@ public class S3FileService {
                 .map(s3FileId -> s3FileDownloadLinkTemplate.replace(s3FileDownloadLinkPathParam, s3FileId.toString()))
                 .toList();
     }
+
+    public void linkSpotToImages(UUID spotId, UUID spotCreationRequestId) {
+        s3FileDAO.linkSpotToImages(spotId, spotCreationRequestId);
+    }
 }

@@ -112,4 +112,16 @@ public class S3FileDAO {
                 .query(UUID.class)
                 .list();
     }
+
+    public void linkSpotToImages(UUID spotId, UUID spotAddingRequestId) {
+        jdbcClient.sql("""
+            INSERT INTO spot_s3_file (spot_id, s3_file_id)
+                 SELECT :spotId, sarsf.s3_file_id
+                   FROM spot_adding_request_s3_file sarsf
+                  WHERE spot_adding_request_id = :spotAddingRequestId
+        """)
+                .param("spotId", spotId)
+                .param("spotAddingRequestId", spotAddingRequestId)
+                .update();
+    }
 }

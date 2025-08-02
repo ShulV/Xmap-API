@@ -48,13 +48,26 @@ public class SpotDAO {
 
     public UUID addNewSpot(NewSpotDTO spot) {
         return jdbcTemplate.queryForObject("""
-                  INSERT INTO spot (name, lat, lon, inserted_at, updated_at, description)
-                       VALUES (?, ?, ?, DEFAULT, DEFAULT, ?)
+                  INSERT INTO spot (name, lat, lon, description)
+                       VALUES (?, ?, ?, ?)
                     RETURNING id
               """, UUID.class, spot.name(), spot.latitude(), spot.longitude(), spot.description());
     }
 
     private long countTotalElements() {
         return jdbcClient.sql("SELECT COUNT(*) FROM spot").query(Long.class).single();
+    }
+
+    public UUID createSpotByAddingRequest(UUID spotAddingRequestId) {
+        return jdbcClient.sql("""
+            INSERT INTO spot (name, lat, lon, description)
+                 SELECT sar.spot_name, sar.spot_lat, sar.spot_lon, sar.spot_description
+                   FROM spot_adding_request sar
+                  WHERE sar.id = :spotAddingRequestId
+              RETURNING id
+        """)
+                .param("spotAddingRequestId", spotAddingRequestId)
+                .query(UUID.class)
+                .single();
     }
 }

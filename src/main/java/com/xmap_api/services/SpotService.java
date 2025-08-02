@@ -52,4 +52,11 @@ public class SpotService {
         s3FileService.createSpotImages(files, newSpotId);
         return newSpotId;
     }
+
+    @Transactional
+    public UUID createSpotByAddingRequest(UUID spotAddingRequestId) {
+        UUID newSpotId = spotDAO.createSpotByAddingRequest(spotAddingRequestId);
+        s3FileService.linkSpotToImages(newSpotId, spotAddingRequestId);
+        return newSpotId;
+    }
 }

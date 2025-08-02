@@ -16,6 +16,7 @@ import java.util.UUID;
 @Service
 public class SpotAddingRequestService {
 
+    private final SpotService spotService;
     @Value("${xmap-api.s3-file.download-link-template}")
     private String s3FileDownloadLinkTemplate;
     @Value("${xmap-api.s3-file.download-link-path-param}")
@@ -26,10 +27,11 @@ public class SpotAddingRequestService {
     private final UserService userService;
 
     public SpotAddingRequestService(SpotAddingRequestDAO spotAddingRequestDAO, S3FileService s3FileService,
-                                    UserService userService) {
+                                    UserService userService, SpotService spotService) {
         this.spotAddingRequestDAO = spotAddingRequestDAO;
         this.s3FileService = s3FileService;
         this.userService = userService;
+        this.spotService = spotService;
     }
 
     @Transactional
@@ -64,7 +66,9 @@ public class SpotAddingRequestService {
         return spotAddingRequestDAO.getById(spotAddingRequestId);
     }
 
-    public void accept(UUID spotAddingRequestId) {
+    @Transactional
+    public UUID accept(UUID spotAddingRequestId) {
         spotAddingRequestDAO.accept(spotAddingRequestId);
+        return spotService.createSpotByAddingRequest(spotAddingRequestId);
     }
 }
