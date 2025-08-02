@@ -22,7 +22,7 @@ spring:
         #format_sql: true  # SQL более читабельный, разбивается на несколько строк
 
 server:
-  port: 8080
+  port: 8081
   # для доступа в локальной сети
   address: 0.0.0.0
   #для HTTPS, SSL шифрования и использования keypair
@@ -43,6 +43,7 @@ server:
 #    jakarta: debug
 
 xmap-api:
+  base-url: "http://localhost:8081"
   s3-file:
     # URN (Uniform Resource Name) - URL без scheme (без http://)
     download-link-template: "/api/v1/s3-file/{id}"

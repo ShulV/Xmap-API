@@ -3,6 +3,7 @@ package com.xmap_api.dao;
 import com.xmap_api.dao.mappers.SpotAddingRequestRowMapper;
 import com.xmap_api.dto.thymeleaf_model.MinSpotAddingRequest;
 import com.xmap_api.models.SpotAddingRequest;
+import com.xmap_api.models.status.SpotAddingRequestStatus;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -95,5 +96,12 @@ public class SpotAddingRequestDAO {
                 .param("id", id)
                 .query(spotAddingRequestRowMapper)
                 .single();
+    }
+
+    public void accept(UUID spotAddingRequestId) {
+        jdbcClient.sql("UPDATE spot_adding_request SET status = :status WHERE id = :id")
+                .param("status", SpotAddingRequestStatus.ACCEPTED.name())
+                .param("id", spotAddingRequestId)
+                .update();
     }
 }

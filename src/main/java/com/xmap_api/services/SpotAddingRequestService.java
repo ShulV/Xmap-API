@@ -1,7 +1,6 @@
 package com.xmap_api.services;
 
 import com.xmap_api.dao.SpotAddingRequestDAO;
-import com.xmap_api.dao.UserDAO;
 import com.xmap_api.dto.request.NewSpotAddingRequestDTO;
 import com.xmap_api.dto.thymeleaf_model.MinSpotAddingRequest;
 import com.xmap_api.models.SpotAddingRequest;
@@ -25,13 +24,12 @@ public class SpotAddingRequestService {
     private final SpotAddingRequestDAO spotAddingRequestDAO;
     private final S3FileService s3FileService;
     private final UserService userService;
-    private final UserDAO userDAO;
 
-    public SpotAddingRequestService(SpotAddingRequestDAO spotAddingRequestDAO, S3FileService s3FileService, UserService userService, UserDAO userDAO) {
+    public SpotAddingRequestService(SpotAddingRequestDAO spotAddingRequestDAO, S3FileService s3FileService,
+                                    UserService userService) {
         this.spotAddingRequestDAO = spotAddingRequestDAO;
         this.s3FileService = s3FileService;
         this.userService = userService;
-        this.userDAO = userDAO;
     }
 
     @Transactional
@@ -64,5 +62,9 @@ public class SpotAddingRequestService {
 
     public SpotAddingRequest getById(UUID spotAddingRequestId) {
         return spotAddingRequestDAO.getById(spotAddingRequestId);
+    }
+
+    public void accept(UUID spotAddingRequestId) {
+        spotAddingRequestDAO.accept(spotAddingRequestId);
     }
 }

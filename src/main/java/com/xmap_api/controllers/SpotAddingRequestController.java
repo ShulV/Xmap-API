@@ -7,6 +7,7 @@ import com.xmap_api.security.SecurityUtil;
 import com.xmap_api.services.S3FileService;
 import com.xmap_api.services.SpotAddingRequestService;
 import com.xmap_api.util.DBCode;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -19,12 +20,16 @@ import java.util.UUID;
 
 @Controller
 public class SpotAddingRequestController {
+
+    private final String baseUrl;
     private final SpotAddingRequestService spotAddingRequestService;
     private final S3FileService s3FileService;
 
-    public SpotAddingRequestController(SpotAddingRequestService spotAddingRequestService, S3FileService s3FileService) {
+    public SpotAddingRequestController(SpotAddingRequestService spotAddingRequestService, S3FileService s3FileService,
+                                       @Value("${xmap-api.base-url}") String baseUrl) {
         this.spotAddingRequestService = spotAddingRequestService;
         this.s3FileService = s3FileService;
+        this.baseUrl = baseUrl;
     }
 
     @GetMapping("/spot-adding-request")
@@ -36,8 +41,8 @@ public class SpotAddingRequestController {
 
     @PostMapping("/spot-adding-request")
     public String create(@AuthenticationPrincipal UserDetails userDetails, NewSpotAddingRequestDTO formData) {
-        spotAddingRequestService.create(formData, userDetails.getUsername());
-        return "redirect:/spot-adding-request-list";//todo
+        UUID spotAddingRequestId = spotAddingRequestService.create(formData, userDetails.getUsername());
+        return "redirect:/spot-adding-request/" + spotAddingRequestId;
     }
 
     @GetMapping("/spot-adding-request-list")
@@ -62,8 +67,15 @@ public class SpotAddingRequestController {
                 spotAddingRequestService.getById(id),
                 s3FileService.getSpotAddingRequestImageLinks(id)
         );
+        model.addAttribute("baseUrl", baseUrl);
         model.addAttribute("spotAddingRequest", dto);
+        model.addAttribute("spotAddingRequestId", id.toString());
         return "spot-adding-request-instance";
+    }
+
+    @PatchMapping("/spot-adding-request/accept")
+    public void accept(@RequestParam String spotAddingRequestId) {
+        spotAddingRequestService.accept(UUID.fromString(spotAddingRequestId));
     }
 
 }

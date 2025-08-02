@@ -10,8 +10,8 @@
          alt="img">
   </div>
 
-  <div sec:authorize="hasAuthority('ADMIN')">
-    <button type="button" class="btn btn-primary">Кнопка доступна только для ACCEPTOR</button>
+  <div sec:authorize="hasAuthority('ACCEPTOR')">
+    <button type="button" class="btn btn-success" id="spotAddingRequestId">Принять спот</button>
   </div>
 </div>
 
@@ -20,3 +20,39 @@
 <div th:text="${spotAddingRequest.status()}"></div>
 <div th:text="${spotAddingRequest.adderId()}"></div>
 <div th:text="${spotAddingRequest.acceptorId()}"></div>
+
+<script type="application/javascript"
+        sec:authorize="hasAuthority('ACCEPTOR')">
+  const baseUrl = '[[${baseUrl}]]';
+  const spotAddingRequestId = '[[${spotAddingRequestId}]]';
+  const acceptSpotAddingRequestUrl = baseUrl + '/spot-adding-request/accept';
+
+  acceptSpotAddingRequestFetch = () => {
+    const formData = new FormData();
+    formData.append("spotAddingRequestId", spotAddingRequestId.toString());
+
+    fetch(acceptSpotAddingRequestUrl, {
+      method: "PATCH",
+      body: formData
+    }).then((response) => {
+      if (response.ok) {
+        console.log(response);
+      } else {
+        console.log("Network request failed with response " +
+                response.status + ": " + response.statusText + "; " + response.body
+        );
+        console.log(response);
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  acceptSpotAddingRequest = () => {
+    acceptSpotAddingRequestFetch();
+  }
+
+  const btnAccept = document.getElementById("spotAddingRequestId");
+
+  btnAccept.addEventListener("click", () => acceptSpotAddingRequest());
+</script>
