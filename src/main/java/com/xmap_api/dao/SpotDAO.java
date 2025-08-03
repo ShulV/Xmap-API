@@ -3,6 +3,7 @@ package com.xmap_api.dao;
 import com.xmap_api.dao.mappers.DefaultSpotRowMapper;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
+import com.xmap_api.dto.thymeleaf_model.MinSpot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,39 @@ public class SpotDAO {
                     "limit", pageable.getPageSize(),
                     "offset", pageable.getOffset()))
                 .query(defaultSpotRowMapper).list();
+        return new PageImpl<>(content, pageable, countTotalElements());
+    }
+
+    public Page<MinSpot> getWithFirstImage(Pageable pageable, String fileLinkTemplate, String fileLinkPathParam) {
+        List<MinSpot> content = jdbcClient.sql("""
+              WITH spot_with_ranked_images AS (
+                  SELECT s.id, s.name, s.lat, s.lon, s.inserted_at, s.updated_at, s.description,
+                         sf.id AS file_id,
+                         ROW_NUMBER() OVER(PARTITION BY s.id ORDER BY sf.uploaded_at) AS rn
+                    FROM spot s
+                    JOIN spot_s3_file ssf ON ssf.spot_id = id
+                    JOIN s3_file sf ON sf.id = ssf.s3_file_id
+              )
+            SELECT id, name, lat, lon, inserted_at, updated_at, description, file_id
+              FROM spot_with_ranked_images
+             WHERE rn = 1
+             LIMIT :limit
+            OFFSET :offset
+        """)
+                .params(Map.of(
+                        "limit", pageable.getPageSize(),
+                        "offset", pageable.getOffset()))
+                .query((rs, rowNum) -> new MinSpot(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getDouble("lat"),
+                        rs.getDouble("lon"),
+                        rs.getTimestamp("inserted_at"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("description"),
+                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id"))
+                ))
+                .list();
         return new PageImpl<>(content, pageable, countTotalElements());
     }
 

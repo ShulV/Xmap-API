@@ -3,9 +3,11 @@ package com.xmap_api.services;
 import com.xmap_api.dao.SpotDAO;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
+import com.xmap_api.dto.thymeleaf_model.MinSpot;
 import com.xmap_api.dto.thymeleaf_model.SpotWithImageLinksDTO;
 import com.xmap_api.exceptions.XmapApiException;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,18 @@ import java.util.UUID;
 public class SpotService {
 //    private final Logger log = LoggerFactory.getLogger(SPOT_LOG);
 
+
+    private final String s3FileDownloadLinkTemplate;
+    private final String s3FileDownloadLinkPathParam;
+
     private final SpotDAO spotDAO;
     private final S3FileService s3FileService;
 
-    public SpotService(SpotDAO spotDAO, S3FileService s3FileService) {
+    public SpotService(@Value("${xmap-api.s3-file.download-link-template}") String s3FileDownloadLinkTemplate,
+                       @Value("${xmap-api.s3-file.download-link-path-param}") String s3FileDownloadLinkPathParam,
+                       SpotDAO spotDAO, S3FileService s3FileService) {
+        this.s3FileDownloadLinkTemplate = s3FileDownloadLinkTemplate;
+        this.s3FileDownloadLinkPathParam = s3FileDownloadLinkPathParam;
         this.spotDAO = spotDAO;
         this.s3FileService = s3FileService;
     }
@@ -33,6 +43,10 @@ public class SpotService {
 //        log.info("Getting all default spots with pagination: [page = '{}', size = '{}']",
 //                pageable.getPageNumber(), pageable.getPageSize());//пока нагрузки нет, пусть логируется
         return spotDAO.findAllDefaultSpots(pageable);
+    }
+
+    public Page<MinSpot> getWithFirstImage(Pageable pageable) {
+        return spotDAO.getWithFirstImage(pageable, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 
     public SpotWithImageLinksDTO getSpotWithImageLinks(UUID spotId) {

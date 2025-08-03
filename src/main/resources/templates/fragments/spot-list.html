@@ -1,16 +1,42 @@
 <h2>Споты</h2>
 
-<div>
-  <div>sort</div>
-  <div>filter</div>
+<div>sort</div>
+<div>filter</div>
 
-  <a th:each="spot : ${spotList}"
-     th:href="@{/spot/{spotId}(spotId=${spot.id().toString()})}"
-     style="border: 1px solid black; margin-top: 5px; padding: 5px; display: block;">
-    <img src="https://rideukbmx.com/wp-content/uploads/2022/08/Adam-LV-Photography-Junction-4-skatepark-41-1-680x380.jpg"
-         width="30%" alt="img">
-    <div th:text="${spot.name()}"></div>
-    <div th:text="${spot.description()}"></div>
-    <div th:text="${spot.insertedAt()}"></div>
-  </a>
+<div th:if="${not #lists.isEmpty(spotList.content)}">
+  <div th:each="spot : ${spotList.content}" class="spot-list__card-container">
+    <a th:href="@{/spot/{spotId}(spotId=${spot.id()})}"
+       class="spot-list__card">
+      <h3 th:text="${spot.name()}"></h3>
+      <p>Координаты: <span th:text="${spot.latitude()}"></span> <span th:text="${spot.longitude()}"></span></p>
+      <p th:text="${spot.description()}"></p>
+      <img class="spot-list__img" th:src="@{${spot.firstImageLink()}}" alt="Фотография места"/>
+    </a>
+  </div>
+</div>
+<div th:if="${#lists.isEmpty(spotList.content)}">
+  Нет доступных мест.
+</div>
+<!-- Добавляем навигацию по страницам -->
+<div th:if="${spotList.totalPages > 1}">
+
+  <nav aria-label="Pagination navigation">
+    <ul class="spot-list__pagination">
+      <li th:if="${spotList.number > 0}"
+          th:attr="class=${spotList.number == 0 ? '' : 'page-item'}">
+        <a href="#" th:href="@{'/spots?pageNumber=' + ${spotList.number - 1} + '&pageSize=3'}"
+           class="spot-list__page-link">Предыдущая</a>
+      </li>
+      <li th:each="i : ${#numbers.sequence(0, spotList.totalPages - 1)}"
+          th:attr="class=${spotList.number == i ? 'active' : ''}">
+        <a href="#" th:href="@{'/spots?pageNumber=' + ${i} + '&pageSize=3'}"
+           class="spot-list__page-link" th:text="${i + 1}"></a>
+      </li>
+      <li th:if="${spotList.number < spotList.totalPages - 1}"
+          th:attr="class=${spotList.number == spotList.totalPages - 1 ? '' : 'page-item'}">
+        <a href="#" th:href="@{'/spots?pageNumber=' + ${spotList.number + 1} + '&pageSize=3'}"
+           class="spot-list__page-link">Следующая</a>
+      </li>
+    </ul>
+  </nav>
 </div>
