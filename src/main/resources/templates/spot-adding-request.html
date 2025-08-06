@@ -1,3 +1,18 @@
-<!-- todo deprecated-->
 <!DOCTYPE html>
-<div th:replace="layouts/base :: base(title='Добавить спот', contentFragment='fragments/spot-adding-request')"></div>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Spot adding request страница</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>Создание заявки на добавление спота</h2>
+    <div th:replace="fragments/forms/spot-adding-request :: form">
+        place for custom spot-adding-request form
+    </div>
+</div>
+</body>
+</html>

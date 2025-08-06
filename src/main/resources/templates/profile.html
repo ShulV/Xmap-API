@@ -1,3 +1,28 @@
-<!-- todo deprecated-->
 <!DOCTYPE html>
-<div th:replace="layouts/base :: base(title='Профиль', contentFragment='fragments/profile')"></div>
+<html lang="en"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile страница</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>Профиль</h2>
+    <div>
+        Logged user: <span sec:authentication="name">Place for principle name</span>
+        Roles: <span sec:authentication="principal.authorities">Place for principle roles</span>
+    </div>
+    <div>
+        <ul>
+            <li>
+                <a href="/spot-adding-request-list">Мои заявки</a></li>
+            <li sec:authorize="hasAuthority('ACCEPTOR')">
+                <a href="/spot-adding-request-list?status=PENDING_APPROVAL">Новые заявки</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

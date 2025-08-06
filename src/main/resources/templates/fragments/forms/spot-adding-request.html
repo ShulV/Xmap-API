@@ -1,10 +1,17 @@
-<!-- todo deprecated-->
-<h2>Добавление спота</h2>
-
-<div style="width: 100%; margin: auto; padding-top: 2em; border-radius: 5px; background-color: #fefefe; box-shadow: 0 0 10px rgba(0,0,0,.1);">
-  <!-- Форматируем страницу с формой -->
-  <form action="#" method="post" enctype="multipart/form-data" th:action="@{'/spot-adding-request'}" th:object="${formData}">
-
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Logout form fragment</title>
+</head>
+<body>
+  <form layout:fragment="form"
+        action="/spot-adding-request"
+        method="post"
+        enctype="multipart/form-data"
+        th:object="${formData}">
     <div>
       <label for="spotName">Название спота:</label><br/>
       <input type="text" id="spotName" name="spotName" required placeholder="Введите название" autofocus th:field="*{spotName}"/><br/><br/>
@@ -37,4 +44,5 @@
 
     <button type="submit">Отправить заявку</button>
   </form>
-</div>
+</body>
+</html>

@@ -1,5 +1,73 @@
-<!-- todo deprecated-->
 <!DOCTYPE html>
-<div th:replace="layouts/base :: base(title='Заявка на добавление спота',
-                                      contentFragment='fragments/spot-adding-request-instance')">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Spot adding request instance страница</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2 th:text="${spotAddingRequest.spotName()}"></h2>
+    <div>
+        <div th:if="${#lists.isEmpty(spotAddingRequest.spotImageLinks())}">
+            Картинки для спота отсутствуют
+        </div>
+        <div th:if="${not #lists.isEmpty(spotAddingRequest.spotImageLinks())}">
+            <img th:each="link : ${spotAddingRequest.spotImageLinks()}"
+                 th:src="@{${link}}"
+                 width="300px"
+                 alt="img">
+        </div>
+
+        <div sec:authorize="hasAuthority('ACCEPTOR')">
+            <button type="button" class="btn btn-success" id="spotAddingRequestId">Принять спот</button>
+        </div>
+    </div>
+
+    <div th:text="${spotAddingRequest.spotDescription()}"></div>
+    <div th:text="${spotAddingRequest.comment()}"></div>
+    <div th:text="${spotAddingRequest.status()}"></div>
+    <div th:text="${spotAddingRequest.adderId()}"></div>
+    <div th:text="${spotAddingRequest.acceptorId()}"></div>
 </div>
+
+<script type="application/javascript"
+        sec:authorize="hasAuthority('ACCEPTOR')">
+    const baseUrl = '[[${baseUrl}]]';
+    const spotAddingRequestId = '[[${spotAddingRequestId}]]';
+    const acceptSpotAddingRequestUrl = baseUrl + '/spot-adding-request/accept';
+
+    acceptSpotAddingRequestFetch = () => {
+        const formData = new FormData();
+        formData.append("spotAddingRequestId", spotAddingRequestId.toString());
+
+        fetch(acceptSpotAddingRequestUrl, {
+            method: "PATCH",
+            body: formData
+        }).then((response) => {
+            if (response.ok) {
+                console.log(response);
+            } else {
+                console.log("Network request failed with response " +
+                    response.status + ": " + response.statusText + "; " + response.body
+                );
+                console.log(response);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    acceptSpotAddingRequest = () => {
+        acceptSpotAddingRequestFetch();
+    }
+
+    const btnAccept = document.getElementById("spotAddingRequestId");
+
+    btnAccept.addEventListener("click", () => acceptSpotAddingRequest());
+</script>
+</body>
+</html>

@@ -1,3 +1,30 @@
-<!-- todo deprecated-->
 <!DOCTYPE html>
-<div th:replace="layouts/base :: base(title='Мои заявки', contentFragment='fragments/spot-adding-request-list')"></div>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Spot adding request list страница</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>Мои заявки</h2>
+
+    <div>
+        <div>sort</div>
+        <div>filter</div>
+
+        <a th:each="item : ${minSpotAddingRequestList}"
+           th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}"
+           style="border: 1px solid black; margin-top: 5px; padding: 5px; display: block;">
+            <img th:src="${item.firstImageLink()}"
+                 width="30%" alt="img">
+            <div th:text="${item.spotName()}"></div>
+            <div th:text="${item.spotLatitude()}"></div>
+            <div th:text="${item.spotLongitude()}"></div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
