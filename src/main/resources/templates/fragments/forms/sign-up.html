@@ -1,9 +1,13 @@
-<!-- пока тут лишняя информация (не только форма)-->
-
-  <h1>Регистрация</h1>
-
-  <!-- Форма регистрации -->
-  <form th:object="${user}" th:action="@{/sign-up}" method="post">
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-up form fragment</title>
+</head>
+<body>
+  <form layout:fragment="form" th:object="${user}" action="/sign-up" method="post">
     <!-- Сообщения об ошибках -->
     <div th:if="${#fields.hasErrors('*')}" style="color: red;">
       Произошли ошибки при заполнении формы.<br/>
@@ -22,4 +26,5 @@
 
     <button type="submit">Зарегистрироваться</button>
   </form>
-
+</body>
+</html>

@@ -1,2 +1,17 @@
 <!DOCTYPE html>
-<div th:replace="layouts/base :: base(title='Выход', contentFragment='fragments/forms/logout')"></div>
+<html lang="en"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout страница</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div th:replace="fragments/forms/logout :: form">
+            place for custom logout form
+        </div>
+    </div>
+</body>
+</html>

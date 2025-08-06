@@ -1,3 +1,15 @@
-<form method="post" action="/logout">
-  <input type="submit" value="Выйти"/>
-</form>
+<!-- Вроде страница не нужна, logout и так по get-запросу -->
+<!DOCTYPE html>
+  <html lang="en"
+        xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+        xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Logout form fragment</title>
+  </head>
+  <body>
+    <form layout:fragment="form" method="post" action="/logout">
+      <input type="submit" value="Выйти"/>
+    </form>
+  </body>
+</html>

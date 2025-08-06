@@ -1,15 +1,20 @@
-<!-- пока тут лишняя информация (не только форма)-->
-<h1>Войдите в учетную запись</h1>
-<div th:if="${param.error}">
-  Неверное имя или пароль</div>
-<div th:if="${param.logout}">
-  Вы вышли</div>
-<form th:action="@{/sign-in}" method="post">
-  <div>
-    <input type="text" name="username" placeholder="Логин"/>
-  </div>
-  <div>
-    <input type="password" name="password" placeholder="Пароль"/>
-  </div>
-  <input type="submit" value="Войти" />
-</form>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-in form fragment</title>
+</head>
+<body>
+  <form layout:fragment="form" action="/sign-in" method="post">
+    <div>
+      <input type="text" name="username" placeholder="Логин"/>
+    </div>
+    <div>
+      <input type="password" name="password" placeholder="Пароль"/>
+    </div>
+    <input type="submit" value="Войти" />
+  </form>
+</body>
+</html>

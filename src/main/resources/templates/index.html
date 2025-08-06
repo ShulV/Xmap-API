@@ -1,2 +1,13 @@
 <!DOCTYPE html>
-<div th:replace="layouts/base :: base(title='Главная', contentFragment='fragments/main')"></div>
+<html lang="en" xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Добро пожаловать на нашу главную страницу!</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed augue mi. Morbi porttitor massa vitae ex venenatis tempor. Donec porta velit lacus, ut convallis enim tincidunt non. Proin eu arcu felis. Nulla facilisi. In hac habitasse platea dictumst. Integer malesuada tortor eu nisl pellentesque congue. Suspendisse potenti. Nunc vulputate ligula vel nulla sollicitudin, in fermentum erat accumsan. Aliquam ultrices tempus eros quis gravida. Sed vehicula semper magna nec rhoncus. Maecenas pharetra metus eget ante fringilla aliquet. Fusce sodales libero est, vel vestibulum lorem suscipit et.</p>
+</div>
+</body>
+</html>
