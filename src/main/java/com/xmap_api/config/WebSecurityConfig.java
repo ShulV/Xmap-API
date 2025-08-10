@@ -59,8 +59,10 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(ahr -> ahr
-                        .requestMatchers("/", "/sign-in", "/logout", "/sign-up").permitAll()
-                        .requestMatchers("/styles/**", "/fonts/**").permitAll()
+                        .requestMatchers("/", "/sign-in", "/logout", "/sign-up"
+                        , "/spots" //todo tmp
+                        ).permitAll()
+                        .requestMatchers("/styles/**", "/fonts/**", "/js/**", "/assets/**").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().authenticated()
                 )
