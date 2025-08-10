@@ -33,7 +33,7 @@ async function initMap() {
     // Иницилиазируем карту
     const map = new YMap(
         // Передаём ссылку на HTMLElement контейнера
-        document.getElementById('map'),
+        document.getElementById('yandex-map-id'),
 
         // Передаём параметры инициализации карты
         {

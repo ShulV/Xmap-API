@@ -1,9 +1,3 @@
-:root {
-    --spot-list-center-offset-y: var(0); /* задается через js */
-    --spot-list-top-offset-y: var(0); /* задается через js */
-    --spot-list-center-height: var(0); /* задается через js */
-    --spot-list-top-height: var(0); /* задается через js */
-}
 
 .spot-list__card-container {
     display: flex;
@@ -41,6 +35,17 @@
 
 /**/
 
+body {
+    overflow-y: hidden;
+}
+
+main {
+    height: calc(100% - 50px);
+
+    display: flex;
+    flex-direction: column;
+}
+
 .search-block {
     display: flex;
     flex-direction: column;
@@ -48,7 +53,6 @@
     outline: 1px solid black;
     height: 90px; /* сумма */
     width: 100%;
-    z-index: 50;
 }
 
 .search-block__search {
@@ -68,45 +72,49 @@
 }
 
 .map-list {
-    position: relative;
-    height: calc(100vh - 90px - 50px); /* отняли поиск 90px и меню 50px */
+    position: fixed;
+    top: 90px;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    /*flex-grow: 1; !* Растягиваемый блок контента *!*/
+
     width: 100vw;
     outline: 1px inset orange;
     overflow: hidden;
 }
 
 .map-list__map {
-    height: calc(100vh - 90px - 50px); /* отняли поиск 90px и меню 50px */
+    display: none;
+    height: 100%;
     width: 100%;
     background-color: darkseagreen;
     border-radius: 15px;
 }
 
 .map-list__list {
+    overflow-y: auto;
+    display: none;
     border-radius: 15px;
-    /*border-top-left-radius: 10px;*/
-    /*border-top-right-radius: 10px;*/
-
+    height: 100%;
     width: 100%;
     background-color: darkcyan;
-    overflow-y: auto;
 }
 
-.spot-list__sticky-top {
-    transform: translateY(var(--spot-list-top-offset-y));
-    height: var(--spot-list-top-height);
+.view-changing-btn {
+    position: fixed;
+    left: 30px;
+    bottom: 80px;
+    padding: 2px 7px;
+    border-radius: 15px;
 }
 
-.spot-list__sticky-center {
-    transform: translateY(var(--spot-list-center-offset-y));
-    height: var(--spot-list-center-height);
+.view-changing-btn:hover {
+    cursor: pointer;
 }
 
-.spot-list__sticky-bottom {
-    transform: translateY(0);
-    max-height: 0;
-}
 
-.spot-list__moving {
-    height: var(--spot-list-top-height);
+.map-list > .map-list__map.active,
+.map-list > .map-list__list.active {
+    display: block;
 }
