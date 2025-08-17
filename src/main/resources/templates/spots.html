@@ -11,6 +11,7 @@
             defer th:if="${viewMode == 'YMAP'}"></script>
 
     <script src="/js/spot-list-map.js" defer></script>
+    <script src="/js/location-util.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <script src="/js/ymap.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <link href="/styles/spot-list-map.css" rel="stylesheet">
 </head>

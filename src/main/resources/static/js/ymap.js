@@ -1,4 +1,8 @@
-const LOCATION = {center: [55.205247, 25.077816], zoom: 10};
+let mapCenter = {longitude: undefined, latitude: undefined};
+getUserLocation().then(res => {
+    mapCenter = res;
+    initMap();
+});
 
 const BOUNDS = [
     [54.58311, 25.9985],
@@ -20,8 +24,6 @@ const getRandomPoints = (count, bounds) =>
         properties: {name: 'beer shop'}
     }));
 
-initMap();
-
 async function initMap() {
     // Промис `ymaps3.ready` будет зарезолвлен, когда загрузятся все компоненты основного модуля API
     await ymaps3.ready;
@@ -39,7 +41,7 @@ async function initMap() {
         {
             location: {
                 // Координаты центра карты
-                center: [37.588144, 55.733842],
+                center: [mapCenter.longitude, mapCenter.latitude],
 
                 // Уровень масштабирования
                 zoom: 10
