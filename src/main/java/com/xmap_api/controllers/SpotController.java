@@ -1,6 +1,8 @@
 package com.xmap_api.controllers;
 
+import com.xmap_api.exceptions.XmapApiException;
 import com.xmap_api.services.SpotService;
+import com.xmap_api.util.UICode;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,18 @@ public class SpotController {
     }
 
     @GetMapping("/spots")
-    public String getSpotListPage(Model model, @RequestParam int pageNumber, @RequestParam int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        model.addAttribute("spotList", spotService.getWithFirstImage(pageable));
+    public String getSpotListPage(Model model,
+                                  @RequestParam(required = false, defaultValue = "0") Integer pageNumber,
+                                  @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+                                  @RequestParam String viewMode) {
+        if (!UICode.Spots.ViewMode.ALL.contains(viewMode)) {
+            throw new XmapApiException("Unexpected view mode");
+        }
+        model.addAttribute("viewMode", viewMode);
+        if (UICode.Spots.ViewMode.CARDS.equals(viewMode)) {
+            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+            model.addAttribute("spotList", spotService.getWithFirstImage(pageable));
+        }
         return "spots";
     }
 

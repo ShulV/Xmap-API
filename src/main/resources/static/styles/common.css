@@ -9,3 +9,7 @@ body {
 svg:not(:root) {
     overflow: hidden;
 }
+
+a {
+    text-decoration: none;
+}

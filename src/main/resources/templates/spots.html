@@ -7,10 +7,11 @@
     <meta charset="UTF-8">
     <title>Spots страница</title>
 
-    <script src="https://api-maps.yandex.ru/v3/?apikey=b9ae7ce3-4f8e-4018-ae49-7751e42c5c25&lang=ru_RU"></script>
+    <script src="https://api-maps.yandex.ru/v3/?apikey=b9ae7ce3-4f8e-4018-ae49-7751e42c5c25&lang=ru_RU"
+            defer th:if="${viewMode == 'YMAP'}"></script>
 
     <script src="/js/spot-list-map.js" defer></script>
-    <script src="/js/ymap.js" defer></script>
+    <script src="/js/ymap.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <link href="/styles/spot-list-map.css" rel="stylesheet">
 </head>
 <body>
@@ -25,11 +26,12 @@
             </div>
         </div>
         <div class="map-list">
-            <div class="map-list__map active" id="spot-map-container-id">
+            <div class="map-list__map" id="spot-map-container-id" defer th:if="${viewMode == 'YMAP'}">
                 <div id="yandex-map-id" style="width: 100%; height: 100%"></div>
-                <div class="view-changing-btn" id="list-view-btn-id">Список</div>
+                <a th:href="@{'/spots?pageNumber=0&pageSize=3&viewMode=CARDS'}"
+                   class="view-changing-btn">Список</a>
             </div>
-            <div class="map-list__list" id="spot-list-container-id">
+            <div class="map-list__list" id="spot-list-container-id"  defer th:if="${viewMode == 'CARDS'}">
                 <div th:if="${not #lists.isEmpty(spotList.content)}">
                     <div th:each="spot : ${spotList.content}" class="spot-list__card-container">
                         <a th:href="@{/spot/{spotId}(spotId=${spot.id()})}"
@@ -51,23 +53,24 @@
                         <ul class="spot-list__pagination">
                             <li th:if="${spotList.number > 0}"
                                 th:attr="class=${spotList.number == 0 ? '' : 'page-item'}">
-                                <a href="#" th:href="@{'/spots?pageNumber=' + ${spotList.number - 1} + '&pageSize=3'}"
+                                <a href="#"
+                                   th:href="@{'/spots?pageNumber=' + ${spotList.number - 1} + '&pageSize=3&viewMode=CARDS'}"
                                    class="spot-list__page-link">Предыдущая</a>
                             </li>
                             <li th:each="i : ${#numbers.sequence(0, spotList.totalPages - 1)}"
                                 th:attr="class=${spotList.number == i ? 'active' : ''}">
-                                <a href="#" th:href="@{'/spots?pageNumber=' + ${i} + '&pageSize=3'}"
+                                <a href="#" th:href="@{'/spots?pageNumber=' + ${i} + '&pageSize=3&viewMode=CARDS'}"
                                    class="spot-list__page-link" th:text="${i + 1}"></a>
                             </li>
                             <li th:if="${spotList.number < spotList.totalPages - 1}"
                                 th:attr="class=${spotList.number == spotList.totalPages - 1 ? '' : 'page-item'}">
-                                <a href="#" th:href="@{'/spots?pageNumber=' + ${spotList.number + 1} + '&pageSize=3'}"
+                                <a href="#" th:href="@{'/spots?pageNumber=' + ${spotList.number + 1} + '&pageSize=3&viewMode=CARDS'}"
                                    class="spot-list__page-link">Следующая</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
-                <div  class="view-changing-btn" id="map-view-btn-id">Карта</div>
+                <a th:href="@{'/spots?viewMode=YMAP'}" class="view-changing-btn">Карта</a>
             </div>
         </div>
 

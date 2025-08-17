@@ -85,7 +85,6 @@ main {
 }
 
 .map-list__map {
-    display: none;
     height: 100%;
     width: 100%;
     background-color: darkseagreen;
@@ -94,7 +93,6 @@ main {
 
 .map-list__list {
     overflow-y: auto;
-    display: none;
     border-radius: 15px;
     height: 100%;
     width: 100%;
@@ -107,14 +105,9 @@ main {
     bottom: 80px;
     padding: 2px 7px;
     border-radius: 15px;
+    display: block;
 }
 
 .view-changing-btn:hover {
     cursor: pointer;
-}
-
-
-.map-list > .map-list__map.active,
-.map-list > .map-list__list.active {
-    display: block;
 }
