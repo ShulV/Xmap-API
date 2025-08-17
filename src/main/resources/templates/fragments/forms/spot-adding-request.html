@@ -18,14 +18,13 @@
     </div>
 
     <div>
-      <label for="lat">Широта:</label><br/>
-      <input type="number" step="any" id="lat" name="lat" required placeholder="Широта" th:field="*{spotLat}"/><br/><br/>
+      <label>Выбор точки на карте:</label><br/>
+      <div id="yandex-map-id" style="width: 100%; height: 400px; margin-bottom: 1rem;"></div>
     </div>
 
-    <div>
-      <label for="lon">Долгота:</label><br/>
-      <input type="number" step="any" id="lon" name="lon" required placeholder="Долгота" th:field="*{spotLon}"/><br/><br/>
-    </div>
+    <!-- Поля для хранения выбранных координат (скрытые) -->
+    <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
+    <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
 
     <div>
       <label for="description">Описание:</label><br/>

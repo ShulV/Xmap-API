@@ -50,9 +50,8 @@ async function initMap() {
     );
 
     // Добавляем слой для отображения схематической карты
-    map.addChild(new YMapDefaultSchemeLayer());
-    map
-        .addChild(new YMapDefaultSchemeLayer())
+    map.addChild(new YMapDefaultSchemeLayer())
+    //
         .addChild(new YMapFeatureDataSource({id: 'clusterer-source'}))
         .addChild(new YMapLayer({source: 'clusterer-source', type: 'markers', zIndex: 1800}));
 

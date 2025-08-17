@@ -1,0 +1,67 @@
+// добавляем loader для пакета, где указываем из какого CDN загружать
+
+let mapCenter = {longitude: undefined, latitude: undefined};
+getUserLocation().then(res => {
+    mapCenter = res;
+    initMap();
+});
+
+async function initMap() {
+    // Промис `ymaps3.ready` будет зарезолвлен, когда загрузятся все компоненты основного модуля API
+    await ymaps3.ready;
+
+    const {YMap, YMapDefaultSchemeLayer, YMapListener, YMapFeature} = ymaps3;
+
+    const map = new YMap(
+        document.getElementById('yandex-map-id'),
+        {
+            location: {
+                center: [mapCenter.longitude, mapCenter.latitude],
+                zoom: 10
+            }
+        }
+    );
+
+    const addMarker = (coordinates) => {
+        // Создаем контейнер для нашего маркера
+        const markerElement = document.createElement('div');
+        markerElement.className = 'marker-class';
+        markerElement.style.backgroundColor = '#ff0000'; // Красный фон
+        markerElement.style.width = '20px';
+        markerElement.style.height = '20px';
+        markerElement.style.borderRadius = '50%'; // Круглый маркер
+        markerElement.style.position = 'absolute';
+        markerElement.style.transform = 'translate(-50%, -50%)'; // Централизация маркера
+        const marker = new ymaps3.YMapMarker(
+            {
+                coordinates: coordinates, // Московские координаты
+                draggable: true, // Возможность перетаскивания маркера
+                mapFollowsOnDrag: true // Камера движется вслед за перетаскиванием маркера
+            },
+            markerElement
+        );
+        map.addChild(marker);
+    };
+
+    const clickCallback = async (object, event) => {
+        console.log(event);
+        setCoordinates(event.coordinates);
+        addMarker(event.coordinates);
+    }
+
+    const mapListener = new YMapListener({
+        onClick: clickCallback
+    });
+    map.addChild(mapListener);
+
+    map
+        // Добавляем слой для отображения схематической карты
+        .addChild(new YMapDefaultSchemeLayer())
+        // Слой с метками
+        .addChild(new ymaps3.YMapDefaultFeaturesLayer({zIndex: 1800}))
+}
+
+function setCoordinates([lat, lon]) {
+    document.getElementById('lat').value = lat.toFixed(6);
+    document.getElementById('lon').value = lon.toFixed(6);
+}
