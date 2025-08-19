@@ -62,7 +62,7 @@ public class WebSecurityConfig  {
                         .requestMatchers("/", "/sign-in", "/logout", "/sign-up"
                         , "/spots" //todo tmp
                         ).permitAll()
-                        .requestMatchers("/styles/**", "/fonts/**", "/js/**", "/assets/**").permitAll()
+                        .requestMatchers("/css/**", "/fonts/**", "/js/**", "/assets/**").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .anyRequest().authenticated()
                 )
