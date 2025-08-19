@@ -4,6 +4,63 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
+    background: var(--page-bg-color);
+}
+
+.content {
+    height: calc(100vh - var(--nav-menu-height));
+    background: var(--page-bg-color);
+}
+
+.header-title {
+    color: var(--header-title-color);
+    font-size: 32px;
+    margin: 25px auto 0 auto;
+    text-align: center;
+}
+
+.form {
+    padding: 8px;
+}
+
+.input-label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.input-label__label {
+    font-size: 20px;
+    color: var(--input-label-color);
+}
+
+.input-label__input {
+    background-color: var(--input-bg-color);
+    border-radius: 8px;
+    height: 50px;
+    width: 100%;
+    border: none;
+    padding: 15px;
+    font-size: 20px;
+    color: var(--input-color);
+}
+
+.input-submit-btn {
+    color: var(--input-submit-btn-color);
+    background-color: var(--input-submit-btn-bg-color);
+    border-radius: 8px;
+    height: 50px;
+    width: 100%;
+    border: none;
+    margin-top: 20px;
+}
+
+.sign-up-form .link-to-sign-up {
+    color: var(--link-to-sign-up-color);
+    font-size: 16px;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    display: block;
 }
 
 svg:not(:root) {

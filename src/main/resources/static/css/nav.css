@@ -1,9 +1,5 @@
-body {
-    margin-bottom: 50px;
-}
-
 .menu-nav {
-    height: 50px;
+    height: var(--nav-menu-height);
     display: none;
     width: 100vw;
     margin: 0 auto;
@@ -11,6 +7,8 @@ body {
     bottom: 0;
     left: 0;
     z-index: 11;
+    box-shadow: 0 -2px 8px #00000026;
+    background-color: var(--menu-bg-color)
 }
 
 .menu-nav__list {
@@ -22,6 +20,7 @@ body {
     margin: 0;
     list-style: none;
     justify-content: space-around;
+    background-color: var(--menu-bg-color)
 }
 
 .menu-nav__link {
@@ -32,8 +31,13 @@ body {
     text-decoration: none;
 }
 
-.menu-nav__svg-icon {
-    height: 22px;
+.menu-nav__icon-svg {
+    fill: var(--menu-item-title-color);
+    color: transparent;
+}
+
+.menu-nav__icon-svg path {
+    fill: var(--menu-item-title-color);
 }
 
 .menu-nav__title {
@@ -42,6 +46,7 @@ body {
     font-size: 12px;
     line-height: 14px;
     display: block;
+    color: var(--menu-item-title-color);
 }
 
 @media (max-width: 992px) {

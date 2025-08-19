@@ -6,14 +6,18 @@
   <title>Sign-in form fragment</title>
 </head>
 <body>
-  <form layout:fragment="form" action="/sign-in" method="post">
-    <div>
-      <input type="text" name="username" placeholder="Логин"/>
+  <form layout:fragment="form" action="/sign-in" method="post" class="form sign-up-form">
+    <div class="input-label">
+      <label for="login" class="input-label__label">Логин</label>
+      <input id="login" type="text" name="username" placeholder="никнейм" class="input-label__input"/>
     </div>
-    <div>
-      <input type="password" name="password" placeholder="Пароль"/>
+    <div class="input-label">
+      <label for="password" class="input-label__label">Пароль</label>
+      <input id="password" type="password" name="password" placeholder="******"
+             class="input-label__input"/>
     </div>
-    <input type="submit" value="Войти" />
+    <input type="submit" value="Войти" class="input-submit-btn"/>
+    <a href="/sign-up" class="link-to-sign-up">Еще нет аккаунта?</a>
   </form>
 </body>
 </html>
