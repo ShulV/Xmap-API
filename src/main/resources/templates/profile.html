@@ -17,9 +17,13 @@
     <div>
         <ul>
             <li>
-                <a href="/spot-adding-request-list">Мои заявки</a></li>
+                <a href="/spot-adding-request-list">Мои заявки</a>
+            </li>
             <li sec:authorize="hasAuthority('ACCEPTOR')">
                 <a href="/spot-adding-request-list?status=PENDING_APPROVAL">Новые заявки</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="/logout">Выйти</a>
             </li>
         </ul>
     </div>

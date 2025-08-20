@@ -57,7 +57,8 @@ body {
     margin-top: 20px;
 }
 
-.sign-in-form .link-to-sign-up {
+.sign-in-form .link-to-sign-up,
+.sign-up-form .link-to-sign-in {
     color: var(--link-to-sign-up-color);
     font-size: 16px;
     margin: 20px auto 0 auto;
