@@ -20,17 +20,18 @@
     <div class="input-label">
       <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
            class="input-msg-error">ошибка валидации логина</div>
-      <label for="username" class="input-label__label">Логин:</label>
-      <input type="text" id="username" th:field="*{username}" class="input-label__input"/>
+      <label for="username" class="input-label__label">Логин</label>
+      <input type="text" id="username" th:field="*{username}" placeholder="никнейм"
+             class="input-label__input"/>
     </div>
 
     <div class="input-label">
       <div th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}"
            class="input-msg-error">ошибка валидации пароля</div>
-      <label for="rawPassword" class="input-label__label">Пароль:</label>
-      <input type="password" id="rawPassword" th:field="*{rawPassword}" class="input-label__input"/>
+      <label for="rawPassword" class="input-label__label">Пароль</label>
+      <input type="password" id="rawPassword" th:field="*{rawPassword}" placeholder="******"
+             class="input-label__input"/>
     </div>
-
 
     <button type="submit" class="input-submit-btn">Зарегистрироваться</button>
     <a href="/sign-in" class="link-to-sign-in">Войти</a>
