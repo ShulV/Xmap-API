@@ -10,10 +10,6 @@
 <body>
 <div layout:fragment="content" class="content">
     <h2 class="header-title">Вход</h2>
-    <div th:if="${param.error}">
-        Неверное имя или пароль</div>
-    <div th:if="${param.logout}">
-        Вы вышли</div>
     <form th:replace="fragments/forms/sign-in :: form">
         place for custom sign-in form
     </form>

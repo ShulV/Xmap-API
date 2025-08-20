@@ -5,11 +5,13 @@ body {
     padding: 0;
     position: relative;
     background: var(--page-bg-color);
+    overflow: hidden;
 }
 
 .content {
     height: calc(100vh - var(--nav-menu-height));
     background: var(--page-bg-color);
+    overflow: auto;
 }
 
 .header-title {
@@ -55,12 +57,16 @@ body {
     margin-top: 20px;
 }
 
-.sign-up-form .link-to-sign-up {
+.sign-in-form .link-to-sign-up {
     color: var(--link-to-sign-up-color);
     font-size: 16px;
     margin: 20px auto 0 auto;
     text-align: center;
     display: block;
+}
+
+.input-msg-error {
+    color: var(--input-msg-error-color);
 }
 
 svg:not(:root) {

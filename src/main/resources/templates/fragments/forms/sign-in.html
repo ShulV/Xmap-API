@@ -6,7 +6,9 @@
   <title>Sign-in form fragment</title>
 </head>
 <body>
-  <form layout:fragment="form" action="/sign-in" method="post" class="form sign-up-form">
+  <form layout:fragment="form" action="/sign-in" method="post" class="form sign-in-form">
+    <div th:if="${param.error}" class="input-msg-error">неверный логин или пароль</div>
+<!--    <div th:if="${param.logout}">Вы вышли</div>-->
     <div class="input-label">
       <label for="login" class="input-label__label">Логин</label>
       <input id="login" type="text" name="username" placeholder="никнейм" class="input-label__input"/>
