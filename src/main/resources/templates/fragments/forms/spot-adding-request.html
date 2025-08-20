@@ -7,18 +7,16 @@
   <title>Logout form fragment</title>
 </head>
 <body>
-  <form layout:fragment="form"
-        action="/spot-adding-request"
-        method="post"
-        enctype="multipart/form-data"
-        th:object="${formData}">
-    <div>
-      <label for="spotName">Название спота:</label><br/>
-      <input type="text" id="spotName" name="spotName" required placeholder="Введите название" autofocus th:field="*{spotName}"/><br/><br/>
+  <form layout:fragment="form" action="/spot-adding-request" method="post"
+        enctype="multipart/form-data" th:object="${formData}" class="form">
+    <div class="input-label">
+      <label for="spotName" class="input-label__label">Название спота</label>
+      <input type="text" id="spotName" name="spotName" required placeholder="Введите название"
+             autofocus th:field="*{spotName}" class="input-label__input"/>
     </div>
 
-    <div>
-      <label>Выбор точки на карте:</label><br/>
+    <div class="input-label">
+      <label for="yandex-map-id" class="input-label__label">Выбор точки на карте</label>
       <div id="yandex-map-id" style="width: 100%; height: 400px; margin-bottom: 1rem;"></div>
     </div>
 
@@ -26,22 +24,28 @@
     <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
     <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
 
-    <div>
-      <label for="description">Описание:</label><br/>
-      <textarea rows="4" cols="50" id="description" name="description" required placeholder="Опишите спот" th:field="*{spotDescription}"></textarea><br/><br/>
+    <div class="input-label">
+      <label for="description" class="input-label__label">Описание</label>
+      <textarea rows="4" cols="50" id="description" name="description" required
+                placeholder="Опишите спот" th:field="*{spotDescription}"
+                class="input-label__input">
+      </textarea>
     </div>
 
-    <div>
-      <label for="comment">Комментарий:</label><br/>
-      <textarea rows="4" cols="50" id="comment" name="comment" required placeholder="Дополнительные комментарии" th:field="*{comment}"></textarea><br/><br/>
+    <div class="input-label">
+      <label for="comment" class="input-label__label">Комментарий</label>
+      <textarea rows="4" cols="50" id="comment" name="comment" required
+                placeholder="Дополнительные комментарии" th:field="*{comment}" class="input-label__input">
+      </textarea>
     </div>
 
-    <div>
-      <label for="photos">Фотографии (можно выбрать несколько изображений):</label><br/>
-      <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}"/><br/><br/>
+    <div class="input-label">
+      <label for="photos" class="input-label__label">Фотографии</label>
+      <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}"
+             class="input-label__input"/>
     </div>
 
-    <button type="submit">Отправить заявку</button>
+    <button type="submit" class="input-submit-btn">Создать</button>
   </form>
 </body>
 </html>
