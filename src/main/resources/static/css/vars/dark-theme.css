@@ -1,6 +1,7 @@
 :root {
     /* common */
     --page-bg-color: #121212;
+    --page-header-bg-color: #1c1c1e;
     --header-title-color: #f8f8f8;
     --header-bg-color: #1c1c1e;
 
@@ -8,6 +9,7 @@
     --input-label-color: #535353;
     --input-bg-color: #181818;
     --input-color: #f8f8f8;
+    --input-focus-outline-color: #ff7f0075;
     --input-submit-btn-bg-color: #ff912b;
     --input-submit-btn-color: #ffffff;
     --link-to-sign-up-color: #888487;
@@ -18,4 +20,14 @@
     --menu-icon-color: #c3c3c3;
     --menu-bg-color: #1c1c1e;
     --menu-item-title-color: #c3c3c3;
+
+    /* profile */
+    --profile-block-bg-color: #1c1c1e;
+    --profile-avatar-border-color: #c3c3c3;
+    --profile-default-avatar-color: #c3c3c3;
+    --profile-block-username-color: #c3c3c3;
+    --profile-block-roles-color: #9f9f9f;
+    --profile-link-color: #c3c3c3;
+    --profile-link-divider-color: rgba(195, 195, 195, 0.25);
+    --profile-item-focus-bg-color: rgba(195, 195, 195, 0.25);
 }

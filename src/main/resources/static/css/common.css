@@ -36,10 +36,16 @@ body {
 }
 
 .header-title {
+    height: 80px;
+    width: 100%;
+    background-color: var(--page-header-bg-color);
     color: var(--header-title-color);
     font-size: 32px;
-    margin: 25px auto 0 auto;
+    margin: 0 auto;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form {
@@ -66,6 +72,10 @@ body {
     padding: 15px;
     font-size: 20px;
     color: var(--input-color);
+}
+
+.input-label__input:focus {
+    outline: 2px solid var(--input-focus-outline-color);
 }
 
 .input-submit-btn {

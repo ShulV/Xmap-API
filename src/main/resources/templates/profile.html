@@ -6,26 +6,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile страница</title>
+    <link href="/css/profile.css" rel="stylesheet">
 </head>
 <body>
-<div layout:fragment="content">
-    <h2>Профиль</h2>
-    <div>
-        Logged user: <span sec:authentication="name">Place for principle name</span>
-        Roles: <span sec:authentication="principal.authorities">Place for principle roles</span>
-    </div>
-    <div>
-        <ul>
-            <li>
-                <a href="/spot-adding-request-list">Мои заявки</a>
-            </li>
-            <li sec:authorize="hasAuthority('ACCEPTOR')">
-                <a href="/spot-adding-request-list?status=PENDING_APPROVAL">Новые заявки</a>
-            </li>
-            <li sec:authorize="isAuthenticated()">
-                <a href="/logout">Выйти</a>
-            </li>
-        </ul>
+<div layout:fragment="content" class="content">
+    <h2 class="header-title">Профиль</h2>
+    <div class="profile">
+        <div class="profile-block">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="profile-block__avatar">
+                <path d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0"/>
+            </svg>
+            <div class="profile-block__info">
+                <div sec:authentication="name" class="profile-block__username">Place for principle name</div>
+                <div sec:authorize="hasAnyAuthority('ACCEPTOR', 'ADMIN')" class="profile-block__roles">
+                    Доступные роли:</br><span sec:authentication="principal.authorities">Place for principle roles</span>
+                </div>
+            </div>
+        </div>
+        <div class="profile-management">
+            <ul class="profile-management__list">
+                <li class="profile-management__list-item">
+                    <a href="/spot-adding-request-list" class="profile-management__list-item-link">
+                        <div>Мои заявки</div>
+                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.7318 9.35984C12.0854 8.93556 12.7159 8.87824 13.1402 9.2318C13.5645 9.58537 13.6218 10.2159 13.2682 10.6402L8.26825 16.6402C7.91468 17.0645 7.28412 17.1218 6.85984 16.7682C6.43556 16.4147 6.37824 15.7841 6.7318 15.3598L11.7318 9.35984Z" fill="#000000"/>
+                            <path d="M6.7318 4.64021C6.37824 4.21593 6.43556 3.58537 6.85984 3.2318C7.28412 2.87824 7.91468 2.93556 8.26825 3.35984L13.2682 9.35984C13.6218 9.78412 13.5645 10.4147 13.1402 10.7682C12.7159 11.1218 12.0854 11.0645 11.7318 10.6402L6.7318 4.64021Z" fill="#000000"/>
+                        </svg>
+                    </a>
+                </li>
+                <li sec:authorize="hasAuthority('ACCEPTOR')" class="profile-management__list-item">
+                    <a href="/spot-adding-request-list?status=PENDING_APPROVAL"
+                       class="profile-management__list-item-link">
+                        <div>Новые заявки</div>
+                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.7318 9.35984C12.0854 8.93556 12.7159 8.87824 13.1402 9.2318C13.5645 9.58537 13.6218 10.2159 13.2682 10.6402L8.26825 16.6402C7.91468 17.0645 7.28412 17.1218 6.85984 16.7682C6.43556 16.4147 6.37824 15.7841 6.7318 15.3598L11.7318 9.35984Z" fill="#000000"/>
+                            <path d="M6.7318 4.64021C6.37824 4.21593 6.43556 3.58537 6.85984 3.2318C7.28412 2.87824 7.91468 2.93556 8.26825 3.35984L13.2682 9.35984C13.6218 9.78412 13.5645 10.4147 13.1402 10.7682C12.7159 11.1218 12.0854 11.0645 11.7318 10.6402L6.7318 4.64021Z" fill="#000000"/>
+                        </svg>
+                    </a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="profile-management__list-item">
+                    <a href="/logout" class="profile-management__list-item-link">
+                        <div>Выйти</div>
+                        <svg class="svg-logout" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H15" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                            <path d="M19 12L15 8M19 12L15 16M19 12H9" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </div>
 </body>
