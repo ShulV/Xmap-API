@@ -5,25 +5,35 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Spot adding request list страница</title>
+    <title>Spot adding request list page</title>
+    <link href="/css/spot-adding-request.css" rel="stylesheet">
 </head>
 <body>
-<div layout:fragment="content">
-    <h2>Мои заявки</h2>
+<div layout:fragment="content" class="content">
+    <h2 class="header-title">Мои заявки</h2>
 
     <div>
         <div>sort</div>
         <div>filter</div>
 
-        <a th:each="item : ${minSpotAddingRequestList}"
-           th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}"
-           style="border: 1px solid black; margin-top: 5px; padding: 5px; display: block;">
-            <img th:src="${item.firstImageLink()}"
-                 width="30%" alt="img">
-            <div th:text="${item.spotName()}"></div>
-            <div th:text="${item.spotLatitude()}"></div>
-            <div th:text="${item.spotLongitude()}"></div>
-        </a>
+        <div class="container mt-3 mb-3">
+            <div class="row row-cols-1 g-3 spot-adding-request__list">
+                <div class="col spot-adding-request__list-item"
+                     th:each="item : ${minSpotAddingRequestList}">
+                    <a th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}">
+                        <div class="card card-container shadow-sm p-3 bg-body rounded spot-adding-request__list-item-card">
+                            <img th:src="${item.firstImageLink()}"
+                                 class="rounded d-block spot-adding-request__list-item-img" alt="spot image"/>
+                            <div class="spot-adding-request__list-item-card-info">
+                                <h5 class="mt-2" th:text="${item.spotName()}"></h5>
+                                <p><strong>Широта:</strong> <span th:text="${item.spotLatitude()}"></span></p>
+                                <p><strong>Долгота:</strong> <span th:text="${item.spotLongitude()}"></span></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
