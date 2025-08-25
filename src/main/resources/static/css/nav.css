@@ -36,8 +36,16 @@
     color: transparent;
 }
 
+.menu-nav__item.active .menu-nav__link .menu-nav__icon-svg{
+    fill: var(--active-menu-icon-color);
+}
+
 .menu-nav__icon-svg path {
     fill: var(--menu-item-title-color);
+}
+
+.menu-nav__item.active .menu-nav__link .menu-nav__icon-svg path {
+    fill: var(--active-menu-icon-color);
 }
 
 .menu-nav__title {
@@ -47,6 +55,10 @@
     line-height: 14px;
     display: block;
     color: var(--menu-item-title-color);
+}
+
+.menu-nav__item.active .menu-nav__link .menu-nav__title {
+    color: var(--active-menu-item-title-color);
 }
 
 @media (max-width: 992px) {

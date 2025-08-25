@@ -16,10 +16,11 @@
     --input-msg-error-color: #ff0000;
 
     /* bottom menu */
-    --active-menu-icon-color: #eea241;
     --menu-icon-color: #c3c3c3;
+    --active-menu-icon-color: #eea241;
     --menu-bg-color: #1c1c1e;
     --menu-item-title-color: #c3c3c3;
+    --active-menu-item-title-color: #eea241;
 
     /* profile */
     --profile-block-bg-color: #1c1c1e;

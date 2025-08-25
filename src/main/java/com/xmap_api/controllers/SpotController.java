@@ -34,6 +34,7 @@ public class SpotController {
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
             model.addAttribute("spotList", spotService.getWithFirstImage(pageable));
         }
+        model.addAttribute("activePage", "spots");
         return "spots";
     }
 

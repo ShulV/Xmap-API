@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UserController {
     @GetMapping("/profile")
     public String profile(Model model) {
+        model.addAttribute("activePage", "profile");
         return "profile";
     }
 }
