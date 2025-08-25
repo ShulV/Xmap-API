@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Spot adding request instance страница</title>
+    <link href="/css/spot-adding-request-instance.css" rel="stylesheet">
     <script src="/js/acceptor/spot-adding-request-instance.js"
             sec:authorize="hasAuthority('ACCEPTOR')"></script>
     <script sec:authorize="hasAuthority('ACCEPTOR')">
@@ -22,11 +23,32 @@
         <div th:if="${#lists.isEmpty(spotAddingRequest.spotImageLinks())}">
             Картинки для спота отсутствуют
         </div>
-        <div th:if="${not #lists.isEmpty(spotAddingRequest.spotImageLinks())}">
-            <img th:each="link : ${spotAddingRequest.spotImageLinks()}"
-                 th:src="@{${link}}"
-                 width="300px"
-                 alt="img">
+        <div th:if="${not #lists.isEmpty(spotAddingRequest.spotImageLinks())}"
+             id="spotImageCarouselWithIndicators" class="carousel slide" data-bs-interval="false">
+            <div class="carousel-indicators">
+                <button th:each="imageLink,iterStat : ${spotAddingRequest.spotImageLinks()}"
+                        type="button" data-bs-target="#spotImageCarouselWithIndicators"
+                        th:data-bs-slide-to="${iterStat.index}"
+                        th:classappend="${iterStat.first ? 'active' : ''}"
+                        th:attr="aria-current=${iterStat.first ? 'true' : null}"
+                        th:aria-label="${'Slide ' + iterStat.index + 1}">
+                </button>
+            </div>
+            <div class="carousel-inner spot-adding-request__carousel-inner">
+                <div th:each="imageLink,iterStat : ${spotAddingRequest.spotImageLinks()}"
+                     class="carousel-item spot-adding-request__carousel-item"
+                     th:classappend="${iterStat.index == 0 ? 'active' : ''}">
+                    <img th:src="${imageLink}" class="spot-adding-request__carousel-img" alt="spot image">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
 
         <div sec:authorize="hasAuthority('ACCEPTOR')">
