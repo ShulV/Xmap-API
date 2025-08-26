@@ -16,10 +16,11 @@ public record SpotWithImageLinksDTO(
         Date insertedAt,
         Date updatedAt,
         String description,
-        List<String> spotImageLinks
+        List<String> spotImageLinks,
+        String city
 ) {
     public SpotWithImageLinksDTO(DefaultSpotDTO dto, List<String> spotImageLinks) {
         this(dto.id(), dto.name(), dto.latitude(), dto.longitude(), dto.insertedAt(), dto.updatedAt(), dto.description(),
-                spotImageLinks);
+                spotImageLinks, dto.city());
     }
 }

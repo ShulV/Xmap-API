@@ -28,7 +28,10 @@ public class SpotDAO {
 
     public Page<DefaultSpotDTO> findAllDefaultSpots(Pageable pageable) {
         List<DefaultSpotDTO> content = jdbcClient.sql("""
-            SELECT id, name, lat, lon, inserted_at, updated_at, description FROM spot
+            SELECT id, name, lat, lon, inserted_at, updated_at, description,
+                   c.name AS "city"
+              FROM spot s
+              JOIN city c ON c.id = s.city_id
              LIMIT :limit
             OFFSET :offset
         """)
@@ -74,9 +77,11 @@ public class SpotDAO {
 
     public DefaultSpotDTO findById(UUID spotId) {
         return jdbcTemplate.query("""
-                  SELECT id, name, lat, lon, inserted_at, updated_at, description
-                    FROM spot
-                   WHERE id = ?
+                  SELECT s.id, s.name, s.lat, s.lon, s.inserted_at, s.updated_at, s.description,
+                         c.name AS "city"
+                    FROM spot s
+                    JOIN city c ON c.id = s.city_id
+                   WHERE s.id = ?
               """, defaultSpotRowMapper, spotId).getFirst();
     }
 

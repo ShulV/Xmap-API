@@ -42,4 +42,9 @@ public class Spot {
             inverseJoinColumns = @JoinColumn(name = "s3_file_id")
     )
     private List<S3File> s3Files;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id", referencedColumnName = "id")
+    private City city;
+
 }

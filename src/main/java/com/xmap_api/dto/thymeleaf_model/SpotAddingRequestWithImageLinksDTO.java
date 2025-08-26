@@ -18,7 +18,8 @@ public record SpotAddingRequestWithImageLinksDTO(
         String comment,
         String adderId,
         String acceptorId,
-        List<String> spotImageLinks
+        List<String> spotImageLinks,
+        String city
 ) {
     public SpotAddingRequestWithImageLinksDTO {
     }
@@ -27,6 +28,7 @@ public record SpotAddingRequestWithImageLinksDTO(
         this(sar.getSpotName(), sar.getSpotLatitude(), sar.getSpotLongitude(), sar.getStatus().name(),
                 sar.getInsertedAt(), sar.getAcceptedAt(), sar.getComment(), sar.getSpotDescription(),
                 sar.getAdder().getId().toString(),
-                sar.getAcceptor() == null ? null : sar.getAcceptor().getId().toString(), spotImageLinks);
+                sar.getAcceptor() == null ? null : sar.getAcceptor().getId().toString(), spotImageLinks,
+                sar.getCity().getName());
     }
 }

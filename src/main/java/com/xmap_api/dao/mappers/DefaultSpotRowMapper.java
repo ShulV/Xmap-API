@@ -18,6 +18,7 @@ public class DefaultSpotRowMapper implements RowMapper<DefaultSpotDTO> {
                 .insertedAt(rs.getTimestamp("inserted_at"))
                 .updatedAt(rs.getTimestamp("updated_at"))
                 .description(rs.getString("description"))
+                .city(rs.getString("city"))
                 .build();
     }
 }

@@ -13,6 +13,7 @@ public record DefaultSpotDTO(
         double longitude,
         Date insertedAt,
         Date updatedAt,
-        String description
+        String description,
+        String city
 ) {
 }

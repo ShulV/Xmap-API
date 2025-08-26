@@ -1,5 +1,6 @@
 package com.xmap_api.dao.mappers;
 
+import com.xmap_api.models.City;
 import com.xmap_api.models.SpotAddingRequest;
 import com.xmap_api.models.User;
 import com.xmap_api.models.status.SpotAddingRequestStatus;
@@ -26,6 +27,7 @@ public class SpotAddingRequestRowMapper implements RowMapper<SpotAddingRequest> 
                 .comment(rs.getString("comment"))
                 .adder(new User(UUID.fromString(rs.getString("adder_id"))))
                 .acceptor(acceptorId == null ? null : new User(UUID.fromString(acceptorId)))
+                .city(new City(rs.getLong("city_id"), rs.getString("city_name")))
                 .build();
     }
 }

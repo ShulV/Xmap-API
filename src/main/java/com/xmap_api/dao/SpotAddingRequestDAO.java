@@ -20,19 +20,19 @@ public class SpotAddingRequestDAO {
         this.jdbcClient = jdbcClient;
     }
 
-    public UUID create(SpotAddingRequest scr) {
+    public UUID create(SpotAddingRequest sar) {
         return jdbcClient.sql("""
             INSERT INTO spot_adding_request
                 (spot_name, spot_lat, spot_lon, status, spot_description, comment, adder_id)
                  VALUES (:spot_name, :spot_lat, :spot_lon, :status, :spot_desc, :comment, :adder_id)
               RETURNING id
-        """).param("spot_name", scr.getSpotName())
-                .param("spot_lat", scr.getSpotLatitude())
-                .param("spot_lon", scr.getSpotLongitude())
-                .param("status", scr.getStatus().name())
-                .param("spot_desc", scr.getSpotDescription())
-                .param("comment", scr.getComment())
-                .param("adder_id", scr.getAdder().getId())
+        """).param("spot_name", sar.getSpotName())
+                .param("spot_lat", sar.getSpotLatitude())
+                .param("spot_lon", sar.getSpotLongitude())
+                .param("status", sar.getStatus().name())
+                .param("spot_desc", sar.getSpotDescription())
+                .param("comment", sar.getComment())
+                .param("adder_id", sar.getAdder().getId())
                 .query(UUID.class)
                 .single();
     }
@@ -43,10 +43,12 @@ public class SpotAddingRequestDAO {
                     WITH ranked_files AS (
                         SELECT scr.*,
                                sf.id AS file_id,
+                               c.name AS "city_name",
                                ROW_NUMBER() OVER(PARTITION BY scr.id ORDER BY sf.uploaded_at) AS rn
                           FROM spot_adding_request scr
                           JOIN spot_adding_request_s3_file scrsf ON scrsf.spot_adding_request_id = scr.id
                           JOIN s3_file sf ON scrsf.s3_file_id = sf.id
+                          JOIN city c ON scr.city_id = c.id
                     )
                     SELECT *
                       FROM ranked_files
@@ -59,7 +61,8 @@ public class SpotAddingRequestDAO {
                         rs.getString("spot_name"),
                         rs.getDouble("spot_lat"),
                         rs.getDouble("spot_lon"),
-                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")))
+                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
+                        rs.getString("city_name"))
                 )
                 .list();
     }
@@ -70,10 +73,12 @@ public class SpotAddingRequestDAO {
                     WITH ranked_files AS (
                         SELECT scr.*,
                                sf.id AS file_id,
+                               c.name AS "city_name",
                                ROW_NUMBER() OVER(PARTITION BY scr.id ORDER BY sf.uploaded_at) AS rn
                           FROM spot_adding_request scr
                           JOIN spot_adding_request_s3_file scrsf ON scrsf.spot_adding_request_id = scr.id
                           JOIN s3_file sf ON scrsf.s3_file_id = sf.id
+                          JOIN city c ON scr.city_id = c.id
                     )
                     SELECT *
                       FROM ranked_files
@@ -86,13 +91,20 @@ public class SpotAddingRequestDAO {
                         rs.getString("spot_name"),
                         rs.getDouble("spot_lat"),
                         rs.getDouble("spot_lon"),
-                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")))
+                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
+                        rs.getString("city_name"))
                 )
                 .list();
     }
 
     public SpotAddingRequest getById(UUID id) {
-        return jdbcClient.sql("SELECT * FROM spot_adding_request WHERE id = :id")
+        return jdbcClient.sql("""
+                    SELECT sar.*,
+                           c.id AS "city_id", c.name AS "city_name"
+                      FROM spot_adding_request sar
+                      JOIN city c ON sar.city_id = c.id
+                     WHERE sar.id = :id
+               """)
                 .param("id", id)
                 .query(spotAddingRequestRowMapper)
                 .single();

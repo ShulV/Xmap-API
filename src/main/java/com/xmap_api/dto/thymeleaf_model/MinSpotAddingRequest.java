@@ -5,6 +5,7 @@ public record MinSpotAddingRequest(
         String spotName,
         double spotLatitude,
         double spotLongitude,
-        String firstImageLink
+        String firstImageLink,
+        String city
 ) {
 }
