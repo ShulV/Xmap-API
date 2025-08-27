@@ -13,60 +13,72 @@
     <script sec:authorize="hasAuthority('ACCEPTOR')">
         const baseUrl = '[[${baseUrl}]]';
         const spotAddingRequestId = '[[${spotAddingRequestId}]]';
-        const acceptSpotAddingRequestUrl = baseUrl + '/spot-adding-request/accept';
+        const acceptSpotAddingRequestUrl = baseUrl + '/spot-adding-request/change-status/ACCEPTED';
+        const rejectSpotAddingRequestUrl = baseUrl + '/spot-adding-request/change-status/REJECTED';
     </script>
 </head>
 <body>
 <div layout:fragment="content" class="content">
     <h2 th:text="${spotAddingRequest.spotName()}" class="header-title"></h2>
-    <div>
-        <div th:if="${#lists.isEmpty(spotAddingRequest.spotImageLinks())}">
-            Картинки для спота отсутствуют
-        </div>
-        <div th:if="${not #lists.isEmpty(spotAddingRequest.spotImageLinks())}"
-             id="spotImageCarouselWithIndicators" class="carousel slide" data-bs-interval="false">
-            <div th:if="${#lists.size(spotAddingRequest.spotImageLinks()) > 1}"
-                 class="carousel-indicators">
-                <button th:each="imageLink,iterStat : ${spotAddingRequest.spotImageLinks()}"
-                        type="button" data-bs-target="#spotImageCarouselWithIndicators"
-                        th:data-bs-slide-to="${iterStat.index}"
-                        th:classappend="${iterStat.first ? 'active' : ''}"
-                        th:attr="aria-current=${iterStat.first ? 'true' : null}"
-                        th:aria-label="${'Slide ' + iterStat.index + 1}">
-                </button>
-            </div>
-            <div class="carousel-inner spot-adding-request__carousel-inner">
-                <div th:each="imageLink,iterStat : ${spotAddingRequest.spotImageLinks()}"
-                     class="carousel-item spot-adding-request__carousel-item"
-                     th:classappend="${iterStat.index == 0 ? 'active' : ''}">
-                    <img th:src="${imageLink}" class="spot-adding-request__carousel-img" alt="spot image">
-                </div>
-            </div>
-            <button th:if="${#lists.size(spotAddingRequest.spotImageLinks()) > 1}"
-                    class="carousel-control-prev" type="button"
-                    data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button th:if="${#lists.size(spotAddingRequest.spotImageLinks()) > 1}"
-                    class="carousel-control-next" type="button"
-                    data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-        <div sec:authorize="hasAuthority('ACCEPTOR')">
-            <button type="button" class="btn btn-success" id="spotAddingRequestId">Принять спот</button>
-        </div>
+    <div th:if="${#lists.isEmpty(spotAddingRequest.spotImageLinks())}">
+        Картинки для спота отсутствуют
     </div>
+    <div th:if="${not #lists.isEmpty(spotAddingRequest.spotImageLinks())}"
+         id="spotImageCarouselWithIndicators" class="carousel slide" data-bs-interval="false">
+        <div th:if="${#lists.size(spotAddingRequest.spotImageLinks()) > 1}"
+             class="carousel-indicators">
+            <button th:each="imageLink,iterStat : ${spotAddingRequest.spotImageLinks()}"
+                    type="button" data-bs-target="#spotImageCarouselWithIndicators"
+                    th:data-bs-slide-to="${iterStat.index}"
+                    th:classappend="${iterStat.first ? 'active' : ''}"
+                    th:attr="aria-current=${iterStat.first ? 'true' : null}"
+                    th:aria-label="${'Slide ' + iterStat.index + 1}">
+            </button>
+        </div>
+        <div class="carousel-inner spot-adding-request__carousel-inner">
+            <div th:each="imageLink,iterStat : ${spotAddingRequest.spotImageLinks()}"
+                 class="carousel-item spot-adding-request__carousel-item"
+                 th:classappend="${iterStat.index == 0 ? 'active' : ''}">
+                <img th:src="${imageLink}" class="spot-adding-request__carousel-img" alt="spot image">
+            </div>
+        </div>
+        <button th:if="${#lists.size(spotAddingRequest.spotImageLinks()) > 1}"
+                class="carousel-control-prev" type="button"
+                data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button th:if="${#lists.size(spotAddingRequest.spotImageLinks()) > 1}"
+                class="carousel-control-next" type="button"
+                data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="spot-adding-request__info">
+        <div class="spot-adding-request__info-content spot-adding-request__info-status">
+            <div>
+                <th:block th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}">⏳ Проверяется</th:block>
+                <th:block th:if="${spotAddingRequest.status() == 'ACCEPTED'}">✅ Одобрено</th:block>
+                <th:block th:if="${spotAddingRequest.status() == 'REJECTED'}">🚫 Отклонено</th:block>
+            </div>
+            <div class="spot-adding-request__acceptor-management spot-adding-request__info-content"
+                 th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}">
+                <button sec:authorize="hasAuthority('ACCEPTOR')"
+                        type="button" class="btn btn-success"
+                        id="spotAddingRequestBtnAcceptId">Принять</button>
+                <button sec:authorize="hasAuthority('ACCEPTOR')"
+                        type="button" class="btn btn-danger spot-adding-request__btn-reject"
+                        id="spotAddingRequestBtnRejectId">Отклонить</button>
+            </div>
+        </div>
 
-    <div th:text="${spotAddingRequest.spotDescription()}"></div>
-    <div th:text="${spotAddingRequest.comment()}"></div>
-    <div th:text="${spotAddingRequest.status()}"></div>
-    <div th:text="${spotAddingRequest.adderId()}"></div>
-    <div th:text="${spotAddingRequest.acceptorId()}"></div>
-    <div th:text="${spotAddingRequest.city()}"></div>
+        <h3 class="spot-adding-request__info-header">📌 Описание</h3>
+        <div class="spot-adding-request__info-content spot-adding-request__info-desc"
+             th:text="${spotAddingRequest.spotDescription()}"></div>
+        <h3 class="spot-adding-request__info-header">🗺 Населенный пункт</h3>
+        <div class="spot-adding-request__info-content"><th:block th:text="${spotAddingRequest.city()}"></th:block></div>
+    </div>
 </div>
 
 </body>

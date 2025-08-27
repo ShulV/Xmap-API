@@ -1,10 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-    const acceptSpotAddingRequestFetch = () => {
+    const moderateSpotAddingRequestFetch = (action) => {
         const formData = new FormData();
         formData.append("spotAddingRequestId", spotAddingRequestId.toString());
-
-        fetch(acceptSpotAddingRequestUrl, {
+        let url;
+        if (action == 'accept') {
+            url = acceptSpotAddingRequestUrl;
+        } else if (action == 'reject') {
+            url = rejectSpotAddingRequestUrl;
+        }
+        fetch(url, {
             method: "PATCH",
             body: formData
         }).then((response) => {
@@ -16,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 );
                 console.log(response);
             }
+            location.reload();
         }).catch(err => {
             console.log(err);
         });
@@ -25,7 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
         acceptSpotAddingRequestFetch();
     };
 
-    const btnAccept = document.getElementById("spotAddingRequestId");
+    const btnAccept = document.getElementById("spotAddingRequestBtnAcceptId");
+    const btnReject = document.getElementById("spotAddingRequestBtnRejectId");
+    btnAccept.addEventListener("click", () => moderateSpotAddingRequestFetch('accept'));
+    btnReject.addEventListener("click", () => moderateSpotAddingRequestFetch('reject'));
 
-    btnAccept.addEventListener("click", () => acceptSpotAddingRequest());
 });

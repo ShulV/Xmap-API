@@ -110,9 +110,9 @@ public class SpotAddingRequestDAO {
                 .single();
     }
 
-    public void accept(UUID spotAddingRequestId) {
+    public void updateStatus(UUID spotAddingRequestId, SpotAddingRequestStatus status) {
         jdbcClient.sql("UPDATE spot_adding_request SET status = :status WHERE id = :id")
-                .param("status", SpotAddingRequestStatus.ACCEPTED.name())
+                .param("status", status.name())
                 .param("id", spotAddingRequestId)
                 .update();
     }

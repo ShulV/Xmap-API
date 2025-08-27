@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -67,8 +68,12 @@ public class SpotAddingRequestService {
     }
 
     @Transactional
-    public UUID accept(UUID spotAddingRequestId) {
-        spotAddingRequestDAO.accept(spotAddingRequestId);
-        return spotService.createSpotByAddingRequest(spotAddingRequestId);
+    public Optional<UUID> changeStatus(UUID spotAddingRequestId, SpotAddingRequestStatus status) {
+        spotAddingRequestDAO.updateStatus(spotAddingRequestId, status);
+        UUID newSpotUUID = null;
+        if (SpotAddingRequestStatus.ACCEPTED.equals(status)) {
+            newSpotUUID = spotService.createSpotByAddingRequest(spotAddingRequestId);
+        }
+        return Optional.ofNullable(newSpotUUID);
     }
 }

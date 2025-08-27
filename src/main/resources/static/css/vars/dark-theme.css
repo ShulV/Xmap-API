@@ -31,4 +31,8 @@
     --profile-link-color: #c3c3c3;
     --profile-link-divider-color: rgba(195, 195, 195, 0.25);
     --profile-item-focus-bg-color: rgba(195, 195, 195, 0.25);
+
+    /* spot adding request */
+    --spot-adding-request-text-info-color: #f8f8f8;
+    --spot-adding-request-border-content-block-color: #757575;
 }
