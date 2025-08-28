@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,28 +42,26 @@ public class SpotAddingRequestDAO {
             UUID adderId, String fileLinkTemplate, String fileLinkPathParam) {
         return jdbcClient.sql("""
                     WITH ranked_files AS (
-                        SELECT scr.*,
+                        SELECT scr.id, scr.spot_name, scr.inserted_at, scr.adder_id, scr.status,
                                sf.id AS file_id,
-                               c.name AS "city_name",
                                ROW_NUMBER() OVER(PARTITION BY scr.id ORDER BY sf.uploaded_at) AS rn
                           FROM spot_adding_request scr
                           JOIN spot_adding_request_s3_file scrsf ON scrsf.spot_adding_request_id = scr.id
                           JOIN s3_file sf ON scrsf.s3_file_id = sf.id
-                          JOIN city c ON scr.city_id = c.id
                     )
-                    SELECT *
+                    SELECT id, spot_name, inserted_at, file_id, status
                       FROM ranked_files
                      WHERE rn = 1
                        AND adder_id = :adderId
+                  ORDER BY inserted_at DESC
                """)
                 .param("adderId", adderId)
                 .query((rs, rowNum) -> new MinSpotAddingRequest(
                         rs.getString("id"),
                         rs.getString("spot_name"),
-                        rs.getDouble("spot_lat"),
-                        rs.getDouble("spot_lon"),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getDate("inserted_at")),
                         fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
-                        rs.getString("city_name"))
+                        rs.getString("status"))
                 )
                 .list();
     }
@@ -71,28 +70,26 @@ public class SpotAddingRequestDAO {
             @NotEmpty List<String> statusList, String fileLinkTemplate, String fileLinkPathParam) {
         return jdbcClient.sql("""
                     WITH ranked_files AS (
-                        SELECT scr.*,
+                        SELECT scr.id, scr.spot_name, scr.inserted_at, scr.status,
                                sf.id AS file_id,
-                               c.name AS "city_name",
                                ROW_NUMBER() OVER(PARTITION BY scr.id ORDER BY sf.uploaded_at) AS rn
                           FROM spot_adding_request scr
                           JOIN spot_adding_request_s3_file scrsf ON scrsf.spot_adding_request_id = scr.id
                           JOIN s3_file sf ON scrsf.s3_file_id = sf.id
-                          JOIN city c ON scr.city_id = c.id
                     )
-                    SELECT *
+                    SELECT id, spot_name, inserted_at, file_id, status
                       FROM ranked_files
                      WHERE rn = 1
                        AND status IN (:statusList)
+                  ORDER BY inserted_at DESC
                """)
                 .param("statusList", statusList)
                 .query((rs, rowNum) -> new MinSpotAddingRequest(
                         rs.getString("id"),
                         rs.getString("spot_name"),
-                        rs.getDouble("spot_lat"),
-                        rs.getDouble("spot_lon"),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getDate("inserted_at")),
                         fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
-                        rs.getString("city_name"))
+                        rs.getString("status"))
                 )
                 .list();
     }

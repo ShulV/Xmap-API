@@ -32,7 +32,10 @@
     --profile-link-divider-color: rgba(195, 195, 195, 0.25);
     --profile-item-focus-bg-color: rgba(195, 195, 195, 0.25);
 
-    /* spot adding request */
+    /* spot adding request instance */
     --spot-adding-request-text-info-color: #f8f8f8;
     --spot-adding-request-border-content-block-color: #757575;
+    --spot-adding-request-inserted-date-add: #b3b3b5;
+    --spot-adding-request-card-bg-color: #3a3a3a;
+    --spot-adding-request-card-color: #f8f8f8;
 }

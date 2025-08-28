@@ -32,6 +32,7 @@ public class SpotDAO {
                    c.name AS "city"
               FROM spot s
               JOIN city c ON c.id = s.city_id
+          ORDER BY inserted_at DESC
              LIMIT :limit
             OFFSET :offset
         """)
@@ -55,6 +56,7 @@ public class SpotDAO {
             SELECT id, name, lat, lon, inserted_at, updated_at, description, file_id
               FROM spot_with_ranked_images
              WHERE rn = 1
+          ORDER BY inserted_at DESC
              LIMIT :limit
             OFFSET :offset
         """)

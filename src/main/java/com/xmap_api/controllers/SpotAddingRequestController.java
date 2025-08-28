@@ -25,14 +25,15 @@ import java.util.UUID;
 public class SpotAddingRequestController {
 
     private final String baseUrl;
+
     private final SpotAddingRequestService spotAddingRequestService;
     private final S3FileService s3FileService;
 
-    public SpotAddingRequestController(SpotAddingRequestService spotAddingRequestService, S3FileService s3FileService,
-                                       @Value("${xmap-api.base-url}") String baseUrl) {
+    public SpotAddingRequestController(@Value("${xmap-api.base-url}") String baseUrl,
+                                       SpotAddingRequestService spotAddingRequestService, S3FileService s3FileService) {
+        this.baseUrl = baseUrl;
         this.spotAddingRequestService = spotAddingRequestService;
         this.s3FileService = s3FileService;
-        this.baseUrl = baseUrl;
     }
 
     @GetMapping("/spot-adding-request")

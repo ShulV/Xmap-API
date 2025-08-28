@@ -46,3 +46,9 @@
     text-indent: 32px;
     text-align: justify;
 }
+
+.spot-adding-request__inserted-date {
+    color: var(--spot-adding-request-inserted-date-add);
+    text-align: right;
+    font-size: 18px;
+}

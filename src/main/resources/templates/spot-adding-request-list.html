@@ -13,25 +13,30 @@
     <h2 class="header-title">Мои заявки</h2>
 
     <div>
-        <div>sort</div>
-        <div>filter</div>
+<!--        <div>sort</div>-->
+<!--        <div>filter</div>-->
 
         <div class="container mt-3 mb-3">
             <div class="row row-cols-1 g-3 spot-adding-request__list">
-                <div class="col spot-adding-request__list-item"
-                     th:each="item : ${minSpotAddingRequestList}">
-                    <a th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}">
-                        <div class="card card-container shadow-sm p-3 bg-body rounded spot-adding-request__list-item-card">
-                            <img th:src="${item.firstImageLink()}"
-                                 class="rounded d-block spot-adding-request__list-item-img" alt="spot image"/>
-                            <div class="spot-adding-request__list-item-card-info">
-                                <h5 class="mt-2" th:text="${item.spotName()}"></h5>
-                                <p><strong>Широта:</strong> <span th:text="${item.spotLatitude()}"></span></p>
-                                <p><strong>Долгота:</strong> <span th:text="${item.spotLongitude()}"></span></p>
+                <th:block th:each="item : ${minSpotAddingRequestList}">
+                    <a th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}"
+                       class="col card card-container shadow-sm rounded spot-adding-request__item-card">
+                        <div class="spot-adding-request__item-img-wrapper">
+                            <img th:src="${item.firstImageLink()}" alt="spot image"
+                                 class="rounded d-block spot-adding-request__item-img"/>
+                        </div>
+                        <div class="spot-adding-request__item-info">
+                            <h5 class="mt-2" th:text="${item.spotName()}"></h5>
+                            <div>
+                                <th:block th:if="${item.status() == 'PENDING_APPROVAL'}">⏳ Проверяется</th:block>
+                                <th:block th:if="${item.status() == 'ACCEPTED'}">✅ Одобрено</th:block>
+                                <th:block th:if="${item.status() == 'REJECTED'}">🚫 Отклонено</th:block>
                             </div>
+                            <div class="spot-adding-request__item-inserted-date"
+                                 th:text="${item.insertedAt()}"></div>
                         </div>
                     </a>
-                </div>
+                </th:block>
             </div>
         </div>
     </div>
