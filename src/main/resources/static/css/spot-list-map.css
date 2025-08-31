@@ -41,11 +41,9 @@ main {
     bottom: 50px;
     left: 0;
     right: 0;
-    /*flex-grow: 1; !* Растягиваемый блок контента *!*/
-
-    width: 100vw;
+    width: 100%;
     outline: 1px inset orange;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .spot__map {
@@ -56,7 +54,6 @@ main {
 
 .spot__list-wrapper {
     overflow-y: auto;
-    height: 100%;
     width: 100%;
 }
 

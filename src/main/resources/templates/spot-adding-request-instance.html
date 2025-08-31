@@ -7,15 +7,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Spot adding request instance страница</title>
-    <link href="/css/spot-adding-request-instance.css" rel="stylesheet">
-    <script src="/js/acceptor/spot-adding-request-instance.js"
-            sec:authorize="hasAuthority('ACCEPTOR')"></script>
-    <script sec:authorize="hasAuthority('ACCEPTOR')">
+    <link href="/css/spot-adding-request-instance.css" type="text/css" rel="stylesheet">
+    <script sec:authorize="hasAuthority('ACCEPTOR')"
+            th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}">
         const baseUrl = '[[${baseUrl}]]';
         const spotAddingRequestId = '[[${spotAddingRequestId}]]';
         const acceptSpotAddingRequestUrl = baseUrl + '/spot-adding-request/change-status/ACCEPTED';
         const rejectSpotAddingRequestUrl = baseUrl + '/spot-adding-request/change-status/REJECTED';
     </script>
+    <script src="/js/acceptor/spot-adding-request-instance.js" defer
+            sec:authorize="hasAuthority('ACCEPTOR')"
+            th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}"></script>
 </head>
 <body>
 <div layout:fragment="content" class="content">

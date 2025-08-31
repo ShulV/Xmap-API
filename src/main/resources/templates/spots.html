@@ -11,8 +11,9 @@
             defer th:if="${viewMode == 'YMAP'}"></script>
     <script src="/js/location-util.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <script src="/js/ymap.js" defer th:if="${viewMode == 'YMAP'}"></script>
-    <link href="/css/spot-list-map.css" rel="stylesheet">
-    <link href="/css/pagination.css" rel="stylesheet">
+    <link href="/css/spot-list-map.css" type="text/css" rel="stylesheet">
+    <link href="/css/pagination.css" type="text/css" rel="stylesheet">
+    <link href="/css/nav.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <main layout:fragment="content" class="content">
@@ -54,12 +55,14 @@
                         Нет доступных мест.
                     </div>
                 </div>
-<!--             Добавляем навигацию по страницам -->
+                <a th:href="@{'/spots?viewMode=YMAP'}" class="view-changing-btn">Карта</a>
+            </div>
+            <!-- Добавляем навигацию по страницам -->
+            <th:block th:if="${viewMode == 'CARDS'}">
                 <nav th:replace="fragments/pagination :: paginationRow(pageable=${spotList}, paginationUrl='/spots', totalItemsLabel='Найдено спотов')">
                     place for list pagination
                 </nav>
-                <a th:href="@{'/spots?viewMode=YMAP'}" class="view-changing-btn">Карта</a>
-            </div>
+            </th:block>
         </div>
 
     </main>

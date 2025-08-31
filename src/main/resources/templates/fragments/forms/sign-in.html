@@ -11,12 +11,13 @@
 <!--    <div th:if="${param.logout}">Вы вышли</div>-->
     <div class="input-label">
       <label for="login" class="input-label__label">Логин</label>
-      <input id="login" type="text" name="username" placeholder="никнейм" class="input-label__input"/>
+      <input id="login" type="text" name="username" placeholder="rider22"
+             autocomplete="username" class="input-label__input"/>
     </div>
     <div class="input-label">
       <label for="password" class="input-label__label">Пароль</label>
       <input id="password" type="password" name="password" placeholder="******"
-             class="input-label__input"/>
+             autocomplete="current-password" class="input-label__input"/>
     </div>
     <input type="submit" value="Войти" class="input-submit-btn"/>
     <a href="/sign-up" class="link-to-sign-up">Еще нет аккаунта?</a>
