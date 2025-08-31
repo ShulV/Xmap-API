@@ -24,7 +24,7 @@ public class SpotController {
     @GetMapping("/spots")
     public String getSpotListPage(Model model,
                                   @RequestParam(required = false, defaultValue = "0") Integer pageNumber,
-                                  @RequestParam(required = false, defaultValue = "3") Integer pageSize,
+                                  @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                   @RequestParam String viewMode) {
         if (!UICode.Spots.ViewMode.ALL.contains(viewMode)) {
             throw new XmapApiException("Unexpected view mode");

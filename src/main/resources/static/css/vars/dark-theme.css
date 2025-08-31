@@ -5,6 +5,14 @@
     --header-title-color: #f8f8f8;
     --header-bg-color: #1c1c1e;
 
+    /* pagination row */
+    --pagination-row-bg-color: #3a3a3a;
+    --pagination-row-arrow-color: #f8f8f8;
+    --pagination-row-text-color: #f8f8f8;
+    --pagination-row-arrow-color-active: #eea241;
+    --pagination-row-text-color-active: #eea241;
+    --pagination-row-border-color-active: #eea241;
+
     /* form */
     --input-label-color: #535353;
     --input-bg-color: #181818;

@@ -8,6 +8,6 @@ public class RedirectController {
 
     @GetMapping({"", "/"})
     public String redirectToSpots() {
-        return "redirect:/spots?pageNumber=0&pageSize=3&viewMode=YMAP";
+        return "redirect:/spots?pageNumber=0&pageSize=10&viewMode=YMAP";
     }
 }
