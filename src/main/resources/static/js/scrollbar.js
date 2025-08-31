@@ -7,7 +7,7 @@ content.addEventListener('scroll', () => {
     // Для webkit
     content.style.setProperty('--scrollbar-opacity', '1');
 
-    // Таймаут, чтобы скрыть скроллбар через 1 секунду после прекращения скроллинга
+    // Таймаут, чтобы скрыть скроллбар через 0.5с после прекращения скроллинга
     clearTimeout(content.scrollTimeout);
     content.scrollTimeout = setTimeout(() => {
         content.style.scrollbarColor = "transparent transparent"; // скрыть для Firefox
