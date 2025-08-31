@@ -97,13 +97,45 @@ main {
 
 .view-changing-btn {
     position: fixed;
-    left: 30px;
-    bottom: 80px;
+    left: -2px;
+    bottom: 150px;
     padding: 2px 7px;
-    border-radius: 15px;
+    border-top-right-radius: 15px;
+    border: 2px solid var(--spot-changing-view-border-color);
+    border-bottom-right-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--spot-changing-view-btn-bg-color);
+    color: var(--spot-changing-view-btn-text-color);
+    font-size: 18px;
+    box-shadow: 0 2px 5px var(--spot-changing-view-btn-shadow-color);
+    transition: color 0.3s ease;
+}
+
+.view-changing-btn__text {
+    margin-left: 5px;
+}
+
+.view-changing-btn svg {
+    width: 22px;
+    fill: none;
     display: block;
 }
 
+.view-changing-btn svg path {
+    fill: none;
+    stroke: var(--spot-changing-view-btn-icon-color);
+    transition: stroke 0.3s ease;
+}
+
+.view-changing-btn:hover svg path {
+    stroke: var(--spot-changing-view-btn-icon-color-active);
+}
+
+
 .view-changing-btn:hover {
     cursor: pointer;
+    color: var(--spot-changing-view-btn-text-color-active);
 }

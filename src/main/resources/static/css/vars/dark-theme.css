@@ -13,6 +13,15 @@
     --pagination-row-text-color-active: #eea241;
     --pagination-row-border-color-active: #eea241;
 
+    /* spots */
+    --spot-changing-view-btn-icon-color: #535353;
+    --spot-changing-view-btn-text-color: #535353;
+    --spot-changing-view-btn-bg-color: #f8f8f8;
+    --spot-changing-view-border-color: #eea241;
+    --spot-changing-view-btn-shadow-color: rgba(0, 0, 0, 0.35);
+    --spot-changing-view-btn-icon-color-active: #eea241;
+    --spot-changing-view-btn-text-color-active: #eea241;
+
     /* form */
     --input-label-color: #535353;
     --input-bg-color: #181818;

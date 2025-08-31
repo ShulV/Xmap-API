@@ -30,7 +30,15 @@
             <div class="spot__map" id="spot-map-container-id" defer th:if="${viewMode == 'YMAP'}">
                 <div id="yandex-map-id" style="width: 100%; height: 100%"></div>
                 <a th:href="@{'/spots?pageNumber=0&pageSize=10&viewMode=CARDS'}"
-                   class="view-changing-btn">Список</a>
+                   class="view-changing-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 17H11" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M4 12L11 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M4 7L11 7" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M17 4L17 20M17 4L14 8M17 4L20 8M17 20L20 16M17 20L14 16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="view-changing-btn__text">список</div>
+                </a>
             </div>
             <div class="spot__list-wrapper" id="spot-list-container-id" th:if="${viewMode == 'CARDS'}">
                 <div class="container mt-3 mb-3">
@@ -55,7 +63,12 @@
                         Нет доступных мест.
                     </div>
                 </div>
-                <a th:href="@{'/spots?viewMode=YMAP'}" class="view-changing-btn">Карта</a>
+                <a th:href="@{'/spots?viewMode=YMAP'}" class="view-changing-btn">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 6H12.01M9 20L3 17V4L5 5M9 20L15 17M9 20V14M15 17L21 20V7L19 6M15 17V14M15 6.2C15 7.96731 13.5 9.4 12 11C10.5 9.4 9 7.96731 9 6.2C9 4.43269 10.3431 3 12 3C13.6569 3 15 4.43269 15 6.2Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="view-changing-btn__text">карта</div>
+                </a>
             </div>
             <!-- Добавляем навигацию по страницам -->
             <th:block th:if="${viewMode == 'CARDS'}">
