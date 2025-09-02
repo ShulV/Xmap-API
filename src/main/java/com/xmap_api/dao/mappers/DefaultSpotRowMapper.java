@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 public class DefaultSpotRowMapper implements RowMapper<DefaultSpotDTO> {
@@ -15,8 +16,10 @@ public class DefaultSpotRowMapper implements RowMapper<DefaultSpotDTO> {
                 .name(rs.getString("name"))
                 .latitude(rs.getDouble("lat"))
                 .longitude(rs.getDouble("lon"))
-                .insertedAt(rs.getTimestamp("inserted_at"))
-                .updatedAt(rs.getTimestamp("updated_at"))
+                .insertedAt(new SimpleDateFormat("yyyy-MM-dd").format(
+                        rs.getTimestamp("inserted_at")))
+                .updatedAt(new SimpleDateFormat("yyyy-MM-dd").format(
+                        rs.getTimestamp("updated_at")))
                 .description(rs.getString("description"))
                 .city(rs.getString("city"))
                 .build();

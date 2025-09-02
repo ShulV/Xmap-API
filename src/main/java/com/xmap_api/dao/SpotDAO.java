@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -68,8 +69,8 @@ public class SpotDAO {
                         rs.getString("name"),
                         rs.getDouble("lat"),
                         rs.getDouble("lon"),
-                        rs.getTimestamp("inserted_at"),
-                        rs.getTimestamp("updated_at"),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("inserted_at")),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("updated_at")),
                         rs.getString("description"),
                         fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id"))
                 ))
