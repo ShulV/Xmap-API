@@ -35,12 +35,12 @@ public class SpotController {
             model.addAttribute("spotList", spotService.getWithFirstImage(pageable));
         }
         model.addAttribute("activePage", "spots");
-        return "spots";
+        return "spot-list";
     }
 
     @GetMapping("/spot/{spotId}")
     public String getSpotPage(Model model, @PathVariable("spotId") UUID spotId) {
         model.addAttribute("spot", spotService.getSpotWithImageLinks(spotId));
-        return "spot";
+        return "spot-instance";
     }
 }
