@@ -113,4 +113,11 @@ public class SpotAddingRequestDAO {
                 .param("id", spotAddingRequestId)
                 .update();
     }
+
+    public void updateSpotId(UUID spotAddingRequestId, UUID spotId) {
+        jdbcClient.sql("UPDATE spot_adding_request SET spot_id = :spotId WHERE id = :id")
+                .param("spotId", spotId)
+                .param("id", spotAddingRequestId)
+                .update();
+    }
 }

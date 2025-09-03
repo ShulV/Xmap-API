@@ -1,6 +1,7 @@
 package com.xmap_api.dao.mappers;
 
 import com.xmap_api.models.City;
+import com.xmap_api.models.Spot;
 import com.xmap_api.models.SpotAddingRequest;
 import com.xmap_api.models.User;
 import com.xmap_api.models.status.SpotAddingRequestStatus;
@@ -15,6 +16,7 @@ public class SpotAddingRequestRowMapper implements RowMapper<SpotAddingRequest> 
     @Override
     public SpotAddingRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
         String acceptorId = rs.getString("acceptor_id");
+        String spotId = rs.getString("spot_id");
         return SpotAddingRequest.builder()
                 .id(UUID.fromString(rs.getString("id")))
                 .spotName(rs.getString("spot_name"))
@@ -28,6 +30,7 @@ public class SpotAddingRequestRowMapper implements RowMapper<SpotAddingRequest> 
                 .adder(new User(UUID.fromString(rs.getString("adder_id"))))
                 .acceptor(acceptorId == null ? null : new User(UUID.fromString(acceptorId)))
                 .city(new City(rs.getLong("city_id"), rs.getString("city_name")))
+                .spot(spotId == null ? null : new Spot(UUID.fromString(spotId)))
                 .build();
     }
 }

@@ -19,7 +19,7 @@ public class SpotAddingRequestRestController {
     @ResponseBody
     public ResponseEntity<String> changeStatus(@PathVariable SpotAddingRequestStatus status,
                                                @RequestParam String spotAddingRequestId) {
-        spotAddingRequestService.changeStatus(UUID.fromString(spotAddingRequestId), status);
+        spotAddingRequestService.moderate(UUID.fromString(spotAddingRequestId), status);
         return ResponseEntity.ok(status.name());
     }
 

@@ -67,11 +67,12 @@ public class SpotAddingRequestService {
     }
 
     @Transactional
-    public Optional<UUID> changeStatus(UUID spotAddingRequestId, SpotAddingRequestStatus status) {
+    public Optional<UUID> moderate(UUID spotAddingRequestId, SpotAddingRequestStatus status) {
         spotAddingRequestDAO.updateStatus(spotAddingRequestId, status);
         UUID newSpotUUID = null;
         if (SpotAddingRequestStatus.ACCEPTED.equals(status)) {
             newSpotUUID = spotService.createSpotByAddingRequest(spotAddingRequestId);
+            spotAddingRequestDAO.updateSpotId(spotAddingRequestId, newSpotUUID);
         }
         return Optional.ofNullable(newSpotUUID);
     }

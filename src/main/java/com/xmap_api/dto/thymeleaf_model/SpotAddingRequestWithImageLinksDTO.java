@@ -19,7 +19,8 @@ public record SpotAddingRequestWithImageLinksDTO(
         String adderId,
         String acceptorId,
         List<String> spotImageLinks,
-        String city
+        String city,
+        String spotId
 ) {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -38,6 +39,7 @@ public record SpotAddingRequestWithImageLinksDTO(
                 sar.getAdder().getId().toString(),
                 sar.getAcceptor() == null ? null : sar.getAcceptor().getId().toString(),
                 spotImageLinks,
-                sar.getCity().getName());
+                sar.getCity().getName(),
+                sar.getSpot() == null ? null : sar.getSpot().getId().toString());
     }
 }

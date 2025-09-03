@@ -74,6 +74,8 @@
                         id="spotAddingRequestBtnRejectId">Отклонить</button>
             </div>
         </div>
+        <a th:if="${spotAddingRequest.spotId() != null}"
+           th:href="@{/spot/{spotId}(spotId=${spotAddingRequest.spotId()})}">Перейти к споту</a>
 
         <h3 class="spot-adding-request__info-header">📌 Описание</h3>
         <div class="spot-adding-request__info-content spot-adding-request__info-desc"

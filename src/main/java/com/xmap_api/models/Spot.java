@@ -2,6 +2,7 @@ package com.xmap_api.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Table(name = "spot")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Spot {
     @Id
     @Column(name = "id", updatable = false)
@@ -47,4 +49,7 @@ public class Spot {
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     private City city;
 
+    public Spot(UUID id) {
+        this.id = id;
+    }
 }
