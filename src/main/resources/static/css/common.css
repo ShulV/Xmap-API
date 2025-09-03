@@ -4,13 +4,13 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
-    background: var(--page-bg-color);
+    background: var(--main-bg-color);
     overflow: hidden;
 }
 
 .content {
     height: calc(100dvh - var(--nav-menu-height));
-    background: var(--page-bg-color);
+    background: var(--main-bg-color);
     margin-bottom: var(--nav-menu-height);
 }
 
@@ -128,4 +128,36 @@ svg:not(:root) {
 
 a {
     text-decoration: none;
+}
+
+.custom-file-input {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.custom-file-input__input {
+    display: none; /* Прячем стандартный инпут */
+}
+
+.custom-file-input__label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--file-input-bg-color);
+    color: var(--file-input-color);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.custom-file-input__label:hover {
+    background-color: var(--file-input-bg-color-active);
+    color: var(--file-input-color-active);
+}
+
+.custom-file-input__selected-count {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
 }

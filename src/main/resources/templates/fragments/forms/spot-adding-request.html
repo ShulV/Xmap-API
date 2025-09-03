@@ -20,31 +20,16 @@
     <div class="input-label">
       <div th:if="${#fields.hasErrors('spotLon') || #fields.hasErrors('spotLat')}"
            class="input-msg-error">Не указана точка</div>
-      <label for="yandex-map-id" class="input-label__label">Точка на карте</label>
-      <div class="coords-inputs" data-bs-toggle="modal" data-bs-target="#mapModal">
+      <label for="map-coords-id" class="input-label__label">Точка на карте</label>
+      <div id="map-coords-id" class="coords-inputs" data-bs-toggle="modal" data-bs-target="#mapModal">
         <div>указать </div>
         <img src="/assets/marker.svg" alt="map marker" class="coords-inputs__marker">
       </div>
       <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
       <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen-sm-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="mapModalLabel">Указание местоположения спота</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div id="yandex-map-id" style="width: 100%; height: 100%; margin-bottom: 1rem;"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Закрыть</button>
-            <button type="button" class="btn btn-orange">Сохранить</button>
-          </div>
-        </div>
-      </div>
+    <div th:replace="fragments/modals/choice_point_on_map :: choice-point-on-ymap-modal(lonInputId='lon', latInputId='lat')">
+      place for ymap modal
     </div>
 
     <div class="input-label">
@@ -57,13 +42,28 @@
       </textarea>
     </div>
 
+    <!-- todo унести в отдельный компонент -->
     <div class="input-label">
       <div th:if="${#fields.hasErrors('files')}"
            class="input-msg-error">Должно быть от 1 до 5 фото</div>
       <label for="photos" class="input-label__label">Фотографии</label>
-      <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}"
-             class="input-label__input"/>
+
+      <div class="custom-file-input">
+        <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}" class="custom-file-input__input" />
+        <label for="photos" class="custom-file-input__label">Выбрать фото</label>
+        <span class="custom-file-input__selected-count">Файлы не выбраны</span>
+      </div>
     </div>
+    <script>
+      document.getElementById('photos').addEventListener('change', function() {
+        const countSpan = document.querySelector('.custom-file-input__selected-count');
+        if (this.files.length === 0) {
+          countSpan.textContent = 'Файлы не выбраны';
+        } else {
+          countSpan.textContent = `${this.files.length} файл(ов) выбран`;
+        }
+      });
+    </script>
 
     <button type="submit" class="btn btn-orange w-100 h-50px mt-20px">Создать</button>
   </form>

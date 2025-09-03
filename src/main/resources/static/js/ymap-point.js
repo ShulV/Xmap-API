@@ -71,8 +71,3 @@ async function initMap() {
         // Слой с метками
         .addChild(new ymaps3.YMapDefaultFeaturesLayer({zIndex: 1800}))
 }
-
-function setCoordinates([lat, lon]) {
-    document.getElementById('lat').value = lat.toFixed(6);
-    document.getElementById('lon').value = lon.toFixed(6);
-}
