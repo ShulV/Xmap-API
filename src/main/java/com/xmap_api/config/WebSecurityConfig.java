@@ -60,7 +60,7 @@ public class WebSecurityConfig  {
         return http
                 .authorizeHttpRequests(ahr -> ahr
                         .requestMatchers("/", "/sign-in", "/logout", "/sign-up"
-                        , "/spots" //todo tmp
+                        , "/spots", "/spot/{spotId}"
                         ).permitAll()
                         .requestMatchers("/css/**", "/fonts/**", "/js/**", "/assets/**").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()

@@ -51,8 +51,8 @@
         <div class="spot__info">
             <ul class="spot__info-search-links spot__info-content">
                 <li>
-                    <a th:href="@{https://yandex.ru/maps/?ll={lat},{lng}&z=16&pt={lat},{lng},pm2rdm(lng=${spot.longitude()}, lat=${spot.latitude()})}"
-                       class="spot__info-search-link">
+                    <a th:href="@{https://yandex.ru/maps/?ll={lat},{lng}&z=14&pt={lat},{lng},pm2rdm(lng=${spot.longitude()}, lat=${spot.latitude()})}"
+                       class="spot__info-search-link" target="_blank">
                         <img src="/assets/ymaps_icon.svg" alt="ymap logo"
                              class="spot__info-search-link-icon">
                         <span> Яндекс карты</span>
