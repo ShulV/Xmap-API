@@ -10,7 +10,7 @@ async function initMap() {
     // Промис `ymaps3.ready` будет зарезолвлен, когда загрузятся все компоненты основного модуля API
     await ymaps3.ready;
 
-    const {YMap, YMapDefaultSchemeLayer, YMapListener, YMapFeature} = ymaps3;
+    const {YMap, YMapDefaultSchemeLayer, YMapListener} = ymaps3;
 
     const map = new YMap(
         document.getElementById('yandex-map-id'),
@@ -21,9 +21,9 @@ async function initMap() {
             }
         }
     );
-    let lastMarker = null;
+    let singleMarker = null;
 
-    const addMarker = (coordinates) => {
+    const addMarker = (coords) => {
         // Создаем контейнер для нашего маркера
         const markerElement = document.createElement('div');
         markerElement.className = 'marker-class';
@@ -35,22 +35,29 @@ async function initMap() {
         markerElement.style.transform = 'translate(-50%, -100%)';//Низ иконки метки указывает на точку
         const marker = new ymaps3.YMapMarker(
             {
-                coordinates: coordinates, // Московские координаты
-                draggable: true, // Возможность перетаскивания маркера
-                mapFollowsOnDrag: true // Камера движется вслед за перетаскиванием маркера
+                coordinates: coords,
+                draggable: true,
+                mapFollowsOnDrag: true
             },
             markerElement
         );
         map.addChild(marker);
-        if (lastMarker) {
-            map.removeChild(lastMarker);
-        }
-        lastMarker = marker;
+        singleMarker = marker;
+    };
+
+    const updateMarkerPosition = (coords) => {
+        singleMarker.update({
+            coordinates: coords
+        });
     };
 
     const clickCallback = async (object, event) => {
         setCoordinates(event.coordinates);
-        addMarker(event.coordinates);
+        if (singleMarker == null) {
+            addMarker(event.coordinates);
+        } else {
+            updateMarkerPosition(event.coordinates);
+        }
     }
 
     const mapListener = new YMapListener({
