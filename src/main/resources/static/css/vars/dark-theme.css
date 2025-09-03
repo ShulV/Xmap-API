@@ -32,6 +32,22 @@
     --link-to-sign-up-color: #888487;
     --input-msg-error-color: #ff0000;
 
+    /* btn */
+    --orange-btn-color: #fff;
+    --orange-btn-bg-color: #ff912b;
+    --orange-btn-border-color: #ff912b;
+    --orange-btn-hover-color: #fff;
+    --orange-btn-hover-bg: #d07721;
+    --orange-btn-hover-border-color: #d07721;
+    --orange-btn-focus-shadow-rgb: 255, 140, 0;
+    --orange-btn-active-color: #fff;
+    --orange-btn-active-bg: #d07721;
+    --orange-btn-active-border-color: #d07721;
+    --orange-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --orange-btn-disabled-color: #fff;
+    --orange-btn-disabled-bg: #ff912b;
+    --orange-btn-disabled-border-color: #ff912b;
+
     /* bottom menu */
     --menu-icon-color: #c3c3c3;
     --active-menu-icon-color: #eea241;
