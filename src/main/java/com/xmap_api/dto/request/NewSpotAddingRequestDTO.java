@@ -1,5 +1,6 @@
 package com.xmap_api.dto.request;
 
+import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public record NewSpotAddingRequestDTO(
         double spotLat,
         double spotLon,
         String spotDescription,
-        String comment,
+        @Size(min = 1, max = 5)
         List<MultipartFile> files
 ) {
 }

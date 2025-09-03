@@ -39,7 +39,7 @@ public class SpotAddingRequestController {
     @GetMapping("/spot-adding-request")
     public String getCreatingPage(Model model) {
         model.addAttribute("formData",
-                new NewSpotAddingRequestDTO("", 0, 0, "", "", new ArrayList<>(0)));
+                new NewSpotAddingRequestDTO("", 0, 0, "", new ArrayList<>(0)));
         model.addAttribute("activePage", "add-spot");
         return "spot-adding-request";
     }

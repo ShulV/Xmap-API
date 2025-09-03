@@ -33,13 +33,6 @@
     </div>
 
     <div class="input-label">
-      <label for="comment" class="input-label__label">Комментарий</label>
-      <textarea rows="4" cols="50" id="comment" name="comment" required
-                placeholder="Дополнительные комментарии" th:field="*{comment}" class="input-label__input">
-      </textarea>
-    </div>
-
-    <div class="input-label">
       <label for="photos" class="input-label__label">Фотографии</label>
       <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}"
              class="input-label__input"/>

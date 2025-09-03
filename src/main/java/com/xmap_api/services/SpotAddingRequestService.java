@@ -45,7 +45,6 @@ public class SpotAddingRequestService {
                 .status(SpotAddingRequestStatus.PENDING_APPROVAL)
                 .spotDescription(requestDTO.spotDescription())
                 .adder(new User(userId))
-                .comment(requestDTO.comment())
                 .build();
         UUID spotAddingRequestId = spotAddingRequestDAO.create(spotAddingRequest);
         s3FileService.createSpotAddingRequestImages(requestDTO.files(), spotAddingRequestId);
