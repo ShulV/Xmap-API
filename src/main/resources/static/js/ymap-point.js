@@ -21,17 +21,18 @@ async function initMap() {
             }
         }
     );
+    let lastMarker = null;
 
     const addMarker = (coordinates) => {
         // Создаем контейнер для нашего маркера
         const markerElement = document.createElement('div');
         markerElement.className = 'marker-class';
-        markerElement.style.backgroundColor = '#ff0000'; // Красный фон
-        markerElement.style.width = '20px';
-        markerElement.style.height = '20px';
-        markerElement.style.borderRadius = '50%'; // Круглый маркер
+        markerElement.style.backgroundImage = 'url(/assets/marker.svg)';
+        markerElement.style.backgroundSize = 'contain';
+        markerElement.style.width = '40px';
+        markerElement.style.height = '40px';
         markerElement.style.position = 'absolute';
-        markerElement.style.transform = 'translate(-50%, -50%)'; // Централизация маркера
+        markerElement.style.transform = 'translate(-50%, -100%)';//Низ иконки метки указывает на точку
         const marker = new ymaps3.YMapMarker(
             {
                 coordinates: coordinates, // Московские координаты
@@ -41,10 +42,13 @@ async function initMap() {
             markerElement
         );
         map.addChild(marker);
+        if (lastMarker) {
+            map.removeChild(lastMarker);
+        }
+        lastMarker = marker;
     };
 
     const clickCallback = async (object, event) => {
-        console.log(event);
         setCoordinates(event.coordinates);
         addMarker(event.coordinates);
     }
