@@ -10,29 +10,56 @@
   <form layout:fragment="form" action="/spot-adding-request" method="post"
         enctype="multipart/form-data" th:object="${formData}" class="form">
     <div class="input-label">
+      <div th:if="${#fields.hasErrors('spotName')}" th:errors="*{spotName}"
+           class="input-msg-error">Должно быть от 3 до 50 символов</div>
       <label for="spotName" class="input-label__label">Название спота</label>
-      <input type="text" id="spotName" name="spotName" required placeholder="Введите название"
+      <input type="text" id="spotName" name="spotName" required placeholder="..."
              autofocus th:field="*{spotName}" class="input-label__input"/>
     </div>
 
     <div class="input-label">
-      <label for="yandex-map-id" class="input-label__label">Выбор точки на карте</label>
-      <div id="yandex-map-id" style="width: 100%; height: 400px; margin-bottom: 1rem;"></div>
+      <div th:if="${#fields.hasErrors('spotLon') || #fields.hasErrors('spotLat')}"
+           class="input-msg-error">Не указана точка</div>
+      <label for="yandex-map-id" class="input-label__label">Точка на карте</label>
+      <div class="coords-inputs" data-bs-toggle="modal" data-bs-target="#mapModal">
+        <div>указать </div>
+        <img src="/assets/marker.svg" alt="map marker" class="coords-inputs__marker">
+      </div>
+      <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
+      <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen-sm-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="mapModalLabel">Указание местоположения спота</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="yandex-map-id" style="width: 100%; height: 100%; margin-bottom: 1rem;"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-orange">Сохранить</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Поля для хранения выбранных координат (скрытые) -->
-    <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
-    <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
-
     <div class="input-label">
+      <div th:if="${#fields.hasErrors('spotDescription')}"
+           class="input-msg-error">Должно быть от 10 до 300 символов</div>
       <label for="description" class="input-label__label">Описание</label>
-      <textarea rows="4" cols="50" id="description" name="description" required
-                placeholder="Опишите спот" th:field="*{spotDescription}"
-                class="input-label__input">
+      <textarea id="description" name="description" required
+                placeholder="..." th:field="*{spotDescription}"
+                class="input-label__input input-label__input-desc">
       </textarea>
     </div>
 
     <div class="input-label">
+      <div th:if="${#fields.hasErrors('files')}"
+           class="input-msg-error">Должно быть от 1 до 5 фото</div>
       <label for="photos" class="input-label__label">Фотографии</label>
       <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}"
              class="input-label__input"/>

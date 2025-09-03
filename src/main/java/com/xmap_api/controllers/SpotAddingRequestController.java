@@ -7,15 +7,14 @@ import com.xmap_api.security.SecurityUtil;
 import com.xmap_api.services.S3FileService;
 import com.xmap_api.services.SpotAddingRequestService;
 import com.xmap_api.util.DBCode;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +37,22 @@ public class SpotAddingRequestController {
 
     @GetMapping("/spot-adding-request")
     public String getCreatingPage(Model model) {
+        //Такие значения для координат, чтобы они не принялись при создании/
+        //Некрасиво, но пока так
         model.addAttribute("formData",
-                new NewSpotAddingRequestDTO("", 0, 0, "", new ArrayList<>(0)));
+                new NewSpotAddingRequestDTO(null, -91.0, -181.0, null, new ArrayList<>(0)));
         model.addAttribute("activePage", "add-spot");
         return "spot-adding-request";
     }
 
     @PostMapping("/spot-adding-request")
-    public String create(@AuthenticationPrincipal UserDetails userDetails, NewSpotAddingRequestDTO formData) {
+    public String create(@AuthenticationPrincipal UserDetails userDetails,
+                         @Valid @ModelAttribute("formData") NewSpotAddingRequestDTO formData,
+                         BindingResult bindingResult,
+                         Model model) {
+        if (bindingResult.hasErrors()) {
+            return "/spot-adding-request";
+        }
         UUID spotAddingRequestId = spotAddingRequestService.create(formData, userDetails.getUsername());
         return "redirect:/spot-adding-request/" + spotAddingRequestId;
     }

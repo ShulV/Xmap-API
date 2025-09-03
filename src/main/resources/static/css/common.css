@@ -74,6 +74,10 @@ body {
     color: var(--input-color);
 }
 
+.input-label__input-desc {
+    max-height: 250px;
+}
+
 .input-label__input:focus {
     outline: 2px solid var(--input-focus-outline-color);
 }

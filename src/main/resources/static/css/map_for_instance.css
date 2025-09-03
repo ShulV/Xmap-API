@@ -1,0 +1,16 @@
+.coords-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--choice-map-point-color);
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+.coords-inputs__marker {
+    height: 30px;
+}
+
+.coords-inputs__input {
+    margin-right: 30px;
+}
