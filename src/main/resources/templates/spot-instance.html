@@ -47,9 +47,30 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        <!-- Информация спота -->
+        <div class="spot__info">
+            <ul class="spot__info-search-links spot__info-content">
+                <li>
+                    <a th:href="@{https://yandex.ru/maps/?ll={lat},{lng}&z=16&pt={lat},{lng},pm2rdm(lng=${spot.longitude()}, lat=${spot.latitude()})}"
+                       class="spot__info-search-link">
+                        <img src="/assets/ymaps_icon.svg" alt="ymap logo"
+                             class="spot__info-search-link-icon">
+                        <span> Яндекс карты</span>
+                    </a>
+                </li>
+<!--                <li>-->
+<!--                    <a href="" class="spot__info-search-link">-->
+<!--                        <img src="/assets/marker.svg" alt="spotic marker"-->
+<!--                             class="spot__info-search-link-icon">-->
+<!--                        <span> Встроенная карта</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
+            <div class="spot__info-content spot__info-desc"
+                 th:text="'📌 ' + ${spot.description()}"></div>
 
-        <div th:text="${spot.description()}"></div>
-        <div th:text="${spot.insertedAt()}"></div>
+            <div class="spot__inserted-date" th:text="${spot.insertedAt()}"></div>
+        </div>
     </div>
 </body>
 </html>

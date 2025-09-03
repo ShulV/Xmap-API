@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    color: var(--spot-adding-request-text-info-color);
+    color: var(--spot-text-info-color);
     font-size: 18px;
 }
 
@@ -20,7 +20,7 @@
 .spot-adding-request__info-header {
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid var(--spot-adding-request-border-content-block-color);
+    border-top: 1px solid var(--spot-border-content-block-color);
 }
 
 .spot-adding-request__info-status {
@@ -48,7 +48,7 @@
 }
 
 .spot-adding-request__inserted-date {
-    color: var(--spot-adding-request-inserted-date-add);
+    color: var(--spot-inserted-date-add);
     text-align: right;
     font-size: 18px;
 }

@@ -75,8 +75,8 @@ main {
     width: calc(100% - 20px);
     height: 180px;
     padding: 8px;
-    background-color: var(--spot-adding-request-card-bg-color);
-    color: var(--spot-adding-request-card-color);
+    background-color: var(--spot-card-bg-color);
+    color: var(--spot-card-color);
 }
 
 .spot__item-info {
@@ -92,7 +92,7 @@ main {
 }
 
 .spot__item-inserted-date {
-    color: var(--spot-adding-request-inserted-date-add);
+    color: var(--spot-inserted-date-add);
 }
 
 .view-changing-btn {
