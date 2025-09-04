@@ -77,15 +77,23 @@ function createMarker(feature) {
             coordinates: feature.geometry.coordinates,
             source: SPOTS_SOURCE_ID
         },
-        createContentPin()
+        createContentPin(feature)
     );
 }
 
-function createContentPin() {
-    const contentPin = document.createElement('div');
-    contentPin.innerHTML = '<img src="/assets/marker.svg" class="pin" alt="📌">';
-    return contentPin.firstChild;
+function createContentPin(feature) {
+    const img = document.createElement('img');
+    img.src = "/assets/marker.svg";
+    img.className = "pin";
+    img.alt = "📌";
+
+    img.addEventListener('click', () => {
+        alert(`Спот ID: ${feature.properties.id}`);
+    });
+
+    return img;
 }
+
 
 function createCluster(coordinates, features) {
     const cluster = document.createElement('div');
