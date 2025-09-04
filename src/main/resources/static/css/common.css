@@ -161,3 +161,49 @@ a {
     font-size: 14px;
     color: #666;
 }
+
+.pin {
+    height: 30px;
+}
+
+.cluster {
+    outline: 1px solid #27262B;
+    border-radius: 50%;
+}
+
+/* 2-5 элементов */
+.cluster-sm {
+    height: 25px;
+    width: 25px;
+    font-size: 20px;
+    background-color: #FF912B;
+}
+
+/* 6-10 элементов */
+.cluster-md {
+    height: 30px;
+    width: 30px;
+    font-size: 25px;
+    background-color: #ff6f11;
+}
+
+/* 11+ элементов */
+.cluster-lg {
+    height: 35px;
+    width: 35px;
+    font-size: 30px;
+    background-color: #ff511a;
+}
+
+
+.cluster-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cluster-text {
+    color: #fff;
+}

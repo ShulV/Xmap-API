@@ -4,45 +4,38 @@ getUserLocation().then(res => {
     initMap();
 });
 
-const BOUNDS = [
-    [54.58311, 25.9985],
-    [56.30248, 24.47889]
-];
-
-let i = 0;
-
-const rndPoint = (bounds) => [
-    bounds[0][0] + (bounds[1][0] - bounds[0][0]) * Math.random(),
-    bounds[1][1] + (bounds[0][1] - bounds[1][1]) * Math.random()
-];
-
-const getRandomPoints = (count, bounds) =>
-    Array.from({length: count}, () => ({
+const getPointsFromDB = async () => {
+    const spots = await fetchSpots();
+    return spots.map(spot => ({
         type: 'Feature',
-        id: i++,
-        geometry: {coordinates: rndPoint(bounds)},
-        properties: {name: 'beer shop'}
+        id: spot.id,
+        geometry: {coordinates: [spot.latitude, spot.longitude]},
+        properties: {id: spot.id}
     }));
+};
+
+async function fetchSpots() {
+    const getSpotListUrl = '/api/v1/spot/list-for-map'
+    try {
+        const response = await fetch(getSpotListUrl);
+        return await response.json();
+    } catch (err) {
+        console.error('Ошибка при получении спотов:', err);
+    }
+}
 
 async function initMap() {
     // Промис `ymaps3.ready` будет зарезолвлен, когда загрузятся все компоненты основного модуля API
     await ymaps3.ready;
-
     const {YMap, YMapDefaultSchemeLayer, YMapLayer, YMapFeatureDataSource} = ymaps3;
-
     const {YMapClusterer, clusterByGrid} = await ymaps3.import('@yandex/ymaps3-clusterer@0.0.1');
 
-    // Иницилиазируем карту
     const map = new YMap(
-        // Передаём ссылку на HTMLElement контейнера
         document.getElementById('yandex-map-id'),
-
-        // Передаём параметры инициализации карты
         {
             location: {
                 // Координаты центра карты
                 center: [mapCenter.longitude, mapCenter.latitude],
-
                 // Уровень масштабирования
                 zoom: 10
             }
@@ -56,7 +49,7 @@ async function initMap() {
         .addChild(new YMapLayer({source: 'clusterer-source', type: 'markers', zIndex: 1800}));
 
     const contentPin = document.createElement('div');
-    contentPin.innerHTML = '<img src="/assets/marker.svg" class="pin">';
+    contentPin.innerHTML = '<img src="/assets/marker.svg" class="pin" alt="📌">';
 
     // Makes usual point Marker
     const marker = (feature) =>
@@ -80,10 +73,17 @@ async function initMap() {
 
     function circle(count) {
         const circle = document.createElement('div');
-        circle.classList.add('circle');
+        circle.classList.add('cluster');
+        if (count <= 5) {
+            circle.classList.add('cluster-sm');
+        } else if (count <= 10) {
+            circle.classList.add('cluster-md');
+        } else {
+            circle.classList.add('cluster-lg');
+        }
         circle.innerHTML = `
-        <div class="circle-content">
-            <span class="circle-text">${count}</span>
+        <div class="cluster-content">
+            <span class="cluster-text">${count}</span>
         </div>
     `;
         return circle;
@@ -91,7 +91,7 @@ async function initMap() {
 
     const clusterer = new YMapClusterer({
         method: clusterByGrid({gridSize: 64}),
-        features: getRandomPoints(100, BOUNDS),
+        features: await getPointsFromDB(),
         marker,
         cluster
     });
