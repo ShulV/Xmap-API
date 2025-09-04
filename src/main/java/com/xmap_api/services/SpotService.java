@@ -3,7 +3,7 @@ package com.xmap_api.services;
 import com.xmap_api.dao.SpotDAO;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
-import com.xmap_api.dto.response.MinSpotInfoForMapDTO;
+import com.xmap_api.dto.response.SpotInfoForMapDTO;
 import com.xmap_api.dto.thymeleaf_model.MinSpot;
 import com.xmap_api.dto.thymeleaf_model.SpotWithImageLinksDTO;
 import com.xmap_api.exceptions.XmapApiException;
@@ -61,7 +61,7 @@ public class SpotService {
         }
     }
 
-    public List<MinSpotInfoForMapDTO> getMinSpotInfoForMap() {
+    public List<SpotInfoForMapDTO> getMinSpotInfoForMap() {
         return spotDAO.getMinSpotInfoForMap();
     }
 

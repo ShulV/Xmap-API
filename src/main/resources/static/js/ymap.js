@@ -2,6 +2,7 @@
 const SPOTS_SOURCE_ID = 'spots-cluster-source';
 
 let mapCenter = { longitude: undefined, latitude: undefined };
+let mapInstance = null;
 
 getUserLocation().then(res => {
     mapCenter = res;
@@ -46,7 +47,7 @@ async function initMap() {
     const { YMapClusterer, clusterByGrid } = await ymaps3.import('@yandex/ymaps3-clusterer@0.0.1');
 
     // Создаем карту
-    const map = new YMap(document.getElementById('yandex-map-id'), {
+    mapInstance = new YMap(document.getElementById('yandex-map-id'), {
         location: {
             center: [mapCenter.longitude, mapCenter.latitude],
             zoom: 10
@@ -54,11 +55,11 @@ async function initMap() {
     });
 
     // Базовые слои
-    map.addChild(new YMapDefaultSchemeLayer());
+    mapInstance.addChild(new YMapDefaultSchemeLayer());
 
     // Источник данных для кластеров
-    map.addChild(new YMapFeatureDataSource({ id: SPOTS_SOURCE_ID }));
-    map.addChild(new YMapLayer({ source: SPOTS_SOURCE_ID, type: 'markers', zIndex: 1800 }));
+    mapInstance.addChild(new YMapFeatureDataSource({ id: SPOTS_SOURCE_ID }));
+    mapInstance.addChild(new YMapLayer({ source: SPOTS_SOURCE_ID, type: 'markers', zIndex: 1800 }));
 
     // Кластеризатор
     const clusterer = new YMapClusterer({
@@ -68,7 +69,7 @@ async function initMap() {
         cluster: createCluster
     });
 
-    map.addChild(clusterer);
+    mapInstance.addChild(clusterer);
 }
 
 function createMarker(feature) {
@@ -88,10 +89,36 @@ function createContentPin(feature) {
     img.alt = "📌";
 
     img.addEventListener('click', () => {
-        alert(`Спот ID: ${feature.properties.id}`);
+        showDialog(feature)
     });
 
     return img;
+}
+
+function showDialog(feature) {
+    let dialog = document.getElementById('map-dialog');
+    if (!dialog) {
+        dialog = document.createElement('div');
+        dialog.id = 'map-dialog';
+        dialog.className = 'map-dialog';
+        document.body.appendChild(dialog);
+    }
+
+    dialog.innerHTML = `
+        <div>
+            <h4>Информация</h4>
+            <p><strong>Спот ID:</strong> ${feature.properties.id}</p>
+            <div class="map-dialog__btns">
+                <button onclick="closeDialog()" class="btn btn-gray">Закрыть</button>
+                <a href="/spot/${feature.properties.id}" class="btn btn-orange">Перейти</a>
+            </div>
+        </div>
+    `;
+}
+
+function closeDialog() {
+    const dialog = document.getElementById('map-dialog');
+    if (dialog) dialog.remove();
 }
 
 

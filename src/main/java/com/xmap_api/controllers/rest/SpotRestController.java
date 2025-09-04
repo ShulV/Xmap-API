@@ -1,6 +1,6 @@
 package com.xmap_api.controllers.rest;
 
-import com.xmap_api.dto.response.MinSpotInfoForMapDTO;
+import com.xmap_api.dto.response.SpotInfoForMapDTO;
 import com.xmap_api.services.SpotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,19 @@ public class SpotRestController {
     }
 
     @GetMapping("/api/v1/spot/list-for-map")
-    public ResponseEntity<List<MinSpotInfoForMapDTO>> getMinSpotInfoListForMap() {
-        List<MinSpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap();
+    public ResponseEntity<List<SpotInfoForMapDTO>> getMinSpotInfoListForMap() {
+        List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap();
+
+        if (!minSpotInfoList.isEmpty()) {
+            return ResponseEntity.ok().body(minSpotInfoList);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("/api/v1/spot/{id}/for-map")
+    public ResponseEntity<List<SpotInfoForMapDTO>> getSpotInfoForMap() {
+        List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap();
 
         if (!minSpotInfoList.isEmpty()) {
             return ResponseEntity.ok().body(minSpotInfoList);

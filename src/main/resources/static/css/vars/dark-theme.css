@@ -31,10 +31,10 @@
     --input-submit-btn-color: #ffffff;
     --link-to-sign-up-color: #888487;
     --input-msg-error-color: #ff0000;
-    --file-input-color: #e3e3e3;
-    --file-input-color-active: #e5e5e5;
-    --file-input-bg-color: #676767;
-    --file-input-bg-color-active: #464646;
+    --gray-btn-color: #e3e3e3;
+    --gray-btn-color-active: #e5e5e5;
+    --gray-btn-bg-color: #676767;
+    --gray-btn-bg-color-active: #464646;
 
     /* modals */
     --map-modal-bg-color: #3a3a3a;
@@ -57,6 +57,9 @@
     --orange-btn-disabled-color: #fff;
     --orange-btn-disabled-bg: #ff912b;
     --orange-btn-disabled-border-color: #ff912b;
+
+    --close-btn-color: #fff;
+    --close-btn-bg-color: #fff;
 
     /* bottom menu */
     --menu-icon-color: #c3c3c3;
@@ -82,4 +85,9 @@
     --spot-card-bg-color: #3a3a3a;
     --spot-card-color: #f8f8f8;
     --choice-map-point-btn-color: #fff;
+
+    /* map */
+    --map-dialog-bg-color: #3a3a3a;
+    --map-dialog-color: #f8f8f8;
+    --map-dialog-shadow-color: rgba(0,0,0,0.2);
 }

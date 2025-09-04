@@ -3,7 +3,7 @@ package com.xmap_api.dao;
 import com.xmap_api.dao.mappers.DefaultSpotRowMapper;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
-import com.xmap_api.dto.response.MinSpotInfoForMapDTO;
+import com.xmap_api.dto.response.SpotInfoForMapDTO;
 import com.xmap_api.dto.thymeleaf_model.MinSpot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -79,11 +79,11 @@ public class SpotDAO {
         return new PageImpl<>(content, pageable, countTotalElements());
     }
 
-    public List<MinSpotInfoForMapDTO> getMinSpotInfoForMap() {
+    public List<SpotInfoForMapDTO> getMinSpotInfoForMap() {
         return jdbcClient.sql("""
                    SELECT id, lon, lat FROM spot
                """)
-                .query((rs, rowNum) -> new MinSpotInfoForMapDTO(
+                .query((rs, rowNum) -> new SpotInfoForMapDTO(
                         rs.getString("id"),
                         rs.getDouble("lon"),
                         rs.getDouble("lat")

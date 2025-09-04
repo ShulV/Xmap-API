@@ -99,6 +99,20 @@ body {
     --bs-btn-disabled-bg: var(--orange-btn-disabled-bg);
     --bs-btn-disabled-border-color: var(--orange-btn-disabled-border-color);
     font-weight: bold;
+    display: block;
+}
+
+.btn-gray {
+    display: inline-block;
+    --bs-btn-color: var(--gray-btn-color);
+    --bs-btn-bg: var(--gray-btn-bg-color);
+    --bs-btn-hover-color: var(--gray-btn-color-active);
+    --bs-btn-hover-bg: var(--gray-btn-bg-color-active);
+}
+
+.btn-gray:hover {
+    background-color: var(--gray-btn-bg-color-active);
+    color: var(--gray-btn-color-active);
 }
 
 .h-50px {
@@ -140,22 +154,6 @@ a {
     display: none; /* Прячем стандартный инпут */
 }
 
-.custom-file-input__label {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: var(--file-input-bg-color);
-    color: var(--file-input-color);
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.custom-file-input__label:hover {
-    background-color: var(--file-input-bg-color-active);
-    color: var(--file-input-color-active);
-}
-
 .custom-file-input__selected-count {
     margin-left: 10px;
     font-size: 14px;
@@ -195,7 +193,6 @@ a {
     background-color: #ff511a;
 }
 
-
 .cluster-content {
     height: 100%;
     width: 100%;
@@ -206,4 +203,25 @@ a {
 
 .cluster-text {
     color: #fff;
+}
+
+.map-dialog {
+    position: fixed;
+    bottom: 75px;
+    left: 25px;
+    right: 25px;
+    background: var(--map-dialog-bg-color);
+    color: var(--map-dialog-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--map-dialog-shadow-color);
+    padding: 12px 16px;
+    z-index: 3000; /* выше карты */
+    height: 35%;
+}
+
+.map-dialog__btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
