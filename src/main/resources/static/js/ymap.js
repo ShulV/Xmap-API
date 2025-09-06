@@ -30,6 +30,16 @@ async function fetchSpots() {
     return response.json();
 }
 
+async function fetchSpot(spotId) {
+    const url = `/api/v1/spot/${spotId}/for-map`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error('Ошибка при загрузке данных спота');
+    }
+    return response.json();
+}
+
 function createSpotFeature(spot) {
     return {
         type: 'Feature',
@@ -95,7 +105,7 @@ function createContentPin(feature) {
     return img;
 }
 
-function showDialog(feature) {
+async function showDialog(feature) {
     let dialog = document.getElementById('map-dialog');
     if (!dialog) {
         dialog = document.createElement('div');
@@ -103,15 +113,14 @@ function showDialog(feature) {
         dialog.className = 'map-dialog';
         document.body.appendChild(dialog);
     }
+    const spot = await fetchSpot(feature.properties.id);
 
     dialog.innerHTML = `
-        <div>
-            <h4>Информация</h4>
-            <p><strong>Спот ID:</strong> ${feature.properties.id}</p>
-            <div class="map-dialog__btns">
-                <button onclick="closeDialog()" class="btn btn-gray">Закрыть</button>
-                <a href="/spot/${feature.properties.id}" class="btn btn-orange">Перейти</a>
-            </div>
+        <h4>${spot.name}</h4>
+        <img src="${spot.firstImageLink}" alt="картинка спота" class="map-dialog__image"/>
+        <div class="map-dialog__btns">
+            <button onclick="closeDialog()" class="btn btn-gray">Закрыть</button>
+            <a href="/spot/${feature.properties.id}" class="btn btn-orange ml-20px">Перейти</a>
         </div>
     `;
 }
@@ -120,7 +129,6 @@ function closeDialog() {
     const dialog = document.getElementById('map-dialog');
     if (dialog) dialog.remove();
 }
-
 
 function createCluster(coordinates, features) {
     const cluster = document.createElement('div');

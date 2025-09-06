@@ -4,6 +4,7 @@ import com.xmap_api.dao.SpotDAO;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
 import com.xmap_api.dto.response.SpotInfoForMapDTO;
+import com.xmap_api.dto.response.SpotInfoForMapDialogDTO;
 import com.xmap_api.dto.thymeleaf_model.MinSpot;
 import com.xmap_api.dto.thymeleaf_model.SpotWithImageLinksDTO;
 import com.xmap_api.exceptions.XmapApiException;
@@ -48,6 +49,10 @@ public class SpotService {
 
     public Page<MinSpot> getWithFirstImage(Pageable pageable) {
         return spotDAO.getWithFirstImage(pageable, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
+    }
+
+    public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId) {
+        return spotDAO.getWithFirstImage(spotId, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 
     public SpotWithImageLinksDTO getSpotWithImageLinks(UUID spotId) {

@@ -4,6 +4,7 @@ import com.xmap_api.dao.mappers.DefaultSpotRowMapper;
 import com.xmap_api.dto.request.NewSpotDTO;
 import com.xmap_api.dto.response.DefaultSpotDTO;
 import com.xmap_api.dto.response.SpotInfoForMapDTO;
+import com.xmap_api.dto.response.SpotInfoForMapDialogDTO;
 import com.xmap_api.dto.thymeleaf_model.MinSpot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -77,6 +78,29 @@ public class SpotDAO {
                 ))
                 .list();
         return new PageImpl<>(content, pageable, countTotalElements());
+    }
+
+    public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId, String fileLinkTemplate, String fileLinkPathParam) {
+        return jdbcClient.sql("""
+              WITH spot_with_ranked_images AS (
+                  SELECT s.name,
+                         sf.id AS file_id,
+                         ROW_NUMBER() OVER(PARTITION BY s.id ORDER BY sf.uploaded_at) AS rn
+                    FROM spot s
+                    JOIN spot_s3_file ssf ON ssf.spot_id = id
+                    JOIN s3_file sf ON sf.id = ssf.s3_file_id
+                   WHERE s.id = :spotId
+              )
+            SELECT name, file_id
+              FROM spot_with_ranked_images
+             WHERE rn = 1
+        """)
+                .param("spotId", spotId)
+                .query((rs, rowNum) -> new SpotInfoForMapDialogDTO(
+                        rs.getString("name"),
+                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id"))
+                ))
+                .single();
     }
 
     public List<SpotInfoForMapDTO> getMinSpotInfoForMap() {

@@ -1,13 +1,16 @@
 package com.xmap_api.controllers.rest;
 
 import com.xmap_api.dto.response.SpotInfoForMapDTO;
+import com.xmap_api.dto.response.SpotInfoForMapDialogDTO;
 import com.xmap_api.services.SpotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class SpotRestController {
@@ -29,14 +32,8 @@ public class SpotRestController {
     }
 
     @GetMapping("/api/v1/spot/{id}/for-map")
-    public ResponseEntity<List<SpotInfoForMapDTO>> getSpotInfoForMap() {
-        List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap();
-
-        if (!minSpotInfoList.isEmpty()) {
-            return ResponseEntity.ok().body(minSpotInfoList);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+    public ResponseEntity<SpotInfoForMapDialogDTO> getSpotInfoForMap(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(spotService.getWithFirstImage(id));
     }
 
 //    @GetMapping("/api/v1/spot/all")
