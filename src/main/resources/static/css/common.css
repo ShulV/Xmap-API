@@ -177,6 +177,10 @@ a {
     border-radius: 50%;
 }
 
+.cluster:hover {
+    cursor: pointer;
+}
+
 /* 2-5 элементов */
 .cluster-sm {
     height: 25px;
@@ -239,4 +243,14 @@ a {
     width: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 5px
+}
+
+.toast-container {
+    bottom: 50px;
+    width: 100%;
+}
+
+.toast {
+    width: 100%;
 }

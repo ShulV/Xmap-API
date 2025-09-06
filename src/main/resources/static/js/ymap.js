@@ -132,6 +132,9 @@ function closeDialog() {
 
 function createCluster(coordinates, features) {
     const cluster = document.createElement('div');
+    cluster.addEventListener('click', () => {
+        showToast();
+    });
     cluster.classList.add('cluster');
 
     const count = features.length;
@@ -157,4 +160,12 @@ function createCluster(coordinates, features) {
         },
         cluster
     );
+}
+
+function showToast(message) {
+    const toastEl = document.getElementById('liveToast')
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    console.log(toastEl);
+    console.log(toast);
+    toast.show();
 }

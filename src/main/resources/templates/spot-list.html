@@ -77,7 +77,9 @@
                 </nav>
             </th:block>
         </div>
-
+        <div th:replace="fragments/toast :: liveToast(message='Для нескольких спотов пока недоступно, приблизьте карту', header='⚠️ Уведомление')">
+            place for toast
+        </div>
     </main>
 </body>
 </html>
