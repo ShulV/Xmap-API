@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Filters</title>
+</head>
+<body>
+<!-- Modal filters -->
+<div th:fragment="filters-modal"
+     class="modal fade filter-modal" id="filterModal" tabindex="-1"
+     aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen filter-modal__dialog">
+    <div class="modal-content">
+      <div class="modal-header filter-modal__header">
+        <h5 class="modal-title" id="filterModalLabel">Фильтры</h5>
+        <svg class="filter-modal__btn-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+             data-bs-dismiss="modal" aria-label="Close">
+          <path d="M5 5L19 19M5 19L19 5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="modal-body filter-modal__body">
+        <div>kek</div>
+      </div>
+      <div class="modal-footer filter-modal__footer">
+        <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Найти</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

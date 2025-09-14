@@ -37,10 +37,10 @@
     --gray-btn-bg-color-active: #464646;
 
     /* modals */
-    --map-modal-bg-color: #3a3a3a;
-    --map-modal-text-color: #f8f8f8;
-    --map-modal-close-btn-color: #f5f5f5;
-    --map-modal-border-color: #757575;
+    --modal-bg-color: #3a3a3a;
+    --modal-text-color: #f8f8f8;
+    --modal-close-btn-color: #f5f5f5;
+    --modal-border-color: #757575;
 
     /* btn */
     --orange-btn-color: #fff;
@@ -90,4 +90,6 @@
     --map-dialog-bg-color: #3a3a3a;
     --map-dialog-color: #f8f8f8;
     --map-dialog-shadow-color: rgba(0,0,0,0.2);
+
+    --setting-btn-color: #ebebeb;
 }

@@ -1,4 +1,6 @@
 :root {
     --nav-menu-height: 50px;
     --pagination-row-height: 50px;
+    --settings-block-height: 40px;
+    --spot-item-card-height: 180px;
 }

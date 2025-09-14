@@ -14,16 +14,18 @@
     <link href="/css/spot-list-map.css" type="text/css" rel="stylesheet">
     <link href="/css/pagination.css" type="text/css" rel="stylesheet">
     <link href="/css/nav.css" type="text/css" rel="stylesheet">
+    <link href="/css/filters.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <main layout:fragment="content" class="content">
         <div class="search-block">
-            <div class="search-block__search">
-                <input class="search-block__input" type="text" placeholder="Поиск"/>
-            </div>
+<!--            <div class="search-block__search">-->
+<!--                <input class="search-block__input" type="text" placeholder="Поиск"/>-->
+<!--            </div>-->
             <div class="search-block__settings">
                 <div class="search-block__sort">Сортировка</div>
-                <div class="search-block__filters">Фильтры</div>
+                <div class="search-block__filters"
+                     data-bs-toggle="modal" data-bs-target="#filterModal">Фильтры</div>
             </div>
         </div>
         <div class="spots">
@@ -72,13 +74,18 @@
             </div>
             <!-- Добавляем навигацию по страницам -->
             <th:block th:if="${viewMode == 'CARDS'}">
-                <nav th:replace="fragments/pagination :: paginationRow(pageable=${spotList}, paginationUrl='/spots', totalItemsLabel='Найдено спотов')">
+                <nav th:replace="fragments/pagination :: paginationRow(
+                                    pageable=${spotList}, paginationUrl='/spots', totalItemsLabel='Найдено спотов')">
                     place for list pagination
                 </nav>
             </th:block>
         </div>
-        <div th:replace="fragments/toast :: liveToast(message='Для нескольких спотов пока недоступно, приблизьте карту', header='⚠️ Уведомление')">
+        <div th:replace="fragments/toast :: liveToast(
+                        message='Для нескольких спотов пока недоступно, приблизьте карту', header='⚠️ Уведомление')">
             place for toast
+        </div>
+        <div th:replace="fragments/modals/filters :: filters-modal">
+            place for filters
         </div>
     </main>
 </body>

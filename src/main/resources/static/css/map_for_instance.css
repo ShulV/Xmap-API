@@ -18,12 +18,12 @@
 .map-modal__header,
 .map-modal__body,
 .map-modal__footer {
-    background-color: var(--map-modal-bg-color);
-    border-color: var(--map-modal-border-color);
+    background-color: var(--modal-bg-color);
+    border-color: var(--modal-border-color);
 }
 
 .map-modal__header {
-    color: var(--map-modal-text-color);
+    color: var(--modal-text-color);
 }
 
 .map-modal__btn-close {
@@ -34,5 +34,5 @@
 }
 
 .map-modal__btn-close path {
-    stroke: var(--map-modal-close-btn-color);
+    stroke: var(--modal-close-btn-color);
 }
