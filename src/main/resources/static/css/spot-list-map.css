@@ -34,14 +34,44 @@ main {
     color: var(--setting-btn-color);
 }
 
+.search-block__filters:hover,
+.search-block__filters:active,
+.search-block__sort:hover,
+.search-block__sort:active {
+    color: var(--setting-btn-color-active);
+}
+
 .search-block__filters,
 .search-block__sort {
-    padding: 8px;
+    transition: color 0.3s ease;
+    padding: 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-block__filters-icon {
+    height: 20px;
+}
+
+.search-block__filters-icon path {
+    fill: var(--setting-icon-color);
+    transition: fill 0.3s ease;
+}
+
+.search-block__filters:hover .search-block__filters-icon path,
+.search-block__filters:active .search-block__filters-icon path {
+    fill: var(--setting-icon-color-active);
 }
 
 .search-block__filters:hover,
 .search-block__sort:hover {
     cursor: pointer;
+}
+
+.search-block__filters-text {
+    margin-left: 10px;
 }
 
 .spots {

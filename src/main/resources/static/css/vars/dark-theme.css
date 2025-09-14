@@ -12,6 +12,7 @@
     --pagination-row-arrow-color-active: #eea241;
     --pagination-row-text-color-active: #eea241;
     --pagination-row-border-color-active: #eea241;
+    --pagination-elem-length-text-color: #a1a1a1;
 
     /* spots */
     --spot-changing-view-btn-icon-color: #535353;
@@ -92,4 +93,7 @@
     --map-dialog-shadow-color: rgba(0,0,0,0.2);
 
     --setting-btn-color: #ebebeb;
+    --setting-btn-color-active: #eea241;
+    --setting-icon-color: #ebebeb;
+    --setting-icon-color-active: #eea241;
 }

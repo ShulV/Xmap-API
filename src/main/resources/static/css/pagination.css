@@ -57,3 +57,10 @@
 .pagination-row__page-link:active {
     color: var(--pagination-row-text-color-active);
 }
+
+.pagination__element-length {
+    text-align: center;
+    color: var(--pagination-elem-length-text-color);
+    padding: 10px 0;
+    line-height: 1em;
+}

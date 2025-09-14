@@ -6,7 +6,7 @@
 </head>
 <body>
   <!-- pageable - -->
-  <nav th:fragment="paginationRow (pageable, paginationUrl, totalItemsLabel)"
+  <nav th:fragment="paginationRow (pageable, paginationUrl)"
        th:if="${pageable.totalPages > 1}" aria-label="Pagination Navigation">
     <ul class="pagination-row">
       <!-- Первая страница -->
@@ -67,7 +67,15 @@
         </a>
       </li>
     </ul>
-    <div th:text="${totalItemsLabel + ': ' + pageable.totalElements}"></div>
+    <div class="pagination__element-length"
+         th:with="spotLen=${pageable.totalElements},
+                lastDigit=${pageable.totalElements % 10},
+                lastTwo=${pageable.totalElements % 100}"
+         th:text="${'найдено ' + spotLen + ' ' +
+                                      ((lastTwo >= 11 && lastTwo <= 14) ? 'элементов' :
+                                       (lastDigit == 1 ? 'элемент' :
+                                       (lastDigit >= 2 && lastDigit <= 4 ? 'элемента' : 'элементов')))}"></div>
   </nav>
+
 </body>
 </html>
