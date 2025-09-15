@@ -20,26 +20,6 @@ async function getPointsFromDB() {
     }
 }
 
-async function fetchSpots() {
-    const url = '/api/v1/spot/list-for-map';
-    const response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error('Ошибка при загрузке данных');
-    }
-    return response.json();
-}
-
-async function fetchSpot(spotId) {
-    const url = `/api/v1/spot/${spotId}/for-map`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-        throw new Error('Ошибка при загрузке данных спота');
-    }
-    return response.json();
-}
-
 function createSpotFeature(spot) {
     return {
         type: 'Feature',

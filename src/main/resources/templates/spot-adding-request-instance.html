@@ -12,9 +12,11 @@
             th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}">
         const baseUrl = '[[${baseUrl}]]';
         const spotAddingRequestId = '[[${spotAddingRequestId}]]';
-        const acceptSpotAddingRequestUrl = baseUrl + '/spot-adding-request/change-status/ACCEPTED';
-        const rejectSpotAddingRequestUrl = baseUrl + '/spot-adding-request/change-status/REJECTED';
     </script>
+    <script src="/js/lib/axios.min.js"></script>
+    <script src="/js/fetch.js"
+            sec:authorize="hasAuthority('ACCEPTOR')"
+            th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}"></script>
     <script src="/js/acceptor/spot-adding-request-instance.js" defer
             sec:authorize="hasAuthority('ACCEPTOR')"
             th:if="${spotAddingRequest.status() == 'PENDING_APPROVAL'}"></script>

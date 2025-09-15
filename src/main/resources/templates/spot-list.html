@@ -9,6 +9,8 @@
 
     <script src="https://api-maps.yandex.ru/v3/?apikey=b9ae7ce3-4f8e-4018-ae49-7751e42c5c25&lang=ru_RU"
             defer th:if="${viewMode == 'YMAP'}"></script>
+    <script src="/js/lib/axios.min.js"></script>
+    <script src="/js/fetch.js"></script>
     <script src="/js/location-util.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <script src="/js/ymap.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <link href="/css/spot-list-map.css" type="text/css" rel="stylesheet">
@@ -23,7 +25,14 @@
 <!--                <input class="search-block__input" type="text" placeholder="Поиск"/>-->
 <!--            </div>-->
             <div class="search-block__settings">
-                <div class="search-block__sort"><div th:if="${viewMode == 'CARDS'}">Сортировка</div></div>
+                <div class="search-block__sort">
+                    <select th:if="${viewMode == 'CARDS'}"
+                            class="form-select form-select-sm search-block__sort-select" aria-label="Сортировка">
+                        <option selected>Сортировка</option>
+                        <option value="1">Сначала ближайшие</option>
+                        <option value="2">Сначала новые</option>
+                    </select>
+                </div>
                 <div class="search-block__filters"
                      data-bs-toggle="modal" data-bs-target="#filterModal">
                     <svg class="search-block__filters-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -15,7 +15,7 @@ public class SpotAddingRequestRestController {
         this.spotAddingRequestService = spotAddingRequestService;
     }
 
-    @PatchMapping("/spot-adding-request/change-status/{status}")
+    @PatchMapping("/api/spot-adding-request/change-status/{status}")
     @ResponseBody
     public ResponseEntity<String> changeStatus(@PathVariable SpotAddingRequestStatus status,
                                                @RequestParam String spotAddingRequestId) {
