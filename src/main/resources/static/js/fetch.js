@@ -1,7 +1,7 @@
 
 const api = axios.create({
     baseURL: '/api',
-    timeout: 5000,
+    // timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -9,6 +9,15 @@ const api = axios.create({
 
 api.interceptors.request.use(config => {
     console.log('➡️ Запрос:', config.method.toUpperCase(), config.baseURL + config.url);
+    if (config.params) {
+        console.log('   📌 params:', config.params);
+    }
+    if (config.data) {
+        console.log('   📦 data:', config.data);
+    }
+    // if (config.headers) {
+    //     console.log('   🏷 headers:', config.headers);
+    // }
     return config;
 }, error => Promise.reject(error));
 
@@ -20,15 +29,23 @@ api.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
-async function fetchSpotForMapDialog(spotId) {
+// ----------------------------------------------------------------------------------------
+
+async function getSpotForMapDialog(spotId) {
     const url = `/spot/${spotId}/for-map`;
     const response = await api.get(url);
     return response.data;
 }
 
-async function fetchSpotsForMap() {
-    const url = '/spot/list-for-map';
-    const response = await api.get(url);
+async function getSpotsForMap(filter = {cityId: null}) {
+    const url = '/spot/list/for-map';
+    const response = await api.post(url, filter, null);
+    return response.data;
+}
+
+async function getCitiesBySubstring(substring) {
+    const url = '/city/list';
+    const response = await api.get(url, { params: { substring } });
     return response.data;
 }
 

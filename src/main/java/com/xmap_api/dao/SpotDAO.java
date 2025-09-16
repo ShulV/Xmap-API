@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
@@ -103,10 +104,13 @@ public class SpotDAO {
                 .single();
     }
 
-    public List<SpotInfoForMapDTO> getMinSpotInfoForMap() {
+    public List<SpotInfoForMapDTO> getMinSpotInfoForMap(Long cityId) {
         return jdbcClient.sql("""
-                   SELECT id, lon, lat FROM spot
+                   SELECT s.id, s.lon, s.lat FROM spot s
+                     JOIN city c ON c.id = s.city_id
+                    WHERE (:cityId IS NULL OR c.id = :cityId)
                """)
+                .param("cityId", cityId, Types.BIGINT)
                 .query((rs, rowNum) -> new SpotInfoForMapDTO(
                         rs.getString("id"),
                         rs.getDouble("lon"),

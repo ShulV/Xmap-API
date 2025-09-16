@@ -14,8 +14,9 @@ public class CityDAO {
         this.jdbcClient = jdbcClient;
     }
 
-    public List<City> getAll() {
-        return jdbcClient.sql("SELECT * FROM city")
+    public List<City> getBySubstring(String substring) {
+        return jdbcClient.sql("SELECT * FROM city WHERE (:substring IS NULL OR LOWER(name) LIKE LOWER(:substring))")
+                .param("substring", substring == null || substring.isBlank() ? null : substring + "%")
                 .query(City.class)
                 .list();
     }

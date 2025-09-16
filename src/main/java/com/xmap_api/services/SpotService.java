@@ -66,8 +66,8 @@ public class SpotService {
         }
     }
 
-    public List<SpotInfoForMapDTO> getMinSpotInfoForMap() {
-        return spotDAO.getMinSpotInfoForMap();
+    public List<SpotInfoForMapDTO> getMinSpotInfoForMap(Long cityId) {
+        return spotDAO.getMinSpotInfoForMap(cityId);
     }
 
     @Transactional

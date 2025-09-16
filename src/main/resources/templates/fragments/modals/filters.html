@@ -18,8 +18,12 @@
           <path d="M5 5L19 19M5 19L19 5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div class="modal-body filter-modal__body">
-        <div>kek</div>
+      <div class="modal-body filter-modal__body" style="color: white;">
+        <div class="mb-3 position-relative">
+          <label for="cityInput" class="form-label">Город</label>
+          <input type="text" id="cityInput" class="form-control" autocomplete="off" placeholder="Начните вводить город...">
+          <ul id="citySuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+        </div>
       </div>
       <div class="modal-footer filter-modal__footer">
         <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Найти</button>

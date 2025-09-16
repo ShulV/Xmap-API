@@ -1,13 +1,11 @@
 package com.xmap_api.controllers.rest;
 
+import com.xmap_api.dto.request.SpotFilterDTO;
 import com.xmap_api.dto.response.SpotInfoForMapDTO;
 import com.xmap_api.dto.response.SpotInfoForMapDialogDTO;
 import com.xmap_api.services.SpotService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,15 +18,10 @@ public class SpotRestController {
         this.spotService = spotService;
     }
 
-    @GetMapping("/api/spot/list-for-map")
-    public ResponseEntity<List<SpotInfoForMapDTO>> getMinSpotInfoListForMap() {
-        List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap();
-
-        if (!minSpotInfoList.isEmpty()) {
-            return ResponseEntity.ok().body(minSpotInfoList);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+    @PostMapping("/api/spot/list/for-map")
+    public ResponseEntity<List<SpotInfoForMapDTO>> getMinSpotInfoListForMap(@RequestBody SpotFilterDTO filter) {
+        List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap(filter.cityId());
+        return ResponseEntity.ok().body(minSpotInfoList);
     }
 
     @GetMapping("/api/spot/{id}/for-map")

@@ -3,15 +3,16 @@ const SPOTS_SOURCE_ID = 'spots-cluster-source';
 
 let mapCenter = { longitude: undefined, latitude: undefined };
 let mapInstance = null;
+let clusterer = null
 
 getUserLocation().then(res => {
     mapCenter = res;
     initMap();
 });
 
-async function getPointsFromDB() {
+async function getPointsFromDB(filter = {cityId: null}) {
     try {
-        const spots = await fetchSpotsForMap();
+        const spots = await getSpotsForMap(filter);
         return spots.map(createSpotFeature);
     } catch (err) {
         alert("Ошибка при получении спотов");
@@ -51,7 +52,7 @@ async function initMap() {
     mapInstance.addChild(new YMapLayer({ source: SPOTS_SOURCE_ID, type: 'markers', zIndex: 1800 }));
 
     // Кластеризатор
-    const clusterer = new YMapClusterer({
+    clusterer = new YMapClusterer({
         method: clusterByGrid({ gridSize: 64 }),
         features: await getPointsFromDB(),
         marker: createMarker,
@@ -92,7 +93,7 @@ async function showDialog(feature) {
         dialog.className = 'map-dialog';
         document.body.appendChild(dialog);
     }
-    const spot = await fetchSpotForMapDialog(feature.properties.id);
+    const spot = await getSpotForMapDialog(feature.properties.id);
 
     dialog.innerHTML = `
         <h4>${spot.name}</h4>
@@ -144,7 +145,25 @@ function createCluster(coordinates, features) {
 function showToast(message) {
     const toastEl = document.getElementById('liveToast')
     const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
-    console.log(toastEl);
-    console.log(toast);
     toast.show();
+}
+
+async function updatePoints(filter = {cityId: null}) {
+    if (!mapInstance) return;
+
+    // если кластеризатор уже есть → удаляем
+    if (clusterer) {
+        mapInstance.removeChild(clusterer);
+    }
+
+    const { YMapClusterer, clusterByGrid } = await ymaps3.import('@yandex/ymaps3-clusterer@0.0.1');
+
+    clusterer = new YMapClusterer({
+        method: clusterByGrid({ gridSize: 64 }),
+        features: await getPointsFromDB(filter),
+        marker: createMarker,
+        cluster: createCluster
+    });
+
+    mapInstance.addChild(clusterer);
 }

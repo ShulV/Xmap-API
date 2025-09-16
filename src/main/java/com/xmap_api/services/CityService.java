@@ -14,7 +14,7 @@ public class CityService {
         this.cityDAO = cityDAO;
     }
 
-    public List<City> getAll() {
-        return cityDAO.getAll();
+    public List<City> getBySubstring(String substring) {
+        return cityDAO.getBySubstring(substring);
     }
 }
