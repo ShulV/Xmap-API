@@ -11,10 +11,9 @@ getUserLocation().then(res => {
 
 async function getPointsFromDB() {
     try {
-        const spots = await fetchSpots();
+        const spots = await fetchSpotsForMap();
         return spots.map(createSpotFeature);
     } catch (err) {
-        console.error('Ошибка при получении спотов:', err);
         alert("Ошибка при получении спотов");
         return [];
     }
@@ -93,7 +92,7 @@ async function showDialog(feature) {
         dialog.className = 'map-dialog';
         document.body.appendChild(dialog);
     }
-    const spot = await fetchSpot(feature.properties.id);
+    const spot = await fetchSpotForMapDialog(feature.properties.id);
 
     dialog.innerHTML = `
         <h4>${spot.name}</h4>

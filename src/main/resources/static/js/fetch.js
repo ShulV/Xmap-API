@@ -20,13 +20,13 @@ api.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
-async function fetchSpot(spotId) {
+async function fetchSpotForMapDialog(spotId) {
     const url = `/v1/spot/${spotId}/for-map`;
     const response = await api.get(url);
     return response.data;
 }
 
-async function fetchSpots() {
+async function fetchSpotsForMap() {
     const url = '/v1/spot/list-for-map';
     const response = await api.get(url);
     return response.data;
