@@ -21,13 +21,13 @@ api.interceptors.response.use(response => {
 });
 
 async function fetchSpotForMapDialog(spotId) {
-    const url = `/v1/spot/${spotId}/for-map`;
+    const url = `/spot/${spotId}/for-map`;
     const response = await api.get(url);
     return response.data;
 }
 
 async function fetchSpotsForMap() {
-    const url = '/v1/spot/list-for-map';
+    const url = '/spot/list-for-map';
     const response = await api.get(url);
     return response.data;
 }

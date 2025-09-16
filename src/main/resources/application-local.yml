@@ -46,7 +46,7 @@ xmap-api:
   base-url: "http://192.168.31.149:8082"
   s3-file:
     # URN (Uniform Resource Name) - URL без scheme (без http://)
-    download-link-template: "/api/v1/s3-file/{id}"
+    download-link-template: "/api/s3-file/{id}"
     download-link-path-param: "{id}"
 
 

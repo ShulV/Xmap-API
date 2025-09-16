@@ -100,7 +100,7 @@ someMap.put("key_name_in_snake_case", "value");
 <p>kebab-case</p>
 
 ```java
-@RequestMapping("/api/v1/image-service") //для всего контроллера
+@RequestMapping("/api/image-service") //для всего контроллера
 
 @PostMapping("/spot-image/{id}") //для метода
 ```

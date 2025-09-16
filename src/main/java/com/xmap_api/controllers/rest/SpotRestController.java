@@ -20,7 +20,7 @@ public class SpotRestController {
         this.spotService = spotService;
     }
 
-    @GetMapping("/api/v1/spot/list-for-map")
+    @GetMapping("/api/spot/list-for-map")
     public ResponseEntity<List<SpotInfoForMapDTO>> getMinSpotInfoListForMap() {
         List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap();
 
@@ -31,12 +31,12 @@ public class SpotRestController {
         }
     }
 
-    @GetMapping("/api/v1/spot/{id}/for-map")
+    @GetMapping("/api/spot/{id}/for-map")
     public ResponseEntity<SpotInfoForMapDialogDTO> getSpotInfoForMap(@PathVariable UUID id) {
         return ResponseEntity.ok().body(spotService.getWithFirstImage(id));
     }
 
-//    @GetMapping("/api/v1/spot/all")
+//    @GetMapping("/api/spot/all")
 //    public ResponseEntity<Page<DefaultSpotDTO>> getAll(@RequestParam(defaultValue = "0", value = "page") int page,
 //                                                       @RequestParam(defaultValue = "10", value = "size") int size) {
 //        Pageable paging = PageRequest.of(page, size);
@@ -49,7 +49,7 @@ public class SpotRestController {
 //        }
 //    }
 
-//    @GetMapping("/api/v1/spot/{spotId}")
+//    @GetMapping("/api/spot/{spotId}")
 //    public ResponseEntity<SpotWithImageLinksDTO> getSpotInfo(@PathVariable("spotId") UUID spotId) {
 //        return ResponseEntity.ok(spotService.getSpotWithImageLinks(spotId));
 //    }

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/s3-file")
+@RequestMapping("/api/s3-file")
 public class S3FileRestController {
 
     private final S3FileService s3FileService;
