@@ -22,7 +22,7 @@ public record NewSpotAddingRequestDTO(
         @NotBlank
         @Size(min = 10, max = 300)
         String spotDescription,
-        @ValidFilesCount(min = 1, max = 5)
+        @ValidFilesCount(min = 1, max = 5, message = "Должно быть от 1 до 5 файлов")
         List<MultipartFile> files
 ) {
 }

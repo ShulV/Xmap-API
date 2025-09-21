@@ -15,6 +15,12 @@
     margin-right: 30px;
 }
 
+.map-modal__body {
+    /* тут нужно для того, чтобы на что-то упираться при расчете высоты карты */
+    height: 70dvh;
+    padding: 0;
+}
+
 .map-modal__header,
 .map-modal__body,
 .map-modal__footer {

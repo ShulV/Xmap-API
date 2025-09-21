@@ -1,13 +1,17 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const input = document.getElementById("cityInput");
     const suggestionsBox = document.getElementById("citySuggestions");
-
     let debounceTimer;
-    let selectedCityId = null; // тут храним id выбранного города
+
+    const cacheCityId = getSpotFilterCityId();
+    console.log(`cacheCityId=${cacheCityId}`);
+    if (cacheCityId) {
+        const city = await getCityById(cacheCityId);
+        input.value = city.name;
+    }
 
     input.addEventListener("input", () => {
         const substring = input.value.trim();
-        selectedCityId = null; // сбрасываем, если юзер начинает заново вводить
 
         clearTimeout(debounceTimer);
 
@@ -17,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         debounceTimer = setTimeout(async () => {
-            const cities = await getCitiesBySubstring(substring); // [{id, name}, ...]
+            const cities = await getCitiesBySubstring(substring);
 
             suggestionsBox.innerHTML = "";
 
@@ -33,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 li.style.cursor = "pointer";
 
                 li.addEventListener("click", () => {
-                    input.value = city.name;       // показываем название
-                    selectedCityId = city.id;      // сохраняем id
+                    input.value = city.name;
+                    updateSpotFilterCityId(city.id);
                     suggestionsBox.style.display = "none";
                 });
 
@@ -50,15 +54,5 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!suggestionsBox.contains(e.target) && e.target !== input) {
             suggestionsBox.style.display = "none";
         }
-    });
-
-    // Пример применения фильтра
-    const btnFind = document.querySelector("#filterModal .btn.btn-orange");
-    btnFind.addEventListener("click", async () => {
-        const filter = {cityId: null};
-        if (selectedCityId) {
-            filter.cityId = selectedCityId; // 👈 передаём id, а не name
-        }
-        await updatePoints(filter);
     });
 });

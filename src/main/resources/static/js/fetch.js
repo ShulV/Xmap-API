@@ -37,9 +37,9 @@ async function getSpotForMapDialog(spotId) {
     return response.data;
 }
 
-async function getSpotsForMap(filter = {cityId: null}) {
+async function getSpotsForMap() {
     const url = '/spot/list/for-map';
-    const response = await api.post(url, filter, null);
+    const response = await api.post(url, restoreSpotFilter(), null);
     return response.data;
 }
 
