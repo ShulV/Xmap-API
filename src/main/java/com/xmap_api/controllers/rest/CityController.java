@@ -1,8 +1,10 @@
 package com.xmap_api.controllers.rest;
 
 import com.xmap_api.dto.response.CityDTO;
+import com.xmap_api.models.City;
 import com.xmap_api.services.CityService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,5 +21,11 @@ public class CityController {
     @GetMapping("/api/city/list")
     public List<CityDTO> getBySubstring(@RequestParam(required = false) String substring) {
         return cityService.getBySubstring(substring).stream().map(city -> new CityDTO(city.getId(), city.getName())).toList();
+    }
+
+    @GetMapping("/api/city/{id}")
+    public CityDTO getById(@PathVariable Long id) {
+        City city = cityService.getById(id);
+        return new CityDTO(city.getId(), city.getName());
     }
 }

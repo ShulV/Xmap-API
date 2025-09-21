@@ -17,4 +17,8 @@ public class CityService {
     public List<City> getBySubstring(String substring) {
         return cityDAO.getBySubstring(substring);
     }
+
+    public City getById(Long id) {
+        return cityDAO.getById(id);
+    }
 }

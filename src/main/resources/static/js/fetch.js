@@ -49,6 +49,12 @@ async function getCitiesBySubstring(substring) {
     return response.data;
 }
 
+async function getCityById(id) {
+    const url = `/city/${id}`;
+    const response = await api.get(url);
+    return response.data;
+}
+
 async function changeSpotAddingRequestStatus(status, spotAddingRequestId) {
     const url = `/spot-adding-request/change-status/${status}`;
     const response = await api.patch(

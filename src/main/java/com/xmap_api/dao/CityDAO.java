@@ -20,4 +20,11 @@ public class CityDAO {
                 .query(City.class)
                 .list();
     }
+
+    public City getById(Long id) {
+        return jdbcClient.sql("SELECT * FROM city WHERE id = :id")
+                .param("id", id)
+                .query(City.class)
+                .single();
+    }
 }
