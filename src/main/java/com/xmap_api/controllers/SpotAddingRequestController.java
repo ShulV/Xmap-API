@@ -9,12 +9,14 @@ import com.xmap_api.services.SpotAddingRequestService;
 import com.xmap_api.util.DBCode;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.UUID;
 public class SpotAddingRequestController {
 
     private final String baseUrl;
-
+    private final List<String> allowedContentTypes = List.of(MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE);
     private final SpotAddingRequestService spotAddingRequestService;
     private final S3FileService s3FileService;
 
@@ -50,9 +52,18 @@ public class SpotAddingRequestController {
                          @Valid @ModelAttribute("formData") NewSpotAddingRequestDTO formData,
                          BindingResult bindingResult,
                          Model model) {
+
         if (bindingResult.hasErrors()) {
             return "/spot-adding-request";
         }
+        List<String> fileTypes = formData.files().stream().map(MultipartFile::getContentType)
+                .filter(f -> !allowedContentTypes.contains(f)).toList();
+        if (!fileTypes.isEmpty()) {
+            bindingResult.rejectValue("files", null,
+                    "Тип " + fileTypes.getFirst().replace("image/", "") + " не поддерживается");
+            return "/spot-adding-request";
+        }
+
         UUID spotAddingRequestId = spotAddingRequestService.create(formData, userDetails.getUsername());
         return "redirect:/spot-adding-request/" + spotAddingRequestId;
     }

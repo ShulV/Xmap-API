@@ -10,9 +10,9 @@ getUserLocation().then(res => {
     initMap();
 });
 
-async function getPointsFromDB(filter = {cityId: null}) {
+async function getPointsFromDB() {
     try {
-        const spots = await getSpotsForMap(filter);
+        const spots = await getSpotsForMap();
         return spots.map(createSpotFeature);
     } catch (err) {
         alert("Ошибка при получении спотов");
@@ -148,7 +148,7 @@ function showToast(message) {
     toast.show();
 }
 
-async function updatePoints(filter = {cityId: null}) {
+async function updatePoints() {
     if (!mapInstance) return;
 
     // если кластеризатор уже есть → удаляем
@@ -160,7 +160,7 @@ async function updatePoints(filter = {cityId: null}) {
 
     clusterer = new YMapClusterer({
         method: clusterByGrid({ gridSize: 64 }),
-        features: await getPointsFromDB(filter),
+        features: await getPointsFromDB(),
         marker: createMarker,
         cluster: createCluster
     });

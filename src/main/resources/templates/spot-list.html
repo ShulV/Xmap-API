@@ -12,6 +12,7 @@
     <script src="/js/lib/axios.min.js"></script>
     <script src="/js/fetch.js"></script>
     <script src="/js/location-util.js" defer th:if="${viewMode == 'YMAP'}"></script>
+    <script src="/js/spot-filter.js" defer></script>
     <script src="/js/autocomplete.js" defer></script>
     <script src="/js/ymap.js" defer th:if="${viewMode == 'YMAP'}"></script>
     <link href="/css/spot-list-map.css" type="text/css" rel="stylesheet">
@@ -28,7 +29,7 @@
             <div class="search-block__settings">
                 <div class="search-block__sort">
                     <select th:if="${viewMode == 'CARDS'}"
-                            class="form-select form-select-sm search-block__sort-select" aria-label="Сортировка">
+                            class="form-select form-select-sm search-block__sort-select">
                         <option selected>Сортировка</option>
                         <option value="1">Сначала ближайшие</option>
                         <option value="2">Сначала новые</option>

@@ -44,8 +44,12 @@
 
     <!-- todo унести в отдельный компонент -->
     <div class="input-label">
-      <div th:if="${#fields.hasErrors('files')}"
-           class="input-msg-error">Должно быть от 1 до 5 фото</div>
+      <div th:if="${#fields.hasErrors('files')}" class="input-msg-error">
+        <ul>
+          <li th:each="err : ${#fields.errors('files')}"
+              th:text="${err}"></li>
+        </ul>
+      </div>
       <label for="photos" class="input-label__label">Фотографии</label>
 
       <div class="custom-file-input">
@@ -54,7 +58,7 @@
         <span class="custom-file-input__selected-count">Файлы не выбраны</span>
       </div>
     </div>
-    <script>
+    <script type="application/javascript">
       document.getElementById('photos').addEventListener('change', function() {
         const countSpan = document.querySelector('.custom-file-input__selected-count');
         if (this.files.length === 0) {
