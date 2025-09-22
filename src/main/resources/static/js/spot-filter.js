@@ -46,3 +46,47 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+// range
+const distanceInput = document.getElementById("distanceInputId");
+
+function updateBackground(el) {
+    const value = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.background = `linear-gradient(
+    to right,
+    var(--range-left-bg-color) 0%,
+    var(--range-left-bg-color) ${value}%,
+    var(--range-right-bg-color) ${value}%,
+    var(--range-right-bg-color) 100%
+  )`;
+}
+
+distanceInput.addEventListener("input", () => updateBackground(distanceInput));
+updateBackground(distanceInput);
+
+const distanceLabel = document.getElementById("distanceLabelId");
+
+const distanceMap = {
+    1: "500 м.",
+    2: "1 км.",
+    3: "1.5 км.",
+    4: "2 км.",
+    5: "3 км.",
+    6: "4 км.",
+    7: "5 км.",
+    8: "10 км.",
+    9: "20 км.",
+    10: "100 км.",
+    11: "1000 км."
+};
+
+function updateDistanceLabel() {
+    const value = parseInt(distanceInput.value, 10);
+    distanceLabel.textContent = distanceMap[value] ? `(${distanceMap[value]})` : "";
+}
+
+// первый раз при загрузке
+updateDistanceLabel();
+
+// при изменении ползунка
+distanceInput.addEventListener("input", updateDistanceLabel);

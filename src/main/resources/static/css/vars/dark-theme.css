@@ -96,4 +96,10 @@
     --setting-btn-color-active: #eea241;
     --setting-icon-color: #ebebeb;
     --setting-icon-color-active: #eea241;
+
+    /* filters */
+    --range-thumb-color: #FF912B;
+    --range-thumb-shadow-color: rgba(21, 19, 17, 0.6);
+    --range-left-bg-color: #cc6f20;
+    --range-right-bg-color: #181818;
 }

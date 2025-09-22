@@ -20,3 +20,48 @@
 .filter-modal__btn-close path {
     stroke: var(--modal-close-btn-color);
 }
+
+/* */
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: var(--range-input-height);
+    border-radius: 5px;
+    outline: none;
+    background: linear-gradient(
+            to right,
+            var(--range-left-bg-color) 0%,
+            var(--range-left-bg-color) 50%,
+            var(--range-right-bg-color) 50%,
+            var(--range-right-bg-color) 100%
+    );
+}
+
+/* Ползунок Chrome/Safari */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: var(--range-thumb-color);
+    width: var(--range-input-width);
+    height: var(--range-input-height);
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 10px var(--range-thumb-shadow-color);
+    border: none;
+}
+
+/* Firefox */
+input[type=range]::-moz-range-thumb {
+    background-color: var(--range-thumb-color);
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.distanceLabel {
+    margin-left: 1rem;
+}

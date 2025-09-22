@@ -24,6 +24,11 @@
           <input type="text" id="cityInput" class="form-control" autocomplete="off" placeholder="Начните вводить город...">
           <ul id="citySuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
         </div>
+        <div class="mb-3">
+          <label for="distanceInputId" class="form-label">Расстояние до спота</label><span class="distanceLabel" id="distanceLabelId"></span>
+          <input class="distanceInput" id="distanceInputId" type="range" min="1" max="11" value="5"/>
+        </div>
+
       </div>
       <div class="modal-footer filter-modal__footer">
         <button type="button" class="btn btn-orange" data-bs-dismiss="modal" id="spotFilterSearchBtnId">Найти</button>
