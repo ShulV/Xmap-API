@@ -2,6 +2,8 @@ package com.xmap_api.dao;
 
 import com.xmap_api.models.City;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,10 +23,19 @@ public class CityDAO {
                 .list();
     }
 
+    @NonNull
     public City getById(Long id) {
         return jdbcClient.sql("SELECT * FROM city WHERE id = :id")
                 .param("id", id)
                 .query(City.class)
                 .single();
+    }
+
+    @Nullable
+    public City getByName(String name) {
+        return jdbcClient.sql("SELECT * FROM city WHERE name = :name")
+                .param("name", name)
+                .query(City.class)
+                .optional().orElse(null);
     }
 }

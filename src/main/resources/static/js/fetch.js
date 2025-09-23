@@ -55,6 +55,12 @@ async function getCityById(id) {
     return response.data;
 }
 
+async function getCityByName(name) {
+    const url = `/city`;
+    const response = await api.get(url, { params: { name } });
+    return response.data;
+}
+
 async function changeSpotAddingRequestStatus(status, spotAddingRequestId) {
     const url = `/spot-adding-request/change-status/${status}`;
     const response = await api.patch(

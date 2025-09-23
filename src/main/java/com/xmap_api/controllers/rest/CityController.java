@@ -28,4 +28,10 @@ public class CityController {
         City city = cityService.getById(id);
         return new CityDTO(city.getId(), city.getName());
     }
+
+    @GetMapping("/api/city")
+    public CityDTO getById(@RequestParam String name) {
+        City city = cityService.getByName(name);
+        return city != null ? new CityDTO(city.getId(), city.getName()) : null;
+    }
 }
