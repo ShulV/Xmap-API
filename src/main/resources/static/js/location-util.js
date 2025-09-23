@@ -1,6 +1,7 @@
 function getUserLocation() {
-    // Москва, Кремль
-    const defaultLocation = {longitude: 37.620393, latitude: 55.75396};
+    // Москва, Кремль longitude: 37.620393, latitude: 55.75396
+    // Барнаул longitude: 83.743100, latitude: 53.344500
+    const defaultLocation = {longitude: 83.743100, latitude: 53.344500};
 
     return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {

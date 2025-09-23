@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let debounceTimer;
 
     const cacheCityId = getSpotFilterCityId();
-    console.log(`cacheCityId=${cacheCityId}`);
+
     if (cacheCityId) {
         const city = await getCityById(cacheCityId);
         input.value = city.name;
