@@ -37,8 +37,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewMode = urlParams.get("viewMode");
 
     btnFind.addEventListener("click", async () => {
-        // let filter = restoreSpotFilter();
-        // storeSpotFilter(filter);
+        const input = document.getElementById("cityInput");
+        if (input.value) {
+            const city = await getCityByName(input.value);
+            if (city) {
+                updateSpotFilterCityId(city.id);
+            } else {
+                updateSpotFilterCityId(null);
+            }
+        }
         if (viewMode === VIEW_MODE_YMAP) {
             await updatePoints();
         } else if (viewMode === VIEW_MODE_CARDS) {

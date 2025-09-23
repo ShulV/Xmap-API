@@ -104,13 +104,32 @@ public class SpotDAO {
                 .single();
     }
 
-    public List<SpotInfoForMapDTO> getMinSpotInfoForMap(Long cityId) {
+    /**
+     * 6371000 — радиус Земли в метрах.
+     * Фильтрация идёт по реальному расстоянию (формула гаверсинуса).
+     */
+    public List<SpotInfoForMapDTO> getMinSpotInfoForMap(Long cityId, Double locationLat, Double locationLon,
+                                                        Long radiusInMeters) {
+        //todo рассчитать дельты по формулам
         return jdbcClient.sql("""
                    SELECT s.id, s.lon, s.lat FROM spot s
                      JOIN city c ON c.id = s.city_id
                     WHERE (:cityId IS NULL OR c.id = :cityId)
+                      --todo оптимизация когда будут индексы
+                      --AND s.lat BETWEEN (:lat0 - :deltaLat) AND (:lat0 + :deltaLat)
+                      --AND s.lon BETWEEN (:lon0 - :deltaLon) AND (:lon0 + :deltaLon)
+                      AND (:lat0 IS NULL OR :lon0 IS NULL OR :radiusInMeters IS NULL OR
+                           ((6371000 * acos(
+                             cos(radians(:lat0)) * cos(radians(s.lat)) *
+                             cos(radians(s.lon) - radians(:lon0)) +
+                             sin(radians(:lat0)) * sin(radians(s.lat))
+                           )) <= :radiusInMeters)
+                          )
                """)
                 .param("cityId", cityId, Types.BIGINT)
+                .param("lat0", locationLat, Types.DOUBLE)
+                .param("lon0", locationLon, Types.DOUBLE)
+                .param("radiusInMeters", radiusInMeters, Types.BIGINT)
                 .query((rs, rowNum) -> new SpotInfoForMapDTO(
                         rs.getString("id"),
                         rs.getDouble("lon"),
