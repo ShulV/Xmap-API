@@ -21,7 +21,7 @@ public class SpotRestController {
     @PostMapping("/api/spot/list/for-map")
     public ResponseEntity<List<SpotInfoForMapDTO>> getMinSpotInfoListForMap(@RequestBody SpotFilterDTO filter) {
         List<SpotInfoForMapDTO> minSpotInfoList = spotService.getMinSpotInfoForMap(filter.cityId(),
-                filter.locationLat(), filter.locationLon(), filter.distance());
+                filter.locationLat(), filter.locationLon(), filter.radius());
         return ResponseEntity.ok().body(minSpotInfoList);
     }
 

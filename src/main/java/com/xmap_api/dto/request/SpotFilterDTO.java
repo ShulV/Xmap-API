@@ -19,6 +19,6 @@ public record SpotFilterDTO(
         Double locationLon,
         @Nullable
         //в метрах
-        Long distance
+        Long radius
 ) {
 }

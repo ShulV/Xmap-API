@@ -7,11 +7,13 @@
 1) Для БД должны быть добавлено расширение:
 ```postgresql
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";  -- для сгенерированных UUID
+CREATE EXTENSION IF NOT EXISTS "postgis";  -- для сгенерированных UUID
 ```
 2) Чтобы оно поставилось должен быть установлен contrib пакет:
 ```bash
 # для 17 версии это выглядит так
 sudo dnf install postgresql17-contrib
+sudo dnf install postgis
 ```
 
 <h3>👉 Как запустить с нужным application.yml?</h3>

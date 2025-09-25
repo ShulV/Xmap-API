@@ -2,62 +2,60 @@ const FILTER_KEY = "spot-filter";
 const VIEW_MODE_YMAP = "YMAP";
 const VIEW_MODE_CARDS = "CARDS";
 
+const radiusMap = {
+    0: {label: "Не выбрано", radius: null},
+    1: {label: "500 м.", radius: 500},
+    2: {label: "1 км.", radius: 1000},
+    3: {label: "1.5 км.", radius: 1500},
+    4: {label: "2 км.", radius: 2000},
+    5: {label: "3 км.", radius: 3000},
+    6: {label: "4 км.", radius: 4000},
+    7: {label: "5 км.", radius: 5000},
+    8: {label: "10 км.", radius: 10000},
+    9: {label: "20 км.", radius: 20000},
+    10: {label: "100 км.", radius: 100000},
+};
 
-storeSpotFilter = function (filter) {
+const urlParams = new URLSearchParams(window.location.search);
+const viewMode = urlParams.get("viewMode");
+
+const btnFind = document.getElementById("spotFilterSearchBtnId");
+const radiusInput = document.getElementById("radiusInputId");
+const radiusLabel = document.getElementById("radiusLabelId");
+const cityInput = document.getElementById("cityInputId");
+
+storeSpotFilter = (filter) => {
     let storedFilter = JSON.stringify(filter);
     sessionStorage.setItem(FILTER_KEY, storedFilter);
-    console.log("storedFilter: ");
-    console.log(storedFilter);
 }
 
-restoreSpotFilter = function () {
+restoreSpotFilter = () => {
     const strFilter = sessionStorage.getItem(FILTER_KEY);
-    console.log(`storedFilter str: ${strFilter}`);
-    let restoredFilter = strFilter ? JSON.parse(strFilter) : {"cityId": null};
-    console.log("restoredFilter: ");
-    console.log(restoredFilter);
-
-    return restoredFilter;
+    return strFilter ? JSON.parse(strFilter) :
+        {cityId: null, radius: null, locationLat: null, locationLon: null};
 }
 
-updateSpotFilterCityId = function (cityId) {
+updateSpotFilterCityId = (cityId) => {
     const filter = restoreSpotFilter();
     filter.cityId = cityId;
     storeSpotFilter(filter);
 }
 
-getSpotFilterCityId = function () {
+updateSpotFilterRadiusAndLocation = (radius, locationLat, locationLon) => {
+    const filter = restoreSpotFilter();
+    filter.radius = radius;
+    filter.locationLat = locationLat;
+    filter.locationLon = locationLon;
+    storeSpotFilter(filter);
+}
+
+getSpotFilterCityId = () => {
     return restoreSpotFilter().cityId;
 }
 
+// ----------------------------------------------------------
 
-document.addEventListener("DOMContentLoaded", () => {
-    const btnFind = document.querySelector("#spotFilterSearchBtnId");
-    const urlParams = new URLSearchParams(window.location.search);
-    const viewMode = urlParams.get("viewMode");
-
-    btnFind.addEventListener("click", async () => {
-        const input = document.getElementById("cityInput");
-        if (input.value) {
-            const city = await getCityByName(input.value);
-            if (city) {
-                updateSpotFilterCityId(city.id);
-            } else {
-                updateSpotFilterCityId(null);
-            }
-        }
-        if (viewMode === VIEW_MODE_YMAP) {
-            await updatePoints();
-        } else if (viewMode === VIEW_MODE_CARDS) {
-
-        }
-    });
-});
-
-// range
-const distanceInput = document.getElementById("distanceInputId");
-
-function updateBackground(el) {
+updateRangeBackground = (el) => {
     const value = (el.value - el.min) / (el.max - el.min) * 100;
     el.style.background = `linear-gradient(
     to right,
@@ -68,32 +66,53 @@ function updateBackground(el) {
   )`;
 }
 
-distanceInput.addEventListener("input", () => updateBackground(distanceInput));
-updateBackground(distanceInput);
-
-const distanceLabel = document.getElementById("distanceLabelId");
-
-const distanceMap = {
-    1: "500 м.",
-    2: "1 км.",
-    3: "1.5 км.",
-    4: "2 км.",
-    5: "3 км.",
-    6: "4 км.",
-    7: "5 км.",
-    8: "10 км.",
-    9: "20 км.",
-    10: "100 км.",
-    11: "1000 км."
-};
-
-function updateDistanceLabel() {
-    const value = parseInt(distanceInput.value, 10);
-    distanceLabel.textContent = distanceMap[value] ? `(${distanceMap[value]})` : "";
+updateRadiusLabel = () => {
+    const value = parseInt(radiusInput.value, 10);
+    radiusLabel.textContent = radiusMap[value] ? `(${radiusMap[value].label})` : "";
 }
 
-// первый раз при загрузке
-updateDistanceLabel();
+updateRadiusDataInFilter = async (radiusInput) => {
+    if (radiusInput.value) {
+        const location = await getUserLocation();
+        if (location.latitude && location.longitude) {
+            updateSpotFilterRadiusAndLocation(
+                radiusMap[radiusInput.value].radius, location.latitude, location.longitude);
+        } else {
+            console.log('Фильтр не обновлен, т.к. не удалось получить местоположение');
+            updateSpotFilterRadiusAndLocation(null, null, null);
+        }
+    } else {
+        updateSpotFilterRadiusAndLocation(null, null, null);
+    }
+}
 
-// при изменении ползунка
-distanceInput.addEventListener("input", updateDistanceLabel);
+searchWithFilter = async () => {
+    if (cityInput.value) {
+        const city = await getCityByName(cityInput.value);
+        if (city) {
+            updateSpotFilterCityId(city.id);
+        } else {
+            updateSpotFilterCityId(null);
+        }
+    }
+    await updateRadiusDataInFilter(radiusInput);
+
+    if (viewMode === VIEW_MODE_YMAP) {
+        await updatePoints();
+    } else if (viewMode === VIEW_MODE_CARDS) {
+
+    }
+}
+
+// первый раз при загрузке --------------------------------------------
+updateRangeBackground(radiusInput);
+updateRadiusLabel();
+document.addEventListener("DOMContentLoaded", async () => {
+    btnFind.addEventListener("click", async () => searchWithFilter());
+
+    radiusInput.addEventListener("input", async () => {
+        updateRangeBackground(radiusInput);
+        updateRadiusLabel();
+        await updateRadiusDataInFilter(radiusInput);
+    });
+});

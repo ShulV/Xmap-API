@@ -25,11 +25,20 @@ function createSpotFeature(spot) {
         type: 'Feature',
         id: spot.id,
         geometry: {
-            coordinates: [spot.latitude, spot.longitude]
+            coordinates: [spot.longitude, spot.latitude]
         },
         properties: { id: spot.id }
     };
 }
+
+// function createLocationFeature(location) {
+//     return {
+//         type: 'Feature',
+//         geometry: {
+//             coordinates: [location.longitude, location.latitude]
+//         },
+//     };
+// }
 
 async function initMap() {
     await ymaps3.ready;
@@ -60,6 +69,10 @@ async function initMap() {
     });
 
     mapInstance.addChild(clusterer);
+    // const userLocationFeature = await createUserLocationFeature();
+    // if (userLocationFeature) {
+    //     mapInstance.addChild(userLocationFeature);
+    // }
 }
 
 function createMarker(feature) {
@@ -157,7 +170,7 @@ async function updatePoints() {
     }
 
     const { YMapClusterer, clusterByGrid } = await ymaps3.import('@yandex/ymaps3-clusterer@0.0.1');
-
+    // const { YMapMarker } = await import('/js/lib/ymaps3_default_ui_theme_0_0_19.min.js');
     clusterer = new YMapClusterer({
         method: clusterByGrid({ gridSize: 64 }),
         features: await getPointsFromDB(),
@@ -167,3 +180,22 @@ async function updatePoints() {
 
     mapInstance.addChild(clusterer);
 }
+//
+// async function createUserLocationFeature() {
+//     const location = await getUserLocation(false);
+//     console.log(location);
+//     if (location.longitude && location.latitude) {
+//         return new ymaps3.YMapMarker(
+//             {
+//                 coordinates: {
+//                     longitude: location.longitude,
+//                     latitude: location.latitude
+//                 },
+//                 source: SPOTS_SOURCE_ID
+//             },
+//             createLocationFeature(location)
+//         );
+//     }
+//     console.log(null);
+//     return null;
+// }

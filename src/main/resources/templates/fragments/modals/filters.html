@@ -20,13 +20,13 @@
       </div>
       <div class="modal-body filter-modal__body" style="color: white;">
         <div class="mb-3 position-relative">
-          <label for="cityInput" class="form-label">Город</label>
-          <input type="text" id="cityInput" class="form-control" autocomplete="off" placeholder="Начните вводить город...">
-          <ul id="citySuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+          <label for="cityInputId" class="form-label">Город</label>
+          <input type="text" id="cityInputId" class="form-control" autocomplete="off" placeholder="Начните вводить город...">
+          <ul id="citySuggestionsId" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
         </div>
         <div class="mb-3">
-          <label for="distanceInputId" class="form-label">Расстояние до спота</label><span class="distanceLabel" id="distanceLabelId"></span>
-          <input class="distanceInput" id="distanceInputId" type="range" min="1" max="11" value="5"/>
+          <label for="radiusInputId" class="form-label">Расстояние до спота</label><span class="radiusLabel" id="radiusLabelId"></span>
+          <input class="radiusInput" id="radiusInputId" type="range" min="0" max="10" value="0"/>
         </div>
 
       </div>

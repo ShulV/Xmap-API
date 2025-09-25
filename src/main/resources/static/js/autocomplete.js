@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const input = document.getElementById("cityInput");
-    const suggestionsBox = document.getElementById("citySuggestions");
+    const input = document.getElementById("cityInputId");
+    const suggestionsBox = document.getElementById("citySuggestionsId");
     let debounceTimer;
 
     const cacheCityId = getSpotFilterCityId();
