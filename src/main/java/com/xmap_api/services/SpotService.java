@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,8 +52,11 @@ public class SpotService {
         return spotDAO.getWithFirstImage(pageable, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 
-    public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId) {
-        return spotDAO.getWithFirstImage(spotId, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
+    public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId,
+                                                     @Nullable Double locationLon,
+                                                     @Nullable Double locationLat) {
+        return spotDAO.getWithFirstImage(spotId, locationLon, locationLat,
+                s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 
     public SpotWithImageLinksDTO getSpotWithImageLinks(UUID spotId) {

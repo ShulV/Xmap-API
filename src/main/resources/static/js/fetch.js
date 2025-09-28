@@ -31,9 +31,9 @@ api.interceptors.response.use(response => {
 
 // ----------------------------------------------------------------------------------------
 
-async function getSpotForMapDialog(spotId) {
+async function getSpotForMapDialog(spotId, locationLon = null, locationLat = null) {
     const url = `/spot/${spotId}/for-map`;
-    const response = await api.get(url);
+    const response = await api.get(url, { params: { locationLon: locationLon, locationLat: locationLat } });
     return response.data;
 }
 

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
@@ -81,25 +82,34 @@ public class SpotDAO {
         return new PageImpl<>(content, pageable, countTotalElements());
     }
 
-    public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId, String fileLinkTemplate, String fileLinkPathParam) {
+    public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId,
+                                                     @Nullable Double locationLon, @Nullable Double locationLat,
+                                                     String fileLinkTemplate, String fileLinkPathParam) {
         return jdbcClient.sql("""
               WITH spot_with_ranked_images AS (
                   SELECT s.name,
                          sf.id AS file_id,
+                         CASE WHEN (:lon0 IS NOT NULL AND :lat0 IS NOT NULL) THEN ST_Distance(
+                                 ST_SetSRID(ST_MakePoint(s.lon, s.lat), 4326)::geography,
+                                 ST_SetSRID(ST_MakePoint(:lon0, :lat0), 4326)::geography
+                             ) END AS distance,
                          ROW_NUMBER() OVER(PARTITION BY s.id ORDER BY sf.uploaded_at) AS rn
                     FROM spot s
                     JOIN spot_s3_file ssf ON ssf.spot_id = id
                     JOIN s3_file sf ON sf.id = ssf.s3_file_id
                    WHERE s.id = :spotId
               )
-            SELECT name, file_id
+            SELECT name, file_id, distance
               FROM spot_with_ranked_images
              WHERE rn = 1
         """)
                 .param("spotId", spotId)
+                .param("lon0", locationLon)
+                .param("lat0", locationLat)
                 .query((rs, rowNum) -> new SpotInfoForMapDialogDTO(
                         rs.getString("name"),
-                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id"))
+                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
+                        rs.getDouble("distance")
                 ))
                 .single();
     }

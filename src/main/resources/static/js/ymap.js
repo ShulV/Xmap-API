@@ -106,11 +106,13 @@ async function showDialog(feature) {
         dialog.className = 'map-dialog';
         document.body.appendChild(dialog);
     }
-    const spot = await getSpotForMapDialog(feature.properties.id);
-
+    const location = await getUserLocation(false);
+    const spot = await getSpotForMapDialog(feature.properties.id, location.longitude, location.latitude);
+    const formattedDistance = getFormattedDistance(spot.distance);
     dialog.innerHTML = `
         <h4>${spot.name}</h4>
         <img src="${spot.firstImageLink}" alt="картинка спота" class="map-dialog__image"/>
+        <div>${formattedDistance ? `${formattedDistance} от вас` : ""}</div>
         <div class="map-dialog__btns">
             <button onclick="closeDialog()" class="btn btn-gray">Закрыть</button>
             <a href="/spot/${feature.properties.id}" class="btn btn-orange ml-20px">Перейти</a>
