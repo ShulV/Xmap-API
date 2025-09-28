@@ -26,7 +26,7 @@
     </div>
   </div>
   <script type="application/javascript">
-    function setCoordinates([lat, lon]) {
+    function setCoordinates([lon, lat]) {
       document.getElementById('[[${latInputId}]]').value = lat.toFixed(6);
       document.getElementById('[[${lonInputId}]]').value = lon.toFixed(6);
     }
@@ -41,7 +41,6 @@
       } else {
         const mapModalBody = document.getElementById('mapModalBodyId');
         const mapContainer = document.getElementById('yandex-map-id');
-        console.log(document.getElementById('mapModalBodyId').getBoundingClientRect().height);
         mapContainer.style.height = mapModalBody.getBoundingClientRect().height + 'px';
         //хак... max-height: 100% не позволит быть лишней высоте
         // иначе в браузере ПК высота 0 у одного из вложенных элементов карты

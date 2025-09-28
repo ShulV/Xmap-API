@@ -81,6 +81,7 @@
                                 </div>
                                 <div class="spot__item-info">
                                     <h5 class="mt-2" th:text="${item.name()}"></h5>
+                                    <div th:text="${item.getFormattedDistance()}"></div>
                                     <div class="spot__item-inserted-date"
                                          th:text="${item.insertedAt()}"></div>
                                 </div>

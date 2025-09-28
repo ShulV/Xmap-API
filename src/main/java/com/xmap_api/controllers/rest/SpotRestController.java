@@ -26,9 +26,10 @@ public class SpotRestController {
     }
 
     @GetMapping("/api/spot/{id}/for-map")
-    public ResponseEntity<SpotInfoForMapDialogDTO> getSpotInfoForMap(@PathVariable UUID id,
-                                                                     @RequestParam Double locationLon,
-                                                                     @RequestParam Double locationLat) {
+    public ResponseEntity<SpotInfoForMapDialogDTO> getSpotInfoForMap(
+            @PathVariable UUID id,
+            @RequestParam(required = false) Double locationLon,
+            @RequestParam(required = false) Double locationLat) {
         return ResponseEntity.ok().body(spotService.getWithFirstImage(id, locationLon, locationLat));
     }
 

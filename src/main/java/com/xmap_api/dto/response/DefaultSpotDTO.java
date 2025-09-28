@@ -8,8 +8,8 @@ import java.util.UUID;
 public record DefaultSpotDTO(
         UUID id,
         String name,
-        double latitude,
-        double longitude,
+        Double latitude,
+        Double longitude,
         String insertedAt,
         String updatedAt,
         String description,
