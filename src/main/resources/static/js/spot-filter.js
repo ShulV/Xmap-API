@@ -73,7 +73,7 @@ updateRadiusLabel = () => {
 
 updateRadiusDataInFilter = async (radiusInput) => {
     if (radiusInput.value) {
-        const location = await getUserLocation();
+        const location = await getUserLocation(false);
         if (location.latitude && location.longitude) {
             updateSpotFilterRadiusAndLocation(
                 radiusMap[radiusInput.value].radius, location.latitude, location.longitude);
@@ -92,8 +92,11 @@ searchWithFilter = async () => {
         if (city) {
             updateSpotFilterCityId(city.id);
         } else {
+            cityInput.value = "";
             updateSpotFilterCityId(null);
         }
+    } else {
+        updateSpotFilterCityId(null);
     }
     await updateRadiusDataInFilter(radiusInput);
 
