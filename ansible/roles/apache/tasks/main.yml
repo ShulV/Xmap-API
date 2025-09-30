@@ -1,0 +1,16 @@
+- name: Install Apache
+  dnf:
+    name: httpd
+    state: present
+
+- name: Ensure Apache is running and enabled
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Copy virtual host configuration
+  template:
+    src: vhost.conf.j2
+    dest: /etc/httpd/conf.d/{{ domain_name }}.conf
+  notify: restart apache (handler)
