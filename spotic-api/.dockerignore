@@ -1,0 +1,26 @@
+# === Системные и IDE файлы ===
+.git
+.gitignore
+.idea
+.vscode
+.DS_Store
+
+# === Gradle кеши и build артефакты ===
+.gradle
+build/
+out/
+bin/
+
+# === Docker и CI ===
+docker-compose.yml
+Dockerfile
+
+# === Базы данных и временные файлы ===
+postgres-data/
+*.log
+
+# === Node, если фронт рядом ===
+node_modules/
+dist/
+
+/src/main/java/node_modules/
