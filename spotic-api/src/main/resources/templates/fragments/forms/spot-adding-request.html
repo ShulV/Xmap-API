@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Logout form fragment</title>
+</head>
+<body>
+  <form layout:fragment="form" action="/spot-adding-request" method="post"
+        enctype="multipart/form-data" th:object="${formData}" class="form">
+    <div class="input-label">
+      <div th:if="${#fields.hasErrors('spotName')}" th:errors="*{spotName}"
+           class="input-msg-error">Должно быть от 3 до 50 символов</div>
+      <label for="spotName" class="input-label__label">Название спота</label>
+      <input type="text" id="spotName" name="spotName" required placeholder="..."
+             autofocus th:field="*{spotName}" class="input-label__input"/>
+    </div>
+
+    <div class="input-label">
+      <div th:if="${#fields.hasErrors('spotLon') || #fields.hasErrors('spotLat')}"
+           class="input-msg-error">Не указана точка</div>
+      <label for="map-coords-id" class="input-label__label">Точка на карте</label>
+      <div id="map-coords-id" class="coords-inputs" data-bs-toggle="modal" data-bs-target="#mapModal">
+        <div>указать </div>
+        <img src="/assets/marker.svg" alt="map marker" class="coords-inputs__marker">
+      </div>
+      <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
+      <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
+    </div>
+    <div th:replace="fragments/modals/choice_point_on_map :: choice-point-on-ymap-modal(lonInputId='lon', latInputId='lat')">
+      place for ymap modal
+    </div>
+
+    <div class="input-label">
+      <div th:if="${#fields.hasErrors('spotDescription')}"
+           class="input-msg-error">Должно быть от 10 до 300 символов</div>
+      <label for="description" class="input-label__label">Описание</label>
+      <textarea id="description" name="description" required
+                placeholder="..." th:field="*{spotDescription}"
+                class="input-label__input input-label__input-desc">
+      </textarea>
+    </div>
+
+    <!-- todo унести в отдельный компонент -->
+    <div class="input-label">
+      <div th:if="${#fields.hasErrors('files')}" class="input-msg-error">
+        <ul>
+          <li th:each="err : ${#fields.errors('files')}"
+              th:text="${err}"></li>
+        </ul>
+      </div>
+      <label for="photos" class="input-label__label">Фотографии</label>
+
+      <div class="custom-file-input">
+        <input type="file" multiple id="photos" name="photos" accept="image/*" th:field="*{files}" class="custom-file-input__input" />
+        <label for="photos" class="btn btn-gray">Выбрать фото</label>
+        <span class="custom-file-input__selected-count">Файлы не выбраны</span>
+      </div>
+    </div>
+    <script type="application/javascript">
+      document.getElementById('photos').addEventListener('change', function() {
+        const countSpan = document.querySelector('.custom-file-input__selected-count');
+        if (this.files.length === 0) {
+          countSpan.textContent = 'Файлы не выбраны';
+        } else {
+          countSpan.textContent = `${this.files.length} файл(ов) выбран`;
+        }
+      });
+    </script>
+
+    <button type="submit" class="btn btn-orange w-100 h-50px mt-20px">Создать</button>
+  </form>
+</body>
+</html>

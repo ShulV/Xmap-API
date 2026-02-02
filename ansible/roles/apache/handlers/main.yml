@@ -1,0 +1,4 @@
+- name: restart apache (handler)
+  service:
+    name: httpd
+    state: restarted

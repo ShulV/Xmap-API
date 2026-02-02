@@ -1,1 +1,2 @@
-rootProject.name = 'Xmap-API'
+rootProject.name = 'Spotic'
+include 'spotic-api'

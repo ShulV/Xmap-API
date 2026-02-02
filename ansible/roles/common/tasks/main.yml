@@ -1,0 +1,37 @@
+# Установка базовых пакетов через dnf
+- name: Ensure basic packages are installed
+  dnf:
+    name:
+      - vim
+      - git
+      - curl
+      - wget
+      - htop
+      - unzip
+      - tar
+      - firewalld
+    state: present
+
+# Создание пользователя deployer
+- name: Create deployer user
+  user:
+    name: deployer
+    shell: /bin/bash
+    groups: wheel
+    append: yes
+    create_home: yes
+
+# Добавляем SSH-ключи для deployer в deployer/.ssh/authorized_keys
+- name: Authorize SSH key for deployer
+  authorized_key:
+    user: deployer
+    state: present
+    key: "{{ item }}"
+  loop: "{{ ssh_authorized_keys }}"
+
+# Даем sudo без пароля
+- name: Allow deployer to use sudo without password
+  copy:
+    dest: /etc/sudoers.d/deployer
+    content: "deployer ALL=(ALL) NOPASSWD:ALL\n"
+    mode: '0440'

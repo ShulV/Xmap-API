@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect">
+<head>
+    <title>Layout title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <link href="/css/lib/bootstrap5-3-7.min.css" type="text/css" rel="stylesheet">
+    <script src="/js/lib/bootstrap5-3-7.bundle.min.js"></script>
+
+    <link href="/css/normalize.css" type="text/css" rel="stylesheet">
+    <link href="/css/vars/dark-theme.css" type="text/css"rel="stylesheet">
+    <!--    <link href="/css/themes/light.css" rel="stylesheet">-->
+    <link href="/css/vars/global.css" type="text/css" rel="stylesheet">
+    <link href="/css/common.css" type="text/css" rel="stylesheet">
+    <link href="/css/nav.css" type="text/css" rel="stylesheet">
+    <script src="/js/scrollbar.js" defer></script>
+</head>
+<body>
+    <main layout:fragment="content">
+        place for custom content
+    </main>
+
+    <div th:replace="fragments/nav :: mobile-bottom-nav">
+        place for custom header
+    </div>
+</body>
+</html>

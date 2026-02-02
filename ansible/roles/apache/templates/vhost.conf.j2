@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+    ServerName {{ domain_name }}
+    DocumentRoot /var/www/{{ domain_name }}
+
+    <Directory /var/www/{{ domain_name }}>
+        Require all granted
+    </Directory>
+
+    ErrorLog /var/log/httpd/{{ domain_name }}_error.log
+    CustomLog /var/log/httpd/{{ domain_name }}_access.log combined
+</VirtualHost>

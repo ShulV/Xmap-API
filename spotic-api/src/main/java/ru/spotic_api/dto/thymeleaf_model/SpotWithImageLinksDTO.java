@@ -1,0 +1,26 @@
+package ru.spotic_api.dto.thymeleaf_model;
+
+import ru.spotic_api.dto.response.DefaultSpotDTO;
+import lombok.Builder;
+
+import java.util.List;
+import java.util.UUID;
+
+@Builder
+public record SpotWithImageLinksDTO(
+        UUID id,
+        String name,
+        double latitude,
+        double longitude,
+        String insertedAt,
+        String updatedAt,
+        String description,
+        List<String> spotImageLinks,
+        String city
+) {
+    public SpotWithImageLinksDTO(DefaultSpotDTO dto, List<String> spotImageLinks) {
+        this(dto.id(), dto.name(), dto.latitude(), dto.longitude(),
+                dto.insertedAt(), dto.updatedAt(), dto.description(),
+                spotImageLinks, dto.city());
+    }
+}

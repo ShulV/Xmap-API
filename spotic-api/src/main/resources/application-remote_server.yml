@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: Xmap-API
+  liquibase:
+    enabled: true
+    default-schema: public
+    change-log: classpath:db/changelog/main-changelog.xml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/xmap
+    username: viktor # локальные данные сервера спалили :_) #TODO потом убрать как там будет что-то важное
+    password: 123
+
+logging:
+  file:
+    # magic is spring will transfer logging.file.path into System properties LOG_PATH
+    path: /home/viktor/xmap-api/logs
+
+xmap-api:
+  spot-image:
+    # URN (Uniform Resource Name) - URL без scheme (без http://)
+    download-urn-template: "/api/s3-file/spot-image/{spotId}"
+    download-urn-path-param: "{spotId}"
