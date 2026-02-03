@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'ru.spotic-api'
+group = 'ru.backend-api'
 version = '0.1-SNAPSHOT'
 
 java {

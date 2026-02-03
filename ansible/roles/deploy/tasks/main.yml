@@ -1,0 +1,54 @@
+- name: Ensure Docker and Compose are installed
+  become: yes
+  ansible.builtin.package:
+    name:
+      - docker
+    state: present
+  when: ansible_os_family == "Debian" or ansible_os_family == "RedHat"
+
+- name: Ensure project directory exists
+  become: yes
+  ansible.builtin.file:
+    path: "{{ deploy_path }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Ensure PostgreSQL directories exist
+  become: yes
+  ansible.builtin.file:
+    path: "{{ deploy_path }}/postgres/data"
+    state: directory
+    owner: "{{ ansible_user }}"
+    mode: '0755'
+    recurse: yes
+
+- name: Copy docker-compose and app files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ deploy_path }}"
+    mode: '0644'
+  with_items:
+    - Dockerfile
+    - docker-compose.yml
+    - init.sql
+    - .dockerignore
+  notify: Restart only app (handler)
+
+- name: Sync backend sources (fast, with excludes)
+  become: false
+  ansible.builtin.synchronize:
+    src: "{{ playbook_dir }}/../../backend-api/"
+    dest: "{{ deploy_path }}/backend-api/"
+    rsync_opts:
+      - "--archive"
+      - "--delete"
+      - "--info=progress"
+      - "--exclude=.git"
+      - "--exclude=.idea"
+      - "--exclude=node_modules"
+      - "--exclude=.gradle"
+      - "--exclude=build"
+  delegate_to: localhost
+  notify: Restart only app (handler)
+

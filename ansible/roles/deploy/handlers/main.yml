@@ -1,0 +1,8 @@
+- name: Restart only app (handler)
+  become: yes
+  ansible.builtin.shell: |
+    cd {{ deploy_path }}
+    podman-compose down app
+    podman-compose up app -d --build
+  args:
+    chdir: "{{ deploy_path }}"
