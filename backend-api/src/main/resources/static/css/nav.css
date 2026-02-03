@@ -1,6 +1,6 @@
 .menu-nav {
     height: var(--nav-menu-height);
-    display: none;
+    display: block;
     width: 100vw;
     margin: 0 auto;
     position: fixed;
@@ -59,11 +59,4 @@
 
 .menu-nav__item.active .menu-nav__link .menu-nav__title {
     color: var(--active-menu-item-title-color);
-}
-
-@media (max-width: 992px) {
-    .menu-nav {
-        display: block;
-    }
-
 }
