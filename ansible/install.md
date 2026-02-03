@@ -18,7 +18,7 @@ virtualenv -p python env_ansible2-16
 
 2) перейти в env
 ```bash
-source env_ansible2-16/bin/activate
+source ~/env_ansible2-16/bin/activate
 ```
 
 >P.S. будет так: `(env_ansible2-16) victor@MacMini ~ % `

@@ -30,11 +30,10 @@ build/*
 .idea/*
 
 logs/*
-/spotic-api/src/main/node_modules/
-/spotic-api/.gradle/
-/spotic-api/build/
-/spotic-api/src/main/package.json
-/spotic-api/src/main/package-lock.json
-/spotic-api/.idea/
+/backend-api/src/main/node_modules/
+/backend-api/.gradle/
+/backend-api/build/
+/backend-api/src/main/package.json
+/backend-api/src/main/package-lock.json
+/backend-api/.idea/
 /.idea/
-/spotic-api/.idea/

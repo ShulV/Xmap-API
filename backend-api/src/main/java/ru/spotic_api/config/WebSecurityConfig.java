@@ -55,6 +55,7 @@ public class WebSecurityConfig  {
         return jdbcUserDetailsManager;
     }
 
+    //todo tmp comment (test ansible changed )
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http

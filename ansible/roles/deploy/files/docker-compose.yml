@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:17-3.4
+    container_name: spotic-db
+    environment:
+      POSTGRES_USER: xmap_admin
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: xmap
+    ports:
+      - "5432:5432"
+    volumes:
+      - /srv/spotic/postgres/data:/var/lib/postgresql/data:z
+      - /srv/spotic/init.sql:/docker-entrypoint-initdb.d/init.sql:z
+
+  app:
+    build:
+      context: ./backend-api
+      dockerfile: ../Dockerfile
+    container_name: spotic-app
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/xmap
+      SPRING_DATASOURCE_USERNAME: xmap_admin
+      SPRING_DATASOURCE_PASSWORD: 123
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db

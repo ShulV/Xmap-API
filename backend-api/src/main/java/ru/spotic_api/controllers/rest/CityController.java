@@ -34,4 +34,5 @@ public class CityController {
         City city = cityService.getByName(name);
         return city != null ? new CityDTO(city.getId(), city.getName()) : null;
     }
+
 }

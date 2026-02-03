@@ -10,6 +10,10 @@
       - unzip
       - tar
       - firewalld
+      - podman
+      - podman-docker
+      - podman-compose
+      - rsync
     state: present
 
 # Создание пользователя deployer
@@ -35,3 +39,19 @@
     dest: /etc/sudoers.d/deployer
     content: "deployer ALL=(ALL) NOPASSWD:ALL\n"
     mode: '0440'
+
+# Убеждаемся, что есть группа docker, чтобы работать с докером не от root
+- name: Ensure Docker group exists
+  become: yes
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+# Даем группу docker пользователю
+- name: Add deployer to docker group
+  become: yes
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+

@@ -1,3 +1,11 @@
+ansible_user: deployer
+deploy_path: /srv/spotic
 domain_name: test.spotic.ru
+spring_profile: local
+db_user: xmap_admin
+db_password: 123
+db_name: xmap
+db_port: 5432
+backend_port: 8082
 ssh_authorized_keys:
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJdCxIToAgGNElGIxrgsDB6IE2IHklmaQ052tI5yb8+ vshulpov@gmail.com"

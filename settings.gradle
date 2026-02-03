@@ -1,2 +1,2 @@
 rootProject.name = 'Spotic'
-include 'spotic-api'
+include 'backend-api'
