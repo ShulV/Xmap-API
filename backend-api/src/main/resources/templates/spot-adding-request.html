@@ -11,7 +11,7 @@
 <body>
 <div layout:fragment="content" class="content">
     <h2 class="header-title">Добавление спота</h2>
-    <form th:replace="fragments/forms/spot-adding-request :: form">
+    <form th:replace="~{fragments/forms/spot-adding-request :: form}">
         place for custom spot-adding-request form
     </form>
 </div>

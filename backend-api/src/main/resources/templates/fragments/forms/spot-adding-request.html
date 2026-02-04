@@ -28,7 +28,7 @@
       <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
       <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
     </div>
-    <div th:replace="fragments/modals/choice_point_on_map :: choice-point-on-ymap-modal(lonInputId='lon', latInputId='lat')">
+    <div th:replace="~{fragments/modals/choice_point_on_map :: choice-point-on-ymap-modal(lonInputId='lon', latInputId='lat')}">
       place for ymap modal
     </div>
 

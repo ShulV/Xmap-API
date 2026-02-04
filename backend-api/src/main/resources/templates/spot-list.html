@@ -101,17 +101,17 @@
             </div>
             <!-- Добавляем навигацию по страницам -->
             <th:block th:if="${viewMode == 'CARDS'}">
-                <nav th:replace="fragments/pagination :: paginationRow(
-                                    pageable=${spotList}, paginationUrl='/spots')">
+                <nav th:replace="~{fragments/pagination :: paginationRow(
+                                    pageable=${spotList}, paginationUrl='/spots')}">
                     place for list pagination
                 </nav>
             </th:block>
         </div>
-        <div th:replace="fragments/toast :: liveToast(
-                        message='Для нескольких спотов пока недоступно, приблизьте карту', header='⚠️ Уведомление')">
+        <div th:replace="~{fragments/toast :: liveToast(
+                        message='Для нескольких спотов пока недоступно, приблизьте карту', header='⚠️ Уведомление')}">
             place for toast
         </div>
-        <div th:replace="fragments/modals/filters :: filters-modal">
+        <div th:replace="~{fragments/modals/filters :: filters-modal}">
             place for filters
         </div>
     </main>

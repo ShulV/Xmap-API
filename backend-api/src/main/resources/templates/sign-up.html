@@ -10,7 +10,7 @@
 <body>
     <div layout:fragment="content">
         <h2 class="header-title">Регистрация</h2>
-        <form th:replace="fragments/forms/sign-up :: form">
+        <form th:replace="~{fragments/forms/sign-up :: form}">
             place for custom sign-up form
         </form>
     </div>
