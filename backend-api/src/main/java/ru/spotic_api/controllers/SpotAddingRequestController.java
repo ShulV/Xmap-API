@@ -54,14 +54,14 @@ public class SpotAddingRequestController {
                          Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "/spot-adding-request";
+            return "spot-adding-request";
         }
         List<String> fileTypes = formData.files().stream().map(MultipartFile::getContentType)
                 .filter(f -> !allowedContentTypes.contains(f)).toList();
         if (!fileTypes.isEmpty()) {
             bindingResult.rejectValue("files", null,
                     "Тип " + fileTypes.getFirst().replace("image/", "") + " не поддерживается");
-            return "/spot-adding-request";
+            return "spot-adding-request";
         }
 
         UUID spotAddingRequestId = spotAddingRequestService.create(formData, userDetails.getUsername());
