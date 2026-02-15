@@ -17,7 +17,8 @@ spring:
 
 server:
   port: 8082
-  address: 127.0.0.1
+  # для доступа в локальной сети
+  address: 0.0.0.0
   tomcat:
     max-swallow-size: -1  # КРИТИЧНО: Tomcat пропустит ошибку в Spring (
 

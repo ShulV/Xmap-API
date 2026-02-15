@@ -7,7 +7,7 @@ spring:
     change-log: classpath:db/changelog/main-changelog.xml
 
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/xmap
+    url: jdbc:postgresql://localhost:5432/xmap
     username: xmap_admin # локальные данные спалили :_)
     password: 123
   servlet:
@@ -17,7 +17,7 @@ spring:
 
 server:
   port: 8082
-  address: 127.0.0.1
+  address: 0.0.0.0
   tomcat:
     max-swallow-size: -1  # КРИТИЧНО: Tomcat пропустит ошибку в Spring (
 
