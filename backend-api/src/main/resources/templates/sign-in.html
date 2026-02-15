@@ -1,3 +1,4 @@
+<!--/*@thymesVar id="message" type="java.lang.String"*/-->
 <!DOCTYPE html>
 <html lang="ru"
       xmlns:th="http://www.thymeleaf.org"
@@ -10,6 +11,8 @@
 <body>
 <div layout:fragment="content" class="content">
     <h2 class="header-title">Вход</h2>
+    <div class="alert alert-success text-center h-m-8px h-50px lh-1"
+         th:if="${message != null}" th:text="${message}"></div>
     <form th:replace="~{fragments/forms/sign-in :: form}">
         place for custom sign-in form
     </form>
