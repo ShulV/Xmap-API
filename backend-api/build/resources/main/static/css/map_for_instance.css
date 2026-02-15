@@ -1,0 +1,44 @@
+.coords-inputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--choice-map-point-btn-color);
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+.coords-inputs__marker {
+    height: 30px;
+}
+
+.coords-inputs__input {
+    margin-right: 30px;
+}
+
+.map-modal__body {
+    /* тут нужно для того, чтобы на что-то упираться при расчете высоты карты */
+    height: 70dvh;
+    padding: 0;
+}
+
+.map-modal__header,
+.map-modal__body,
+.map-modal__footer {
+    background-color: var(--modal-bg-color);
+    border-color: var(--modal-border-color);
+}
+
+.map-modal__header {
+    color: var(--modal-text-color);
+}
+
+.map-modal__btn-close {
+    height: 20px;
+    width: 20px;
+    display: block;
+    margin-left: auto;
+}
+
+.map-modal__btn-close path {
+    stroke: var(--modal-close-btn-color);
+}

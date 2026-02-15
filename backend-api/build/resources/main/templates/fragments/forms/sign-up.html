@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-up form fragment</title>
+</head>
+<body>
+  <form layout:fragment="form" th:object="${user}" action="/sign-up" method="post"
+        class="form sign-up-form">
+    <!-- Сообщения об ошибках -->
+<!--    <div th:if="${#fields.hasErrors('*')}" style="color: red;">-->
+<!--      Произошли ошибки при заполнении формы.<br/>-->
+<!--      <ul>-->
+<!--        <li th:each="err : ${#fields.errors('*')}">[[${err}]]</li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+    <div class="input-label">
+      <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+           class="input-msg-error">ошибка валидации логина</div>
+      <label for="username" class="input-label__label">Логин</label>
+      <input type="text" id="username" th:field="*{username}" placeholder="nickname"
+             autocomplete="username" class="input-label__input"/>
+    </div>
+
+    <div class="input-label">
+      <div th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}"
+           class="input-msg-error">ошибка валидации пароля</div>
+      <label for="rawPassword" class="input-label__label">Пароль</label>
+      <input type="password" id="rawPassword" th:field="*{rawPassword}" placeholder="******"
+             autocomplete="new-password" class="input-label__input"/>
+    </div>
+
+    <button type="submit" class="btn btn-orange w-100 h-50px mt-20px">Зарегистрироваться</button>
+    <a href="/sign-in" class="link-to-sign-in">Войти</a>
+  </form>
+</body>
+</html>

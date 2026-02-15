@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div layout:fragment="content">
+        <div th:replace="~{fragments/forms/logout :: form}">
+            place for custom logout form
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign-in form fragment</title>
+</head>
+<body>
+  <form layout:fragment="form" action="/sign-in" method="post" class="form sign-in-form">
+    <div th:if="${param.error}" class="input-msg-error">неверный логин или пароль</div>
+<!--    <div th:if="${param.logout}">Вы вышли</div>-->
+    <div class="input-label">
+      <label for="login" class="input-label__label">Логин</label>
+      <input id="login" type="text" name="username" placeholder="nickname"
+             autocomplete="username" class="input-label__input"/>
+    </div>
+    <div class="input-label">
+      <label for="password" class="input-label__label">Пароль</label>
+      <input id="password" type="password" name="password" placeholder="******"
+             autocomplete="current-password" class="input-label__input"/>
+    </div>
+    <input type="submit" value="Войти" class="btn btn-orange w-100 h-50px mt-20px"/>
+    <a href="/sign-up" class="link-to-sign-up">Еще нет аккаунта?</a>
+  </form>
+</body>
+</html>

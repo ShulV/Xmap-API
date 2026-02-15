@@ -1,0 +1,195 @@
+
+body {
+    overflow-y: hidden;
+}
+
+main {
+    height: calc(100% - var(--nav-menu-height));
+
+    display: flex;
+    flex-direction: column;
+}
+
+.search-block {
+    display: flex;
+    flex-direction: column;
+    outline: 1px solid black;
+    height: var(--settings-block-height);
+    width: 100%;
+}
+
+/*.search-block__search {*/
+/*    height: 36px;*/
+/*}*/
+
+.search-block__search .search-block__input {
+    height: 100%;
+    width: 100%;
+}
+
+.search-block__settings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--setting-btn-color);
+}
+
+.search-block__sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='currentColor' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+    background-size: 1rem;
+
+    color: white;
+    border: 0;
+    padding: 0 2rem 0 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.search-block__filters:hover,
+.search-block__filters:active,
+.search-block__sort:hover,
+.search-block__sort:active {
+    color: var(--setting-btn-color-active);
+}
+
+.search-block__filters,
+.search-block__sort {
+    transition: color 0.3s ease;
+    padding: 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-block__filters-icon {
+    height: 20px;
+}
+
+.search-block__filters-icon path {
+    fill: var(--setting-icon-color);
+    transition: fill 0.3s ease;
+}
+
+.search-block__filters:hover .search-block__filters-icon path,
+.search-block__filters:active .search-block__filters-icon path {
+    fill: var(--setting-icon-color-active);
+}
+
+.search-block__filters:hover,
+.search-block__sort:hover {
+    cursor: pointer;
+}
+
+.search-block__filters-text {
+    margin-left: 10px;
+}
+
+.spots {
+    position: fixed;
+    top: var(--settings-block-height);
+    bottom: var(--nav-menu-height);
+    left: 0;
+    right: 0;
+    width: 100%;
+    outline: 1px inset orange;
+    overflow: auto;
+}
+
+.spot__map {
+    height: 100%;
+    width: 100%;
+    background-color: darkseagreen;
+}
+
+.spot__list-wrapper {
+    overflow-y: auto;
+    width: 100%;
+}
+
+.spot__item-img-wrapper {
+    height: 100%;
+    width:  40%;
+}
+
+.spot__item-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.spot__item-card {
+    flex-direction: row;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 20px);
+    height: var(--spot-item-card-height);
+    padding: 8px;
+    background-color: var(--spot-card-bg-color);
+    color: var(--spot-card-color);
+}
+
+.spot__item-info {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.spot__item-inserted-date {
+    color: var(--spot-inserted-date-add);
+}
+
+.view-changing-btn {
+    position: fixed;
+    left: -2px;
+    bottom: 150px;
+    padding: 2px 7px;
+    border-top-right-radius: 15px;
+    border: 2px solid var(--spot-changing-view-border-color);
+    border-bottom-right-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--spot-changing-view-btn-bg-color);
+    color: var(--spot-changing-view-btn-text-color);
+    font-size: 18px;
+    box-shadow: 0 2px 5px var(--spot-changing-view-btn-shadow-color);
+    transition: color 0.3s ease;
+}
+
+.view-changing-btn__text {
+    margin-left: 5px;
+}
+
+.view-changing-btn svg {
+    width: 22px;
+    fill: none;
+    display: block;
+}
+
+.view-changing-btn svg path {
+    fill: none;
+    stroke: var(--spot-changing-view-btn-icon-color);
+    transition: stroke 0.3s ease;
+}
+
+.view-changing-btn:hover svg path {
+    stroke: var(--spot-changing-view-btn-icon-color-active);
+}
+
+
+.view-changing-btn:hover {
+    cursor: pointer;
+    color: var(--spot-changing-view-btn-text-color-active);
+}

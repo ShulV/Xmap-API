@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination fragment</title>
+</head>
+<body>
+  <!-- pageable - -->
+  <nav th:fragment="paginationRow (pageable, paginationUrl)"
+       th:if="${pageable.totalPages > 1}" aria-label="Pagination Navigation">
+    <ul class="pagination-row">
+      <!-- Первая страница -->
+      <li th:if="${pageable.number > 0}"
+          class="pagination-row__element">
+        <a href="#" th:href="@{${paginationUrl}(pageNumber=0, pageSize=${pageable.size}, viewMode='CARDS')}"
+           class="pagination-row__page-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <g xmlns="http://www.w3.org/2000/svg" transform="matrix(-1 0 0 -1 22.5 32)">
+              <path d="M5.6 23.28c-0.2 0-0.44-0.080-0.6-0.24-0.32-0.32-0.32-0.84 0-1.2l5.84-5.84-5.84-5.84c-0.32-0.32-0.32-0.84 0-1.2 0.32-0.32 0.84-0.32 1.2 0l6.44 6.44c0.16 0.16 0.24 0.36 0.24 0.6s-0.080 0.44-0.24 0.6l-6.44 6.44c-0.16 0.16-0.4 0.24-0.6 0.24zM0.84 23.28c-0.2 0-0.44-0.080-0.6-0.24-0.32-0.32-0.32-0.84 0-1.2l5.84-5.84-5.84-5.84c-0.32-0.32-0.32-0.84 0-1.2 0.32-0.32 0.84-0.32 1.2 0l6.44 6.44c0.16 0.16 0.24 0.36 0.24 0.6s-0.080 0.44-0.24 0.6l-6.44 6.44c-0.16 0.16-0.4 0.24-0.6 0.24z"></path>
+            </g>
+          </svg>
+        </a>
+      </li>
+
+      <!-- Предыдущая страница -->
+      <li th:if="${pageable.number > 0}"
+          class="pagination-row__element">
+        <a href="#" th:href="@{${paginationUrl}(pageNumber=${pageable.number - 1}, pageSize=${pageable.size}, viewMode='CARDS')}"
+           class="pagination-row__page-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <g xmlns="http://www.w3.org/2000/svg" transform="matrix(-1 0 0 -1 20 32)">
+              <path d="M0.88 23.28c-0.2 0-0.44-0.080-0.6-0.24-0.32-0.32-0.32-0.84 0-1.2l5.76-5.84-5.8-5.84c-0.32-0.32-0.32-0.84 0-1.2 0.32-0.32 0.84-0.32 1.2 0l6.44 6.44c0.16 0.16 0.24 0.36 0.24 0.6s-0.080 0.44-0.24 0.6l-6.4 6.44c-0.2 0.16-0.4 0.24-0.6 0.24z"></path>
+            </g>
+          </svg>
+        </a>
+      </li>
+
+      <!-- Видимые страницы -->
+      <th:block th:with="start=${T(java.lang.Math).max(pageable.number - 2, 0)}, end=${T(java.lang.Math).min(pageable.number + 2, pageable.totalPages - 1)}">
+        <li th:each="i : ${#numbers.sequence(start, end)}"
+            class="pagination-row__element"
+            th:classappend="${pageable.number == i ? 'active' : ''}">
+          <a href="#" th:href="@{${paginationUrl}(pageNumber=${i}, pageSize=${pageable.size}, viewMode='CARDS')}"
+             class="pagination-row__page-link" th:text="${i + 1}"></a>
+        </li>
+      </th:block>
+
+      <!-- Следующая страница -->
+      <li th:if="${pageable.number < pageable.totalPages - 1}"
+          class="pagination-row__element">
+        <a href="#" th:href="@{${paginationUrl}(pageNumber=${pageable.number + 1}, pageSize=${pageable.size}, viewMode='CARDS')}"
+           class="pagination-row__page-link">
+          <svg viewBox="-12 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.88 23.28c-0.2 0-0.44-0.080-0.6-0.24-0.32-0.32-0.32-0.84 0-1.2l5.76-5.84-5.8-5.84c-0.32-0.32-0.32-0.84 0-1.2 0.32-0.32 0.84-0.32 1.2 0l6.44 6.44c0.16 0.16 0.24 0.36 0.24 0.6s-0.080 0.44-0.24 0.6l-6.4 6.44c-0.2 0.16-0.4 0.24-0.6 0.24z"></path>
+          </svg>
+        </a>
+      </li>
+
+      <!-- Последняя страница -->
+      <li th:if="${pageable.number < pageable.totalPages - 1}"
+          class="pagination-row__element">
+        <a href="#" th:href="@{${paginationUrl}(pageNumber=${pageable.totalPages - 1}, pageSize=${pageable.size}, viewMode='CARDS')}"
+           class="pagination-row__page-link">
+          <svg viewBox="-9.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.6 23.28c-0.2 0-0.44-0.080-0.6-0.24-0.32-0.32-0.32-0.84 0-1.2l5.84-5.84-5.84-5.84c-0.32-0.32-0.32-0.84 0-1.2 0.32-0.32 0.84-0.32 1.2 0l6.44 6.44c0.16 0.16 0.24 0.36 0.24 0.6s-0.080 0.44-0.24 0.6l-6.44 6.44c-0.16 0.16-0.4 0.24-0.6 0.24zM0.84 23.28c-0.2 0-0.44-0.080-0.6-0.24-0.32-0.32-0.32-0.84 0-1.2l5.84-5.84-5.84-5.84c-0.32-0.32-0.32-0.84 0-1.2 0.32-0.32 0.84-0.32 1.2 0l6.44 6.44c0.16 0.16 0.24 0.36 0.24 0.6s-0.080 0.44-0.24 0.6l-6.44 6.44c-0.16 0.16-0.4 0.24-0.6 0.24z"></path>
+          </svg>
+        </a>
+      </li>
+    </ul>
+    <div class="pagination__element-length"
+         th:with="spotLen=${pageable.totalElements},
+                lastDigit=${pageable.totalElements % 10},
+                lastTwo=${pageable.totalElements % 100}"
+         th:text="${'найдено ' + spotLen + ' ' +
+                                      ((lastTwo >= 11 && lastTwo <= 14) ? 'элементов' :
+                                       (lastDigit == 1 ? 'элемент' :
+                                       (lastDigit >= 2 && lastDigit <= 4 ? 'элемента' : 'элементов')))}"></div>
+  </nav>
+
+</body>
+</html>

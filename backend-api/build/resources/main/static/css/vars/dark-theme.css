@@ -1,0 +1,105 @@
+:root {
+    /* common */
+    --main-bg-color: #121212;
+    --page-header-bg-color: #1c1c1e;
+    --header-title-color: #f8f8f8;
+    --header-bg-color: #1c1c1e;
+
+    /* pagination row */
+    --pagination-row-bg-color: #3a3a3a;
+    --pagination-row-arrow-color: #f8f8f8;
+    --pagination-row-text-color: #f8f8f8;
+    --pagination-row-arrow-color-active: #eea241;
+    --pagination-row-text-color-active: #eea241;
+    --pagination-row-border-color-active: #eea241;
+    --pagination-elem-length-text-color: #a1a1a1;
+
+    /* spots */
+    --spot-changing-view-btn-icon-color: #535353;
+    --spot-changing-view-btn-text-color: #535353;
+    --spot-changing-view-btn-bg-color: #f8f8f8;
+    --spot-changing-view-border-color: #eea241;
+    --spot-changing-view-btn-shadow-color: rgba(0, 0, 0, 0.35);
+    --spot-changing-view-btn-icon-color-active: #eea241;
+    --spot-changing-view-btn-text-color-active: #eea241;
+
+    /* form */
+    --input-label-color: #535353;
+    --input-bg-color: #181818;
+    --input-color: #f8f8f8;
+    --input-focus-outline-color: #ff7f0075;
+    --input-submit-btn-bg-color: #ff912b;
+    --input-submit-btn-color: #ffffff;
+    --link-to-sign-up-color: #888487;
+    --input-msg-error-color: #ff0000;
+    --gray-btn-color: #e3e3e3;
+    --gray-btn-color-active: #e5e5e5;
+    --gray-btn-bg-color: #676767;
+    --gray-btn-bg-color-active: #464646;
+
+    /* modals */
+    --modal-bg-color: #3a3a3a;
+    --modal-text-color: #f8f8f8;
+    --modal-close-btn-color: #f5f5f5;
+    --modal-border-color: #757575;
+
+    /* btn */
+    --orange-btn-color: #fff;
+    --orange-btn-bg-color: #ff912b;
+    --orange-btn-border-color: #ff912b;
+    --orange-btn-hover-color: #fff;
+    --orange-btn-hover-bg: #d07721;
+    --orange-btn-hover-border-color: #d07721;
+    --orange-btn-focus-shadow-rgb: 255, 140, 0;
+    --orange-btn-active-color: #fff;
+    --orange-btn-active-bg: #d07721;
+    --orange-btn-active-border-color: #d07721;
+    --orange-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --orange-btn-disabled-color: #fff;
+    --orange-btn-disabled-bg: #ff912b;
+    --orange-btn-disabled-border-color: #ff912b;
+
+    --close-btn-color: #fff;
+    --close-btn-bg-color: #fff;
+
+    /* bottom menu */
+    --menu-icon-color: #c3c3c3;
+    --active-menu-icon-color: #eea241;
+    --menu-bg-color: #1c1c1e;
+    --menu-item-title-color: #c3c3c3;
+    --active-menu-item-title-color: #eea241;
+
+    /* profile */
+    --profile-block-bg-color: #1c1c1e;
+    --profile-avatar-border-color: #c3c3c3;
+    --profile-default-avatar-color: #c3c3c3;
+    --profile-block-username-color: #c3c3c3;
+    --profile-block-roles-color: #9f9f9f;
+    --profile-link-color: #c3c3c3;
+    --profile-link-divider-color: rgba(195, 195, 195, 0.25);
+    --profile-item-focus-bg-color: rgba(195, 195, 195, 0.25);
+
+    /* spot adding request / spot instance */
+    --spot-text-info-color: #f8f8f8;
+    --spot-border-content-block-color: #757575;
+    --spot-inserted-date-add: #b3b3b5;
+    --spot-card-bg-color: #3a3a3a;
+    --spot-card-color: #f8f8f8;
+    --choice-map-point-btn-color: #fff;
+
+    /* map */
+    --map-dialog-bg-color: #3a3a3a;
+    --map-dialog-color: #f8f8f8;
+    --map-dialog-shadow-color: rgba(0,0,0,0.2);
+
+    --setting-btn-color: #ebebeb;
+    --setting-btn-color-active: #eea241;
+    --setting-icon-color: #ebebeb;
+    --setting-icon-color-active: #eea241;
+
+    /* filters */
+    --range-thumb-color: #FF912B;
+    --range-thumb-shadow-color: rgba(21, 19, 17, 0.6);
+    --range-left-bg-color: #cc6f20;
+    --range-right-bg-color: #181818;
+}
