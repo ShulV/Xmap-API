@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Choice point on map fragment</title>
+</head>
+<body>
+<!-- Modal ymap -->
+<div th:fragment="choice-point-on-ymap-modal (lonInputId, latInputId)"
+     class="modal fade map-modal" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen-sm-down map-modal__dialog">
+    <div class="modal-content">
+      <div class="modal-header map-modal__header">
+        <h5 class="modal-title" id="mapModalLabel">Указание местоположения спота</h5>
+        <svg class="map-modal__btn-close" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+             data-bs-dismiss="modal" aria-label="Close">
+          <path d="M5 5L19 19M5 19L19 5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="modal-body map-modal__body" id="mapModalBodyId">
+        <div id="yandex-map-id" style="width: 100%; margin-bottom: 1rem;"></div>
+      </div>
+      <div class="modal-footer map-modal__footer">
+        <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Сохранить</button>
+      </div>
+    </div>
+  </div>
+  <script type="application/javascript">
+    function setCoordinates([lon, lat]) {
+      document.getElementById('[[${latInputId}]]').value = lat.toFixed(6);
+      document.getElementById('[[${lonInputId}]]').value = lon.toFixed(6);
+    }
+    let map = undefined;
+
+    const mapModal = document.getElementById('mapModal');
+
+
+    mapModal.addEventListener('shown.bs.modal', () => {
+      if (map) {
+
+      } else {
+        const mapModalBody = document.getElementById('mapModalBodyId');
+        const mapContainer = document.getElementById('yandex-map-id');
+        mapContainer.style.height = mapModalBody.getBoundingClientRect().height + 'px';
+        //хак... max-height: 100% не позволит быть лишней высоте
+        // иначе в браузере ПК высота 0 у одного из вложенных элементов карты
+        buildMap();
+      }
+    });
+  </script>
+  <script type="application/javascript"
+          src="https://api-maps.yandex.ru/v3/?apikey=b9ae7ce3-4f8e-4018-ae49-7751e42c5c25&lang=ru_RU"></script>
+  <script type="application/javascript" src="/js/location-util.js"></script>
+  <script type="application/javascript" src="/js/ymap-point.js" defer></script>
+</div>
+</body>
+</html>

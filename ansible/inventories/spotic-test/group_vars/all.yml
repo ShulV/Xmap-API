@@ -1,3 +1,6 @@
+
+deploy_path: /srv/spotic
 domain_name: test.spotic.ru
 ssh_authorized_keys:
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJdCxIToAgGNElGIxrgsDB6IE2IHklmaQ052tI5yb8+ vshulpov@gmail.com"
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIImwx3S1GoURcB8WfC59uB34KkQ7TjAI34m6JpXD/Rqd shulpov.v (home mini-pc)"

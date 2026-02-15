@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ulisse.it/thymeleaf-layout-dialect"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Spot страница</title>
+    <link href="/css/spot-instance.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div layout:fragment="content" class="content">
+        <h2 th:text="${spot.name()}" class="header-title"></h2>
+        <div th:if="${#lists.isEmpty(spot.spotImageLinks())}">
+            Картинки для спота отсутствуют
+        </div>
+        <!-- Карусель спотов -->
+        <div th:if="${not #lists.isEmpty(spot.spotImageLinks())}"
+             id="spotImageCarouselWithIndicators" class="carousel slide" data-bs-interval="false">
+            <div th:if="${#lists.size(spot.spotImageLinks()) > 1}"
+                 class="carousel-indicators">
+                <button th:each="imageLink,iterStat : ${spot.spotImageLinks()}"
+                        type="button" data-bs-target="#spotImageCarouselWithIndicators"
+                        th:data-bs-slide-to="${iterStat.index}"
+                        th:classappend="${iterStat.first ? 'active' : ''}">
+                </button>
+            </div>
+            <div class="carousel-inner">
+                <div th:each="imageLink,iterStat : ${spot.spotImageLinks()}"
+                     class="carousel-item"
+                     th:classappend="${iterStat.index == 0 ? 'active' : ''}">
+                    <img th:src="${imageLink}" class="spot__carousel-img" alt="spot image">
+                </div>
+            </div>
+            <button th:if="${#lists.size(spot.spotImageLinks()) > 1}"
+                    class="carousel-control-prev" type="button"
+                    data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" ></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button th:if="${#lists.size(spot.spotImageLinks()) > 1}"
+                    class="carousel-control-next" type="button"
+                    data-bs-target="#spotImageCarouselWithIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" ></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- Информация спота -->
+        <div class="spot__info">
+            <ul class="spot__info-search-links spot__info-content">
+                <li>
+                    <a th:href="@{https://yandex.ru/maps/?ll={lng},{lat}&z=14&pt={lng},{lat},pm2rdm(lng=${spot.longitude()}, lat=${spot.latitude()})}"
+                       class="spot__info-search-link" target="_blank">
+                        <img src="/assets/ymaps_icon.svg" alt="ymap logo"
+                             class="spot__info-search-link-icon">
+                        <span> Яндекс карты</span>
+                    </a>
+                </li>
+<!--                <li>-->
+<!--                    <a href="" class="spot__info-search-link">-->
+<!--                        <img src="/assets/marker.svg" alt="spotic marker"-->
+<!--                             class="spot__info-search-link-icon">-->
+<!--                        <span> Встроенная карта</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
+            <div class="spot__info-content spot__info-desc"
+                 th:text="'📌 ' + ${spot.description()}"></div>
+
+            <div class="spot__inserted-date" th:text="${spot.insertedAt()}"></div>
+        </div>
+    </div>
+</body>
+</html>

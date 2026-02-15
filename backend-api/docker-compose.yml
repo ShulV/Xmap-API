@@ -20,7 +20,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: spotic-app
     environment:
-      SPRING_PROFILES_ACTIVE: local
+      SPRING_PROFILES_ACTIVE: test
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/xmap
       SPRING_DATASOURCE_USERNAME: xmap_admin
       SPRING_DATASOURCE_PASSWORD: 123

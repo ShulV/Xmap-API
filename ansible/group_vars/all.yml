@@ -3,9 +3,5 @@ deploy_path: /srv/spotic
 # ключи, которые копируются на удаленный сервер, при первичной настройке
 ssh_authorized_keys:
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJdCxIToAgGNElGIxrgsDB6IE2IHklmaQ052tI5yb8+ vshulpov@gmail.com"
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIImwx3S1GoURcB8WfC59uB34KkQ7TjAI34m6JpXD/Rqd shulpov.v (home mini-pc)"
 spring_profile: local
-db_user: db_user
-db_password: db_password
-db_name: db_name
-db_port: 5432
-backend_port: 8080

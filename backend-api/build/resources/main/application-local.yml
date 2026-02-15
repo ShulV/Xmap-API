@@ -12,35 +12,15 @@ spring:
     password: 123
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 40MB
-
-  #jpa:
-    #show-sql: true
-    #properties:
-      #hibernate:
-        #format_sql: true  # SQL более читабельный, разбивается на несколько строк
+      max-file-size: 25MB
+      max-request-size: 50MB
 
 server:
   port: 8082
   # для доступа в локальной сети
   address: 0.0.0.0
-  #для HTTPS, SSL шифрования и использования keypair
-  # ssl: Пока без ssl на линуксе
-  #  enabled: true
-  #  key-store-type: PKCS12
-  #  key-store: classpath:ssl/xmap_ssl.pfx
-  #  key-store-password: rootroot
-
-
-#logging:
-#  file:
-#    # magic is spring will transfer logging.file.path into System properties LOG_PATH
-#    path: ~/xmap/Xmap-API/logs
-#  level:
-#    root: debug
-#    web: debug
-#    jakarta: debug
+  tomcat:
+    max-swallow-size: -1  # КРИТИЧНО: Tomcat пропустит ошибку в Spring (
 
 xmap-api:
 # "http://192.168.31.149:8082"
