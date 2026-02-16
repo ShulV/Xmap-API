@@ -38,3 +38,4 @@ logs/*
 /spotic-api/.idea/
 /.idea/
 /spotic-api/.idea/
+/backend-api/build/
