@@ -42,7 +42,7 @@ public class SignUpController {
             return "sign-up";
         }
 
-        redirectAttributes.addFlashAttribute("message",
+        redirectAttributes.addFlashAttribute("successMessage",
                 messageSource.getMessage("info.successful-registration", null, Locale.getDefault()));
         return "redirect:/sign-in";
     }
