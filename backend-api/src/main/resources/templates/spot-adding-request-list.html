@@ -6,7 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Spot adding request list page</title>
+    <script src="/js/spot-placeholder.js" defer></script>
     <link href="/css/spot-adding-request.css" type="text/css" rel="stylesheet">
+    <link href="/css/img-placeholder.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <div layout:fragment="content" class="content">
@@ -21,9 +23,12 @@
                 <th:block th:each="item : ${minSpotAddingRequestList}">
                     <a th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}"
                        class="col card card-container shadow-sm rounded spot-adding-request__item-card">
-                        <div class="spot-adding-request__item-img-wrapper">
-                            <img th:src="${item.firstImageLink()}" alt="spot image"
-                                 class="rounded d-block spot-adding-request__item-img"/>
+                        <div class="spot-adding-request__item-img-wrapper img-placeholder__wrapper">
+                            <div class="img-placeholder__bg"></div>
+                            <div class="img-placeholder__shimmer"></div>
+                            <img th:src="${item.firstImageLink()}"
+                                 alt="spot image"
+                                 class="rounded d-block spot-adding-request__item-img img-placeholder__original-img"/>
                         </div>
                         <div class="spot-adding-request__item-info">
                             <h5 class="mt-2" th:text="${item.spotName()}"></h5>

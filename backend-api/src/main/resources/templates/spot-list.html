@@ -16,10 +16,12 @@
     <script src="/js/spot-filter.js" defer></script>
     <script src="/js/autocomplete.js" defer></script>
     <script src="/js/ymap.js" defer th:if="${viewMode == 'YMAP'}"></script>
+    <script src="/js/spot-placeholder.js" defer></script>
     <link href="/css/spot-list-map.css" type="text/css" rel="stylesheet">
     <link href="/css/pagination.css" type="text/css" rel="stylesheet">
     <link href="/css/nav.css" type="text/css" rel="stylesheet">
     <link href="/css/filters.css" type="text/css" rel="stylesheet">
+    <link href="/css/img-placeholder.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <main layout:fragment="content" class="content">
@@ -75,10 +77,15 @@
                         <th:block th:each="item : ${spotList.content}">
                             <a th:href="@{/spot/{spotId}(spotId=${item.id()})}"
                                class="col card card-container shadow-sm rounded spot__item-card">
-                                <div class="spot__item-img-wrapper">
-                                    <img th:src="${item.firstImageLink()}" alt="spot image"
-                                         class="rounded d-block spot__item-img"/>
+                                <!--/* Картинка спота с анимированным плейсхолдером */-->
+                                <div class="spot__item-img-wrapper img-placeholder__wrapper">
+                                    <div class="img-placeholder__bg"></div>
+                                    <div class="img-placeholder__shimmer"></div>
+                                    <img th:src="${item.firstImageLink()}"
+                                         alt="spot image"
+                                         class="rounded d-block spot__item-img img-placeholder__original-img"/>
                                 </div>
+                                <!--/* Информация о споте */-->
                                 <div class="spot__item-info">
                                     <h5 class="mt-2" th:text="${item.name()}"></h5>
                                     <div th:text="${item.getFormattedDistance()}"></div>

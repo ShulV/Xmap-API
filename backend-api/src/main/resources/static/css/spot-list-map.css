@@ -166,6 +166,7 @@ main {
     font-size: 18px;
     box-shadow: 0 2px 5px var(--spot-changing-view-btn-shadow-color);
     transition: color 0.3s ease;
+    z-index: 1000;
 }
 
 .view-changing-btn__text {
