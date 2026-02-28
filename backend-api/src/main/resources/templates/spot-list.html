@@ -38,7 +38,7 @@
 <!--                        <option value="2">Сначала новые</option>-->
 <!--                    </select>-->
                 </div>
-                <div class="search-block__filters"
+                <div th:if="${viewMode == 'YMAP'}" class="search-block__filters"
                      data-bs-toggle="modal" data-bs-target="#filterModal">
                     <svg class="search-block__filters-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="style=stroke">
