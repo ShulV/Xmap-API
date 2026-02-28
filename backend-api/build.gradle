@@ -5,7 +5,11 @@ plugins {
 }
 
 group = 'ru.backend-api'
-version = '0.1-SNAPSHOT'
+version = '1.1-SNAPSHOT'
+
+springBoot {
+    buildInfo()
+}
 
 java {
 	sourceCompatibility = '21'
