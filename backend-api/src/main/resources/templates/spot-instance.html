@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <title>Spot страница</title>
     <link href="/css/spot-instance.css" type="text/css" rel="stylesheet">
+    <script src="/js/spot-placeholder.js" defer></script>
+    <link href="/css/img-placeholder.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <div layout:fragment="content" class="content">
@@ -29,7 +31,12 @@
                 <div th:each="imageLink,iterStat : ${spot.spotImageLinks()}"
                      class="carousel-item"
                      th:classappend="${iterStat.index == 0 ? 'active' : ''}">
-                    <img th:src="${imageLink}" class="spot__carousel-img" alt="spot image">
+                    <div class="spot__item-img-wrapper img-placeholder__wrapper">
+                        <div class="img-placeholder__bg"></div>
+                        <div class="img-placeholder__shimmer"></div>
+                        <img th:src="${imageLink}" class="spot__carousel-img
+                        rounded d-block spot__item-img img-placeholder__original-img" alt="spot image">
+                    </div>
                 </div>
             </div>
             <button th:if="${#lists.size(spot.spotImageLinks()) > 1}"
