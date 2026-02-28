@@ -16,7 +16,7 @@
         <div th:if="${#lists.isEmpty(spot.spotImageLinks())}">
             Картинки для спота отсутствуют
         </div>
-        <!-- Карусель спотов -->
+        <!--/* Карусель спотов */-->
         <div th:if="${not #lists.isEmpty(spot.spotImageLinks())}"
              id="spotImageCarouselWithIndicators" class="carousel slide" data-bs-interval="false">
             <div th:if="${#lists.size(spot.spotImageLinks()) > 1}"
@@ -52,7 +52,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <!-- Информация спота -->
+        <!--/* Информация спота */-->
         <div class="spot__info">
             <ul class="spot__info-search-links spot__info-content">
                 <li>

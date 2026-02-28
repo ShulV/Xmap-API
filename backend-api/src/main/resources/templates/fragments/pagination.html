@@ -5,11 +5,11 @@
     <title>Pagination fragment</title>
 </head>
 <body>
-  <!-- pageable - -->
+  <!--/* pageable */-->
   <nav th:fragment="paginationRow (pageable, paginationUrl)"
        th:if="${pageable.totalPages > 1}" aria-label="Pagination Navigation">
     <ul class="pagination-row">
-      <!-- Первая страница -->
+      <!--/* Первая страница */-->
       <li th:if="${pageable.number > 0}"
           class="pagination-row__element">
         <a href="#" th:href="@{${paginationUrl}(pageNumber=0, pageSize=${pageable.size}, viewMode='CARDS')}"
@@ -22,7 +22,7 @@
         </a>
       </li>
 
-      <!-- Предыдущая страница -->
+      <!--/* Предыдущая страница */-->
       <li th:if="${pageable.number > 0}"
           class="pagination-row__element">
         <a href="#" th:href="@{${paginationUrl}(pageNumber=${pageable.number - 1}, pageSize=${pageable.size}, viewMode='CARDS')}"
@@ -35,7 +35,7 @@
         </a>
       </li>
 
-      <!-- Видимые страницы -->
+      <!--/* Видимые страницы */-->
       <th:block th:with="start=${T(java.lang.Math).max(pageable.number - 2, 0)}, end=${T(java.lang.Math).min(pageable.number + 2, pageable.totalPages - 1)}">
         <li th:each="i : ${#numbers.sequence(start, end)}"
             class="pagination-row__element"
@@ -45,7 +45,7 @@
         </li>
       </th:block>
 
-      <!-- Следующая страница -->
+      <!--/* Следующая страница */-->
       <li th:if="${pageable.number < pageable.totalPages - 1}"
           class="pagination-row__element">
         <a href="#" th:href="@{${paginationUrl}(pageNumber=${pageable.number + 1}, pageSize=${pageable.size}, viewMode='CARDS')}"
@@ -56,7 +56,7 @@
         </a>
       </li>
 
-      <!-- Последняя страница -->
+      <!--/* Последняя страница */-->
       <li th:if="${pageable.number < pageable.totalPages - 1}"
           class="pagination-row__element">
         <a href="#" th:href="@{${paginationUrl}(pageNumber=${pageable.totalPages - 1}, pageSize=${pageable.size}, viewMode='CARDS')}"

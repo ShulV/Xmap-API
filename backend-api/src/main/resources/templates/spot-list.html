@@ -31,12 +31,12 @@
 <!--            </div>-->
             <div class="search-block__settings">
                 <div class="search-block__sort">
-                    <select th:if="${viewMode == 'CARDS'}"
-                            class="form-select form-select-sm search-block__sort-select">
-                        <option selected>Сортировка</option>
-                        <option value="1">Сначала ближайшие</option>
-                        <option value="2">Сначала новые</option>
-                    </select>
+<!--                    <select th:if="${viewMode == 'CARDS'}"-->
+<!--                            class="form-select form-select-sm search-block__sort-select">-->
+<!--                        <option selected>Сортировка</option>-->
+<!--                        <option value="1">Сначала ближайшие</option>-->
+<!--                        <option value="2">Сначала новые</option>-->
+<!--                    </select>-->
                 </div>
                 <div class="search-block__filters"
                      data-bs-toggle="modal" data-bs-target="#filterModal">
@@ -106,7 +106,7 @@
                     <div class="view-changing-btn__text">карта</div>
                 </a>
             </div>
-            <!-- Добавляем навигацию по страницам -->
+            <!--/* Добавляем навигацию по страницам */-->
             <th:block th:if="${viewMode == 'CARDS'}">
                 <nav th:replace="~{fragments/pagination :: paginationRow(
                                     pageable=${spotList}, paginationUrl='/spots')}">
