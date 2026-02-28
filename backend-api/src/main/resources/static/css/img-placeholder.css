@@ -52,3 +52,9 @@
 .img-placeholder__original-img.loaded {
     opacity: 1;
 }
+
+.carousel-control-prev,
+.carousel-control-next,
+.carousel-indicators {
+    z-index: 10;
+}
