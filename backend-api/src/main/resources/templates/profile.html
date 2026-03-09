@@ -18,8 +18,11 @@
             </svg>
             <div class="profile-block__info">
                 <div sec:authentication="name" class="profile-block__username">Place for principle name</div>
-                <div sec:authorize="hasAnyAuthority('ACCEPTOR', 'ADMIN')" class="profile-block__roles">
+                <div sec:authorize="hasAnyAuthority('ACCEPTOR', 'ADMIN')" class="profile-block__meta-info">
                     Доступные роли:</br><span sec:authentication="principal.authorities">Place for principle roles</span>
+                </div>
+                <div sec:authorize="hasAnyAuthority('ACCEPTOR', 'ADMIN')" class="profile-block__meta-info">
+                    Version: <span th:text="${appVersion}"></span>
                 </div>
             </div>
         </div>

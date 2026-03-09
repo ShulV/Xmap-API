@@ -1,5 +1,6 @@
 package ru.spotic_api.controllers;
 
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,20 +15,26 @@ import java.util.Locale;
 public class UserController {
     private final SecurityService securityService;
     private final MessageSource messageSource;
+    private final BuildProperties buildProperties;
 
-    public UserController(SecurityService securityService, MessageSource messageSource) {
+    public UserController(SecurityService securityService, MessageSource messageSource,
+                          BuildProperties buildProperties) {
         this.securityService = securityService;
         this.messageSource = messageSource;
+        this.buildProperties = buildProperties;
     }
 
     @GetMapping("/profile")
     public String profile(RedirectAttributes redirectAttributes, Model model) {
         if (securityService.isAuthenticated()) {
             model.addAttribute("activePage", "profile");
+            model.addAttribute("appVersion", buildProperties.getVersion());
             return "profile";
+
         } else {
             redirectAttributes.addFlashAttribute("warnMessage",
-                    messageSource.getMessage("warn.unauthorized.cannot-view-profile", null, Locale.getDefault()));
+                    messageSource.getMessage("warn.unauthorized.cannot-view-profile", null,
+                            Locale.getDefault()));
             return "redirect:/sign-in";
         }
     }
