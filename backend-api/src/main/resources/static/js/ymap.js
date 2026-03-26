@@ -111,7 +111,13 @@ async function showDialog(feature) {
     const formattedDistance = getFormattedDistance(spot.distance);
     dialog.innerHTML = `
         <h4>${spot.name}</h4>
-        <img src="${spot.firstImageLink}" alt="картинка спота" class="map-dialog__image"/>
+        <div class="img-placeholder__wrapper">
+            <div class="img-placeholder__bg"></div>
+            <div class="img-placeholder__shimmer"></div>
+            <img src="${spot.firstImageLink}" 
+                 class="map-dialog__image rounded d-block spot__item-img img-placeholder__original-img" 
+                 alt="spot image">
+        </div>
         <div>${formattedDistance ? `${formattedDistance} от вас` : ""}</div>
         <div class="map-dialog__btns">
             <button onclick="closeDialog()" class="btn btn-gray">Закрыть</button>

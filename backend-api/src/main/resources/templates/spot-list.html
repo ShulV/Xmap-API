@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="spots">
-            <div class="spot__map" id="spot-map-container-id" defer th:if="${viewMode == 'YMAP'}">
+            <div class="spot__map" id="spot-map-container-id" th:if="${viewMode == 'YMAP'}">
                 <div id="yandex-map-id" style="width: 100%; height: 100%"></div>
                 <a th:href="@{'/spots?pageNumber=0&pageSize=10&viewMode=CARDS'}"
                    class="view-changing-btn">
