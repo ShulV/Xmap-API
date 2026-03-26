@@ -15,10 +15,16 @@
     <h2 class="header-title">Мои заявки</h2>
 
     <div>
-<!--        <div>sort</div>-->
-<!--        <div>filter</div>-->
+        <!--        <div>sort</div>-->
+        <!--        <div>filter</div>-->
 
         <div class="container mt-3 mb-3">
+            <div th:if="${#lists.isEmpty(minSpotAddingRequestList)}"
+                 class="alert alert-warning text-center"
+                 role="alert">
+                <div>Ты пока что не добавлял споты, здесь пусто!🌍✨</div>
+            </div>
+
             <div class="row row-cols-1 g-3 spot-adding-request__list">
                 <th:block th:each="item : ${minSpotAddingRequestList}">
                     <a th:href="@{/spot-adding-request/{scrId}(scrId=${item.id()})}"
