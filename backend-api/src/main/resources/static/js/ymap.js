@@ -114,9 +114,8 @@ async function showDialog(feature) {
         <div class="img-placeholder__wrapper">
             <div class="img-placeholder__bg"></div>
             <div class="img-placeholder__shimmer"></div>
-            <img src="${spot.firstImageLink}" 
-                 class="map-dialog__image rounded d-block spot__item-img img-placeholder__original-img" 
-                 alt="spot image">
+            <img src="${spot.firstImageLink}" alt="spot image"
+                 class="map-dialog__image rounded d-block img-placeholder__original-img">
         </div>
         <div>${formattedDistance ? `${formattedDistance} от вас` : ""}</div>
         <div class="map-dialog__btns">
