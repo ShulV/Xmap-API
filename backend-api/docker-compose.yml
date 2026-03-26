@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
-  db:
+  spotic-postgres-db:
     image: postgis/postgis:17-3.4
-    container_name: spotic-db
+    container_name: spotic-postgres-db
     environment:
       POSTGRES_USER: xmap_admin
       POSTGRES_PASSWORD: 123
@@ -11,20 +9,32 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - spotic_postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U xmap_admin -d xmap" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
-  app:
+  spotic-spring-app:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    container_name: spotic-app
+    container_name: spotic-spring-app
     environment:
+      JAVA_OPTS: -Duser.language=ru -Duser.region=RU
       SPRING_PROFILES_ACTIVE: test
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/xmap
+      SPRING_DATASOURCE_URL: jdbc:postgresql://spotic-postgres-db:5432/xmap
       SPRING_DATASOURCE_USERNAME: xmap_admin
       SPRING_DATASOURCE_PASSWORD: 123
+      JAVA_TOOL_OPTIONS: -Duser.language=ru -Duser.region=RU -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
     ports:
       - "8082:8082"
+      - "5006:5006" # debug порт
     depends_on:
-      - db
+      spotic-postgres-db:
+        condition: service_healthy
+
+volumes:
+  spotic_postgres_data:

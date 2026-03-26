@@ -1,6 +1,7 @@
 spring:
   application:
     name: Xmap-API
+
   liquibase:
     enabled: true
     default-schema: public
@@ -8,8 +9,9 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/xmap
-    username: xmap_admin # локальные данные спалили :_)
+    username: xmap_admin
     password: 123
+
   servlet:
     multipart:
       max-file-size: 20MB
@@ -19,10 +21,9 @@ server:
   port: 8082
   address: 0.0.0.0
   tomcat:
-    max-swallow-size: -1  # КРИТИЧНО: Tomcat пропустит ошибку в Spring (
+    max-swallow-size: -1
 
 xmap-api:
-  # "http://192.168.31.149:8082"
   base-url: "http://172.20.10.3:8082"
   s3-file:
     # URN (Uniform Resource Name) - URL без scheme (без http://)

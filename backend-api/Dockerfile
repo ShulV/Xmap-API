@@ -1,11 +1,10 @@
-FROM gradle:8.5-jdk21 AS builder
+FROM gradle:8.7-jdk21 AS build
 WORKDIR /app
-COPY . /app
-WORKDIR /app
+COPY . .
 RUN gradle bootJar --no-daemon
 
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
-COPY --from=builder /app/build/libs/SpoticProject-0.1-SNAPSHOT.jar spotic.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "spotic.jar"]
+COPY --from=build /app/build/libs/*.jar spotic.jar
+EXPOSE 8082
+ENTRYPOINT ["java", "-jar", "/app/spotic.jar"]
