@@ -25,8 +25,8 @@ public record NewSpotAddingRequestDTO(
         @Size(min = 10, max = 300)
         String spotDescription,
         @ValidFilesCount(min = 1, max = 5, message = "Должно быть от 1 до 5 файлов")
-        @ValidFilesSize(maxFileSize = 20480, maxTotalFileListSize = 51200,
-                message = "Размер файла до 20 МБ, общий размер до 50 МБ")
+        @ValidFilesSize(maxFileSize = 10 * 1024 * 1024, maxTotalFileListSize = 30 * 1024 * 1024,
+                message = "Размер файла до 10 МБ, общий размер до 30 МБ")
         @ValidFilesType(allowedTypes = {"image/jpeg", "image/png"}, message = "Разрешены JPEG и PNG файлы")
         List<MultipartFile> files
 ) {

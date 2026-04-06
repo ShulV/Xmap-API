@@ -13,8 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ValidFilesSizeValidator.class)
 public @interface ValidFilesSize {
     String message() default ("Суммарный размер файлов слишком большой");
-    long maxFileSize() default 2048;//2MB
-    long maxTotalFileListSize() default 12288;//12MB
+    long maxFileSize() default 2 * 1024 * 1024;//2MB (в байтах)
+    long maxTotalFileListSize() default 12 * 1024 * 1024;//12MB (в байтах)
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
