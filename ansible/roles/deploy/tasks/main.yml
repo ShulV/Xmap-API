@@ -1,11 +1,3 @@
-- name: Ensure Docker and Compose are installed
-  become: yes
-  ansible.builtin.package:
-    name:
-      - docker
-    state: present
-  when: ansible_os_family == "Debian" or ansible_os_family == "RedHat"
-
 - name: Ensure project directory exists
   become: yes
   ansible.builtin.file:

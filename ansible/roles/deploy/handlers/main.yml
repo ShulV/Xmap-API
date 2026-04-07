@@ -2,8 +2,8 @@
   become: yes
   ansible.builtin.shell: |
     cd {{ deploy_path }}
-    podman-compose stop app
-    podman-compose rm app
-    podman-compose up app -d --build
+    docker compose stop app
+    docker compose rm -f app
+    docker compose up -d --build
   args:
     chdir: "{{ deploy_path }}"

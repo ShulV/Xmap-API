@@ -35,3 +35,56 @@
     dest: /etc/sudoers.d/deployer
     content: "deployer ALL=(ALL) NOPASSWD:ALL\n"
     mode: '0440'
+
+# Подключение официального Docker repo
+- name: Add Docker CE repository
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: "0644"
+
+# Установка Docker Engine + Compose v2 plugin
+- name: Install Docker packages
+  ansible.builtin.dnf:
+    name:
+    # возможно, нужны не все (ИИ подсказал, не проверял)
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+
+# Включение и запуск Docker
+- name: Enable and start docker
+  ansible.builtin.systemd:
+    name: docker
+    enabled: yes
+    state: started
+
+# Добавление deployer в группу docker
+- name: Add deployer to docker group
+  ansible.builtin.user:
+    name: deployer
+    groups: docker
+    append: yes
+
+# Проверка docker version
+- name: Check docker version
+  ansible.builtin.command: docker --version
+  register: docker_version
+  changed_when: false
+
+# Проверка docker compose version
+- name: Check docker compose version
+  ansible.builtin.command: docker compose version
+  register: docker_compose_version
+  changed_when: false
+
+# Вывод версий
+- name: Show installed docker versions
+  ansible.builtin.debug:
+    msg:
+      - "{{ docker_version.stdout }}"
+      - "{{ docker_compose_version.stdout }}"

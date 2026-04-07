@@ -24,3 +24,6 @@ node_modules/
 dist/
 
 /src/main/java/node_modules/
+DOCKER_README.md
+README.md
+TODO.md
