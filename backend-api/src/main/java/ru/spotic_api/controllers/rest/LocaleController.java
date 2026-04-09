@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Locale;
 
 @RestController
-public class HealthController {
+public class LocaleController {
 
-    @GetMapping("/health/locale")
+    @GetMapping("/locale")
     public String getLocale() {
         return "Locale: " + Locale.getDefault() +
                 ", Language: " + Locale.getDefault().getLanguage();

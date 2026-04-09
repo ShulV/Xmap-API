@@ -67,7 +67,7 @@ public class WebSecurityConfig  {
                                 "/spot/{spotId}",
                                 "/spot-adding-request",
                                 "/profile",
-                                "/health/locale"
+                                "/locale"
                         ).permitAll()
                         .requestMatchers("/css/**", "/fonts/**", "/js/**", "/assets/**").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
