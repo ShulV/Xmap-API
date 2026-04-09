@@ -23,3 +23,6 @@ postgres/data/
 node_modules/
 dist/
 
+DOCKER_README.md
+README.md
+TODO.md

@@ -11,8 +11,9 @@
   ansible.builtin.file:
     path: "{{ deploy_path }}/postgres/data"
     state: directory
-    owner: "{{ ansible_user }}"
-    mode: '0755'
+    owner: "999"  # UID postgres user в официальном образе
+    group: "999"
+    mode: "0700"  # Только владелец может читать/писать
     recurse: yes
 
 - name: Copy docker-compose and app files
