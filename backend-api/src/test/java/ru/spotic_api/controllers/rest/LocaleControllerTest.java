@@ -8,9 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("LocaleController")
+@DisplayName("Locale controller")
 @WebMvcTest(controllers = LocaleController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class LocaleControllerTest {
@@ -19,10 +20,10 @@ class LocaleControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("GET /locale должен возвращать 200 OK")
+    @DisplayName("GET /locale должен возвращать 200 OK и RU локаль")
     void shouldReturnOk() throws Exception {
-        System.out.println("LocaleControllerTest.shouldReturnOk executed");
         mockMvc.perform(get("/locale"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("Locale: ru_RU, Language: ru"));
     }
 }
