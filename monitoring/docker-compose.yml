@@ -1,0 +1,18 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.6.0
+    container_name: local-prometheus
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+      - prometheus-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.size=10GB
+      - --storage.tsdb.retention.time=30d
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+
+volumes:
+  prometheus-data:

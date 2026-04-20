@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'spotic-local'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - localhost:8082
+
+  - job_name: 'spotic-test'
+    metrics_path: /actuator/prometheus
+    scheme: https
+    static_configs:
+      - targets:
+          - test.spotic.ru
+
+  - job_name: 'spotic-prod'
+    metrics_path: /actuator/prometheus
+    scheme: https
+    static_configs:
+      - targets:
+          - spotic.ru
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets:
+          - localhost:9090
