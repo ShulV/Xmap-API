@@ -8,6 +8,8 @@ scrape_configs:
     static_configs:
       - targets:
           - localhost:8082
+        labels:
+          application: spotic-local
 
   - job_name: 'spotic-test'
     metrics_path: /actuator/prometheus
@@ -15,6 +17,9 @@ scrape_configs:
     static_configs:
       - targets:
           - test.spotic.ru
+        labels:
+          application: spotic-test
+
 
   - job_name: 'spotic-prod'
     metrics_path: /actuator/prometheus
@@ -22,8 +27,12 @@ scrape_configs:
     static_configs:
       - targets:
           - spotic.ru
+        labels:
+          application: spotic-prod
 
   - job_name: 'prometheus'
     static_configs:
       - targets:
           - localhost:9090
+        labels:
+          application: prometheus

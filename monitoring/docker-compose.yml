@@ -1,7 +1,7 @@
 services:
   prometheus:
     image: prom/prometheus:v3.6.0
-    container_name: local-prometheus
+    container_name: prometheus-container
     restart: unless-stopped
     network_mode: host
     volumes:
@@ -13,6 +13,13 @@ services:
       - --storage.tsdb.retention.time=30d
       - --storage.tsdb.path=/prometheus
       - --web.enable-lifecycle
-
+  grafana:
+    image: grafana/grafana:13.0
+    container_name: grafana-container
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - grafana-data:/var/lib/grafana
 volumes:
   prometheus-data:
+  grafana-data:

@@ -14,8 +14,35 @@ P.S.
 ```
 
 ## Примеры
+### Prometheus
 мониторинг количества запросов по урлам
 <img src="./readme_images/prometheus_1.jpg" width="300px"/>
 
 целевые приложения
 <img src="./readme_images/prometheus_2.png" width="300px"/>
+
+### Grafana
+Первый вход
+
+<img src="./readme_images/grafana_1.png" width="300px"/>
+
+Дашборды
+
+<img src="./readme_images/grafana_2.png" width="300px"/>
+
+Источники данных
+
+<img src="./readme_images/grafana_3.png" width="300px"/>
+
+Метрики из готового дашборда (JVM Micrometer)
+
+<img src="./readme_images/grafana_4.png" width="300px"/>
+
+<img src="./readme_images/grafana_5.png" width="300px"/>
+
+<img src="./readme_images/grafana_6.png" width="300px"/>
+
+
+
+## Стандартные креды grafana
+`admin`:`admin`
