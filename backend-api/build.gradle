@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.backend-api'
-version = '1.3-SNAPSHOT'
+version = '1.4-SNAPSHOT'
 
 springBoot {
     buildInfo()
@@ -37,6 +37,8 @@ dependencies {
 	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	implementation 'org.hibernate.validator:hibernate-validator'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 	compileOnly 'org.projectlombok:lombok'
 	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'

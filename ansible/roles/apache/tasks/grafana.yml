@@ -1,0 +1,30 @@
+- name: Copy temporary HTTP monitoring vhost
+  template:
+    src: monitoring_http_vhost.conf.j2
+    dest: "/etc/httpd/conf.d/{{ monitoring_domain_name }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart apache
+
+- name: Flush handlers before requesting certificate
+  meta: flush_handlers
+
+- name: Obtain Let's Encrypt certificate for monitoring domain
+  command: >
+    certbot certonly --apache
+    -d {{ monitoring_domain_name }}
+    --non-interactive
+    --agree-tos
+    -m {{ certbot_email }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ monitoring_domain_name }}/fullchain.pem"
+
+- name: Copy final HTTPS monitoring vhost
+  template:
+    src: monitoring_vhost.conf.j2
+    dest: "/etc/httpd/conf.d/{{ monitoring_domain_name }}.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart apache

@@ -11,6 +11,9 @@
 
 - name: Copy virtual host configuration
   template:
-    src: vhost.conf.j2
+    src: app_vhost.conf.j2
     dest: /etc/httpd/conf.d/{{ domain_name }}.conf
-  notify: restart apache (handler)
+  notify: restart apache
+
+- import_tasks: grafana.yml
+  when: monitoring_domain_name is defined
