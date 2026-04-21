@@ -1,6 +1,9 @@
 
 deploy_path: /srv/spotic
+monitoring_path: /srv/monitoring
 domain_name: test.spotic.ru
+monitoring_domain_name: grafana.spotic.ru
+certbot_email: vshulpov@gmail.com
 ssh_authorized_keys:
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJdCxIToAgGNElGIxrgsDB6IE2IHklmaQ052tI5yb8+ vshulpov@gmail.com"
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIImwx3S1GoURcB8WfC59uB34KkQ7TjAI34m6JpXD/Rqd shulpov.v@fedora-mini-pc"

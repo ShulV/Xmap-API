@@ -42,6 +42,10 @@ P.S.
 
 <img src="./readme_images/grafana_6.png" width="300px"/>
 
+На боевом сервере
+
+<img src="./readme_images/grafana_7.png" width="300px"/>
+
 
 
 ## Стандартные креды grafana

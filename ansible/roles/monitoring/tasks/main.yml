@@ -1,0 +1,38 @@
+- name: Create monitoring base directory
+  file:
+    path: "{{ monitoring_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create prometheus config directory
+  file:
+    path: "{{ monitoring_path }}/prometheus"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Copy monitoring docker-compose.yml
+  template:
+    src: docker-compose.monitoring.yml.j2
+    dest: "{{ monitoring_path }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart monitoring stack
+
+- name: Copy prometheus.yml
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ monitoring_path }}/prometheus/prometheus.yml"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart monitoring stack
+
+- name: Ensure monitoring stack is up
+  command: docker compose up -d
+  args:
+    chdir: "{{ monitoring_path }}"
