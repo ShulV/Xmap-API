@@ -16,9 +16,11 @@ P.S.
 ## Примеры
 ### Prometheus
 мониторинг количества запросов по урлам
+
 <img src="./readme_images/prometheus_1.jpg" width="300px"/>
 
 целевые приложения
+
 <img src="./readme_images/prometheus_2.png" width="300px"/>
 
 ### Grafana
@@ -48,10 +50,17 @@ Micrometer (JVM)
 
 <img src="./readme_images/grafana_7.png" width="300px"/>
 
-Spring boot APM
+Spring boot APM, CPU, JVM...
+
 <img src="./readme_images/grafana_8.png" width="300px"/>
 
+Spring boot APM, статистика коннектов к БД и http-запросов
 
+<img src="./readme_images/grafana_9.png" width="300px"/>
+
+Spring boot APM, сессий томката и логов
+
+<img src="./readme_images/grafana_10.png" width="300px"/>
 
 ## Стандартные креды grafana
 `admin`:`admin`
