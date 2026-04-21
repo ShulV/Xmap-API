@@ -44,7 +44,12 @@ P.S.
 
 На боевом сервере
 
+Micrometer (JVM)
+
 <img src="./readme_images/grafana_7.png" width="300px"/>
+
+Spring boot APM
+<img src="./readme_images/grafana_8.png" width="300px"/>
 
 
 
