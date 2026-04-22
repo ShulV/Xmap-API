@@ -1,0 +1,98 @@
+- name: Ensure required tools are installed
+  become: yes
+  ansible.builtin.dnf:
+    name:
+      - gzip
+    state: present
+
+- name: Check PostgreSQL container exists
+  become: yes
+  ansible.builtin.command: "docker inspect {{ db_backup_docker_container }}"
+  register: db_backup_container_inspect
+  changed_when: false
+
+- name: Ensure backup directory exists
+  become: yes
+  ansible.builtin.file:
+    path: "{{ db_backup_dir | default('/srv/backup') }}"
+    state: directory
+    mode: "{{ db_backup_dir_mode | default('0750') }}"
+    owner: "{{ db_backup_owner | default(omit) }}"
+    group: "{{ db_backup_group | default(omit) }}"
+
+- name: Find expired backup files
+  become: yes
+  ansible.builtin.find:
+    paths: "{{ db_backup_dir | default('/srv/backup') }}"
+    patterns: "{{ db_backup_pattern | default('*.gz') }}"
+    age: "{{ db_backup_retention_days | default(7) }}d"
+    recurse: false
+    file_type: file
+  register: expired_backups
+
+- name: Remove expired backup files
+  become: yes
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ expired_backups.files }}"
+
+- name: Create PostgreSQL backup
+  become: yes
+  ansible.builtin.shell: |
+    set -o errexit
+    set -o nounset
+    set -o pipefail
+
+    backup_file="{{ db_backup_prefix | default('spotic') }}-$(date +%Y-%m-%dT%H:%M:%S).sql.gz"
+    backup_path="{{ db_backup_dir | default('/srv/backup') }}/${backup_file}"
+
+    docker exec -e PGPASSWORD="{{ db_password }}" -i "{{ db_backup_docker_container }}" \
+      pg_dump \
+      -h {{ db_host }} \
+      -p {{ db_port }} \
+      -U {{ db_user }} \
+      -d {{ db_name }} \
+      -F p \
+      --no-owner \
+      -w | gzip > "${backup_path}"
+
+    printf "%s\n" "${backup_path}"
+  args:
+    executable: /bin/bash
+  register: backup_create_result
+  changed_when: true
+
+- name: Save backup path fact
+  ansible.builtin.set_fact:
+    db_last_backup_path: "{{ backup_create_result.stdout_lines[-1] }}"
+
+- name: Set permissions for created backup
+  become: yes
+  ansible.builtin.file:
+    path: "{{ db_last_backup_path }}"
+    mode: "{{ db_backup_file_mode | default('0440') }}"
+    owner: "{{ db_backup_owner | default(omit) }}"
+    group: "{{ db_backup_group | default(omit) }}"
+
+- name: Ensure local backup directory exists
+  become: false
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: "{{ db_backup_local_dir | default(lookup('env', 'HOME') + '/backup') }}"
+    state: directory
+    mode: "{{ db_backup_local_dir_mode | default('0750') }}"
+
+- name: Download backup to local machine
+  become: yes
+  ansible.builtin.fetch:
+    src: "{{ db_last_backup_path }}"
+    dest: "{{ db_backup_local_dir | default(lookup('env', 'HOME') + '/backup') }}/"
+    flat: true
+  register: local_backup_fetch_result
+
+- name: Show created backup paths
+  ansible.builtin.debug:
+    msg:
+      - "Backup created on server: {{ db_last_backup_path }}"
+      - "Backup downloaded locally: {{ local_backup_fetch_result.dest }}"

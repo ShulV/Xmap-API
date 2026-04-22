@@ -18,5 +18,17 @@ db_admin_password: "123"  # если есть пароль
 restore_dump_src: "~/backup/spotic-2026-02-01T16:35:47.sql.gz"
 restore_dump_dest: "/tmp/spotic-restore.sql.gz"
 db_restore_recreate: true
+db_backup_dir: "/srv/backup"
+db_backup_retention_days: 7
+db_backup_prefix: "spotic"
+db_backup_pattern: "*.gz"
+db_backup_file_mode: "0440"
+db_backup_dir_mode: "0750"
+db_backup_local_dir: "~/backup"
+db_backup_local_dir_mode: "0750"
+# выставьте значения при необходимости, иначе останется текущий владелец/группа
+# db_backup_owner: backup_owner
+# db_backup_group: backup_owner_group
+db_backup_docker_container: "spotic-postgres-db"
 
 swap_size: 4G

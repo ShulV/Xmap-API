@@ -44,6 +44,13 @@ ansible-playbook -i inventories/spotic-test/hosts.yml playbooks/deploy-monitorin
 ```
 
 ## Dump/restore
+создать backup на удаленном сервере
+```bash
+ansible-playbook -i inventories/spotic-test/hosts.yml playbooks/backup-db.yml
+```
+после выполнения дамп также скачивается локально в `~/backup` (или `db_backup_local_dir`) с именем вида `spotic-YYYY-MM-DDTHH:MM:SS.sql.gz`
+`pg_dump` запускается внутри контейнера `db_backup_docker_container` (для test: `spotic-postgres-db`)
+
 выгружаем дамп на чистую БД с пересозданием пользователя
 ```bash
 ansible-playbook -i inventories/spotic-test/hosts.yml playbooks/restore-db.yml -e restore_dump_src=~/backup/spotic-2026-02-01T16:35:47.sql.gz

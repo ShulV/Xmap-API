@@ -1,0 +1,8 @@
+- hosts: all
+  become: true
+  remote_user: deployer
+
+  tasks:
+    - import_role:
+        name: db
+        tasks_from: backup
