@@ -51,6 +51,29 @@ ansible-playbook -i inventories/spotic-test/hosts.yml playbooks/backup-db.yml
 после выполнения дамп также скачивается локально в `~/backup` (или `db_backup_local_dir`) с именем вида `spotic-YYYY-MM-DDTHH:MM:SS.sql.gz`
 `pg_dump` запускается внутри контейнера `db_backup_docker_container` (для test: `spotic-postgres-db`)
 
+залить дамп в локальную БД, к-ая крутится в докере:
+P.S. поменять название дампа!
+```bash
+залить в локальную БД, которая крутится в докере:
+docker exec -i spotic-postgres-db psql -U xmap_admin -d postgres -c "
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'xmap'
+  AND pid <> pg_backend_pid();
+"
+
+docker exec -i spotic-postgres-db psql -U xmap_admin -d postgres -c "DROP DATABASE IF EXISTS xmap;"
+docker exec -i spotic-postgres-db psql -U xmap_admin -d postgres -c "DROP ROLE IF EXISTS xmap_admin;"
+docker exec -i spotic-postgres-db psql -U xmap_admin -d postgres -c "CREATE USER xmap_admin WITH PASSWORD '123';"
+docker exec -i spotic-postgres-db psql -U xmap_admin -d postgres -c "CREATE DATABASE xmap OWNER xmap_admin;"
+
+docker exec -i spotic-postgres-db psql -U xmap_admin -d xmap -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+docker exec -i spotic-postgres-db psql -U xmap_admin -d xmap -c 'CREATE EXTENSION IF NOT EXISTS "postgis";'
+
+gunzip -c ~/backup/spotic-2026-04-22T21:31:20.sql.gz | \
+docker exec -i spotic-postgres-db psql -U xmap_admin -d xmap
+```
+
 выгружаем дамп на чистую БД с пересозданием пользователя
 ```bash
 ansible-playbook -i inventories/spotic-test/hosts.yml playbooks/restore-db.yml -e restore_dump_src=~/backup/spotic-2026-02-01T16:35:47.sql.gz
