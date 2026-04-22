@@ -87,17 +87,18 @@ updateRadiusDataInFilter = async (radiusInput) => {
 }
 
 searchWithFilter = async () => {
-    if (cityInput.value) {
-        const city = await getCityByName(cityInput.value);
-        if (city) {
-            updateSpotFilterCityId(city.id);
-        } else {
-            cityInput.value = "";
-            updateSpotFilterCityId(null);
-        }
+    if (cityInput && cityInput.value) {
+            const city = await getCityByName(cityInput.value);
+            if (city) {
+                updateSpotFilterCityId(city.id);
+            } else {
+                cityInput.value = "";
+                updateSpotFilterCityId(null);
+            }
     } else {
-        updateSpotFilterCityId(null);
+            updateSpotFilterCityId(null);
     }
+
     await updateRadiusDataInFilter(radiusInput);
 
     if (viewMode === VIEW_MODE_YMAP) {
@@ -110,14 +111,20 @@ searchWithFilter = async () => {
 }
 
 // первый раз при загрузке --------------------------------------------
-updateRangeBackground(radiusInput);
-updateRadiusLabel();
+if (radiusInput && radiusInput.value) {
+    updateRangeBackground(radiusInput);
+    updateRadiusLabel();
+}
 document.addEventListener("DOMContentLoaded", async () => {
-    btnFind.addEventListener("click", async () => searchWithFilter());
+    if (btnFind) {
+        btnFind.addEventListener("click", async () => searchWithFilter());
+    }
 
-    radiusInput.addEventListener("input", async () => {
-        updateRangeBackground(radiusInput);
-        updateRadiusLabel();
-        await updateRadiusDataInFilter(radiusInput);
-    });
+    if (radiusInput && radiusInput.value) {
+        radiusInput.addEventListener("input", async () => {
+            updateRangeBackground(radiusInput);
+            updateRadiusLabel();
+            await updateRadiusDataInFilter(radiusInput);
+        });
+    }
 });
