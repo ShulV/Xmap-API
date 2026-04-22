@@ -12,6 +12,9 @@ source ~/env_ansible_2_16/bin/activate
 - Создание пользователя deployer
 - Добавление SSH-ключи для deployer в deployer/.ssh/authorized_keys
 - Даем sudo без пароля
+- настройка swap
+- настройка firewalld
+- настройка httpd
 Инициализация (установка либ + httpd). Первый запуск должен быть под root, т.к. нет пользователя
 ```bash
 ansible-playbook -i inventories/spotic-test/hosts.yml playbooks/init.yml -e ansible_user=root -k
