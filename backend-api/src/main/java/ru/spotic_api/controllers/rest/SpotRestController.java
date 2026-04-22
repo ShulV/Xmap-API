@@ -3,7 +3,11 @@ package ru.spotic_api.controllers.rest;
 import ru.spotic_api.dto.request.SpotFilterDTO;
 import ru.spotic_api.dto.response.SpotInfoForMapDTO;
 import ru.spotic_api.dto.response.SpotInfoForMapDialogDTO;
+import ru.spotic_api.dto.thymeleaf_model.MinSpot;
 import ru.spotic_api.services.SpotService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +35,15 @@ public class SpotRestController {
             @RequestParam(required = false) Double locationLon,
             @RequestParam(required = false) Double locationLat) {
         return ResponseEntity.ok().body(spotService.getWithFirstImage(id, locationLon, locationLat));
+    }
+
+    @PostMapping("/api/spot/list/for-cards")
+    public ResponseEntity<Page<MinSpot>> getSpotCards(@RequestBody(required = false) SpotFilterDTO filter,
+                                                      @RequestParam(defaultValue = "0") int pageNumber,
+                                                      @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        SpotFilterDTO safeFilter = filter == null ? new SpotFilterDTO(null, null, null, null) : filter;
+        return ResponseEntity.ok().body(spotService.getWithFirstImage(pageable, safeFilter));
     }
 
 //    @GetMapping("/api/spot/all")

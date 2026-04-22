@@ -103,7 +103,9 @@ searchWithFilter = async () => {
     if (viewMode === VIEW_MODE_YMAP) {
         await updatePoints();
     } else if (viewMode === VIEW_MODE_CARDS) {
-
+        if (typeof reloadSpotCards === "function") {
+            await reloadSpotCards(0);
+        }
     }
 }
 

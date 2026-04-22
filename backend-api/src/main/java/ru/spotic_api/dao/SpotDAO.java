@@ -2,6 +2,7 @@ package ru.spotic_api.dao;
 
 import ru.spotic_api.dao.mappers.DefaultSpotRowMapper;
 import ru.spotic_api.dto.request.NewSpotDTO;
+import ru.spotic_api.dto.request.SpotFilterDTO;
 import ru.spotic_api.dto.response.DefaultSpotDTO;
 import ru.spotic_api.dto.response.SpotInfoForMapDTO;
 import ru.spotic_api.dto.response.SpotInfoForMapDialogDTO;
@@ -88,12 +89,64 @@ public class SpotDAO {
         return new PageImpl<>(content, pageable, countTotalElements());
     }
 
+    public Page<MinSpot> getWithFirstImage(Pageable pageable, SpotFilterDTO filter,
+                                           String fileLinkTemplate, String fileLinkPathParam) {
+        List<MinSpot> content = jdbcClient.sql("""
+              WITH spot_with_ranked_images AS (
+                  SELECT s.id, s.name, s.lat, s.lon, s.inserted_at, s.updated_at, s.description,
+                         sf.id AS file_id,
+                         CASE WHEN (:lon0::DOUBLE PRECISION IS NOT NULL AND :lat0::DOUBLE PRECISION IS NOT NULL)
+                              THEN ST_Distance(ST_SetSRID(ST_MakePoint(s.lon, s.lat), 4326)::geography,
+                                               ST_SetSRID(ST_MakePoint(:lon0, :lat0), 4326)::geography
+                                   ) END AS distance,
+                         ROW_NUMBER() OVER(PARTITION BY s.id ORDER BY sf.uploaded_at) AS rn
+                    FROM spot s
+                    JOIN spot_s3_file ssf ON ssf.spot_id = s.id
+                    JOIN s3_file sf ON sf.id = ssf.s3_file_id
+                   WHERE (:cityId IS NULL OR s.city_id = :cityId)
+                     AND (:lat0 IS NULL OR :lon0 IS NULL OR :radius IS NULL OR
+                          ST_DWithin(
+                            ST_SetSRID(ST_MakePoint(s.lon, s.lat), 4326)::geography,
+                            ST_SetSRID(ST_MakePoint(:lon0, :lat0), 4326)::geography,
+                            :radius
+                          )
+                         )
+              )
+            SELECT id, name, lat, lon, inserted_at, updated_at, description, file_id, distance
+              FROM spot_with_ranked_images
+             WHERE rn = 1
+          ORDER BY distance NULLS LAST, inserted_at DESC
+             LIMIT :limit
+            OFFSET :offset
+        """)
+                .param("limit", pageable.getPageSize())
+                .param("offset", pageable.getOffset())
+                .param("cityId", filter.cityId(), Types.BIGINT)
+                .param("lon0", filter.locationLon(), Types.DOUBLE)
+                .param("lat0", filter.locationLat(), Types.DOUBLE)
+                .param("radius", filter.radius(), Types.BIGINT)
+                .query((rs, rowNum) -> new MinSpot(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getDouble("lat"),
+                        rs.getDouble("lon"),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("inserted_at")),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("updated_at")),
+                        rs.getString("description"),
+                        fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
+                        rs.getObject("distance", Double.class)
+                ))
+                .list();
+        return new PageImpl<>(content, pageable, countTotalElementsWithFilter(filter));
+    }
+
     public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId,
                                                      @Nullable Double locationLon, @Nullable Double locationLat,
                                                      String fileLinkTemplate, String fileLinkPathParam) {
         return jdbcClient.sql("""
               WITH spot_with_ranked_images AS (
                   SELECT s.name,
+                         s.inserted_at,
                          sf.id AS file_id,
                          CASE WHEN (:lon0::DOUBLE PRECISION IS NOT NULL AND :lat0::DOUBLE PRECISION IS NOT NULL)
                               THEN ST_Distance(ST_SetSRID(ST_MakePoint(s.lon, s.lat), 4326)::geography,
@@ -105,7 +158,7 @@ public class SpotDAO {
                     JOIN s3_file sf ON sf.id = ssf.s3_file_id
                    WHERE s.id = :spotId
               )
-            SELECT name, file_id, distance
+            SELECT name, inserted_at, file_id, distance
               FROM spot_with_ranked_images
              WHERE rn = 1
         """)
@@ -115,6 +168,7 @@ public class SpotDAO {
                 .query((rs, rowNum) -> new SpotInfoForMapDialogDTO(
                         rs.getString("name"),
                         fileLinkTemplate.replace(fileLinkPathParam, rs.getString("file_id")),
+                        new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp("inserted_at")),
                         rs.getDouble("distance")
                 ))
                 .single();
@@ -172,6 +226,32 @@ public class SpotDAO {
 
     private long countTotalElements() {
         return jdbcClient.sql("SELECT COUNT(*) FROM spot").query(Long.class).single();
+    }
+
+    private long countTotalElementsWithFilter(SpotFilterDTO filter) {
+        return jdbcClient.sql("""
+                SELECT COUNT(*) FROM (
+                    SELECT s.id
+                      FROM spot s
+                      JOIN spot_s3_file ssf ON ssf.spot_id = s.id
+                      JOIN s3_file sf ON sf.id = ssf.s3_file_id
+                     WHERE (:cityId IS NULL OR s.city_id = :cityId)
+                       AND (:lat0 IS NULL OR :lon0 IS NULL OR :radius IS NULL OR
+                            ST_DWithin(
+                              ST_SetSRID(ST_MakePoint(s.lon, s.lat), 4326)::geography,
+                              ST_SetSRID(ST_MakePoint(:lon0, :lat0), 4326)::geography,
+                              :radius
+                            )
+                           )
+                  GROUP BY s.id
+                ) s
+            """)
+                .param("cityId", filter.cityId(), Types.BIGINT)
+                .param("lon0", filter.locationLon(), Types.DOUBLE)
+                .param("lat0", filter.locationLat(), Types.DOUBLE)
+                .param("radius", filter.radius(), Types.BIGINT)
+                .query(Long.class)
+                .single();
     }
 
     public UUID createSpotByAddingRequest(UUID spotAddingRequestId) {

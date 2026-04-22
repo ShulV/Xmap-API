@@ -109,6 +109,10 @@ async function showDialog(feature) {
     const location = await getUserLocation(false);
     const spot = await getSpotForMapDialog(feature.properties.id, location.longitude, location.latitude);
     const formattedDistance = getFormattedDistance(spot.distance);
+    const distanceText = formattedDistance ? `${formattedDistance} от вас` : "без геометки";
+    const insertedAtHtml = spot.insertedAt
+        ? `<div class="map-dialog__meta-chip map-dialog__inserted-date">${spot.insertedAt}</div>`
+        : "";
     dialog.innerHTML = `
         <h4>${spot.name}</h4>
         <div class="img-placeholder__wrapper">
@@ -117,7 +121,10 @@ async function showDialog(feature) {
             <img src="${spot.firstImageLink}" alt="spot image"
                  class="map-dialog__image rounded d-block img-placeholder__original-img">
         </div>
-        <div>${formattedDistance ? `${formattedDistance} от вас` : ""}</div>
+        <div class="map-dialog__meta">
+            <div class="map-dialog__meta-chip map-dialog__distance">${distanceText}</div>
+            ${insertedAtHtml}
+        </div>
         <div class="map-dialog__btns">
             <button onclick="closeDialog()" class="btn btn-gray">Закрыть</button>
             <a href="/spot/${feature.properties.id}" class="btn btn-orange ml-20px">Перейти</a>

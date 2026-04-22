@@ -2,6 +2,7 @@ package ru.spotic_api.services;
 
 import ru.spotic_api.dao.SpotDAO;
 import ru.spotic_api.dto.request.NewSpotDTO;
+import ru.spotic_api.dto.request.SpotFilterDTO;
 import ru.spotic_api.dto.response.DefaultSpotDTO;
 import ru.spotic_api.dto.response.SpotInfoForMapDTO;
 import ru.spotic_api.dto.response.SpotInfoForMapDialogDTO;
@@ -50,6 +51,10 @@ public class SpotService {
 
     public Page<MinSpot> getWithFirstImage(Pageable pageable) {
         return spotDAO.getWithFirstImage(pageable, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
+    }
+
+    public Page<MinSpot> getWithFirstImage(Pageable pageable, SpotFilterDTO filter) {
+        return spotDAO.getWithFirstImage(pageable, filter, s3FileDownloadLinkTemplate, s3FileDownloadLinkPathParam);
     }
 
     public SpotInfoForMapDialogDTO getWithFirstImage(UUID spotId,

@@ -3,8 +3,6 @@ package ru.spotic_api.controllers;
 import ru.spotic_api.exceptions.XmapApiException;
 import ru.spotic_api.services.SpotService;
 import ru.spotic_api.util.UICode;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +21,11 @@ public class SpotController {
 
     @GetMapping("/spots")
     public String getSpotListPage(Model model,
-                                  @RequestParam(required = false, defaultValue = "0") Integer pageNumber,
-                                  @RequestParam(required = false, defaultValue = "10") Integer pageSize,
                                   @RequestParam String viewMode) {
         if (!UICode.Spots.ViewMode.ALL.contains(viewMode)) {
             throw new XmapApiException("Unexpected view mode");
         }
         model.addAttribute("viewMode", viewMode);
-        if (UICode.Spots.ViewMode.CARDS.equals(viewMode)) {
-            Pageable pageable = PageRequest.of(pageNumber, pageSize);
-            model.addAttribute("spotList", spotService.getWithFirstImage(pageable));
-        }
         model.addAttribute("activePage", "spots");
         return "spot-list";
     }

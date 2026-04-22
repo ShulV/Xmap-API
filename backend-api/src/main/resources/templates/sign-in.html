@@ -12,10 +12,10 @@
 <body>
 <div layout:fragment="content" class="content">
     <h2 class="header-title">Вход</h2>
-    <div class="alert alert-success text-center h-m-8px h-50px lh-1"
+    <div class="alert alert-success text-center h-m-8px"
          th:if="${successMessage != null}" th:text="${successMessage}">
     </div>
-    <div class="alert alert-warning text-center h-m-8px h-50px lh-1"
+    <div class="alert alert-warning text-center h-m-8px"
          th:if="${warnMessage != null}" th:text="${warnMessage}">
     </div>
     <form th:replace="~{fragments/forms/sign-in :: form}">

@@ -132,10 +132,6 @@ body {
     margin-right: 8px;
 }
 
-.lh-1 {
-    line-height: 1;
-}
-
 .sign-in-form .link-to-sign-up,
 .sign-up-form .link-to-sign-in {
     color: var(--link-to-sign-up-color);

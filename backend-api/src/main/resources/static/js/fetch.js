@@ -43,6 +43,16 @@ async function getSpotsForMap() {
     return response.data;
 }
 
+async function getSpotsForCards(pageNumber = 0, pageSize = 10) {
+    const url = '/spot/list/for-cards';
+    const response = await api.post(
+        url,
+        restoreSpotFilter(),
+        { params: { pageNumber: pageNumber, pageSize: pageSize } }
+    );
+    return response.data;
+}
+
 async function getCitiesBySubstring(substring) {
     const url = '/city/list';
     const response = await api.get(url, { params: { substring } });
