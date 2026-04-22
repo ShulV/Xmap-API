@@ -3,5 +3,8 @@
   remote_user: deployer
 
   roles:
-    - common
-    - apache
+    - base
+    - firewalld
+    - selinux
+    - httpd
+    - swap

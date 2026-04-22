@@ -1,9 +1,7 @@
 <VirtualHost *:80>
     ServerName {{ monitoring_domain_name }}
 
-    ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:3000/
-    ProxyPassReverse / http://127.0.0.1:3000/
+    DocumentRoot /var/www/html
 
     ErrorLog /var/log/httpd/grafana_error.log
     CustomLog /var/log/httpd/grafana_access.log combined

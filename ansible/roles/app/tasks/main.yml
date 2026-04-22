@@ -16,12 +16,24 @@
     mode: "0700"  # Только владелец может читать/писать
     recurse: yes
 
+#- name: Copy docker-compose and app files
+#  ansible.builtin.copy:
+#    src: "{{ item }}"
+#    dest: "{{ deploy_path }}"
+#    mode: '0644'
+#  with_items:
+#    - Dockerfile
+#    - docker-compose.yml
+#    - init.sql
+#    - .dockerignore
+#  notify: Restart only app (handler)
+
 - name: Copy docker-compose and app files
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "{{ deploy_path }}"
+    dest: "{{ deploy_path }}/{{ item }}"
     mode: '0644'
-  with_items:
+  loop:
     - Dockerfile
     - docker-compose.yml
     - init.sql

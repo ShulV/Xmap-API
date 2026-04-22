@@ -5,7 +5,7 @@
     owner: root
     group: root
     mode: "0644"
-  notify: restart apache
+  notify: restart httpd
 
 - name: Flush handlers before requesting certificate
   meta: flush_handlers
@@ -27,4 +27,4 @@
     owner: root
     group: root
     mode: "0644"
-  notify: restart apache
+  notify: restart httpd

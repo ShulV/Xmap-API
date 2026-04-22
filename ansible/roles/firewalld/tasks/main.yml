@@ -1,0 +1,19 @@
+- name: Ensure firewalld is enabled and started
+  systemd:
+    name: firewalld
+    enabled: true
+    state: started
+
+- name: Allow HTTP in firewalld
+  ansible.posix.firewalld:
+    service: http
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Allow HTTPS in firewalld
+  ansible.posix.firewalld:
+    service: https
+    permanent: true
+    state: enabled
+    immediate: true

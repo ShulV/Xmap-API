@@ -1,0 +1,93 @@
+- name: Ensure PostgreSQL client tools are installed
+  become: yes
+  ansible.builtin.dnf:
+    name:
+      - postgresql
+      - gzip
+    state: present
+
+- name: Upload restore dump to server
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ restore_dump_src }}"
+    dest: "{{ restore_dump_dest }}"
+    mode: "0600"
+
+- name: Terminate active connections to DB
+  become: yes
+  ansible.builtin.shell: |
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -c "
+    SELECT pg_terminate_backend(pid)
+    FROM pg_stat_activity
+    WHERE datname = '{{ db_name }}' AND pid <> pg_backend_pid();"
+  environment:
+    PGPASSWORD: "{{ db_admin_password }}"
+  when: db_restore_recreate | default(false)
+
+- name: Recreate database
+  become: yes
+  ansible.builtin.shell: |
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -c "DROP DATABASE IF EXISTS {{ db_name }};"
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -c "CREATE DATABASE {{ db_name }};"
+  environment:
+    PGPASSWORD: "{{ db_admin_password }}"
+  when: db_restore_recreate | default(false)
+
+- name: Ensure DB user exists
+  become: yes
+  ansible.builtin.shell: |
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -tc "
+    SELECT 1 FROM pg_roles WHERE rolname='{{ db_user }}';" | grep -q 1 ||
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -c "
+    CREATE USER {{ db_user }} WITH PASSWORD '{{ db_password }}';"
+  environment:
+    PGPASSWORD: "{{ db_admin_password }}"
+  changed_when: false
+
+- name: Grant privileges and ownership
+  become: yes
+  ansible.builtin.shell: |
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -c "ALTER DATABASE {{ db_name }} OWNER TO {{ db_user }};"
+    psql -h {{ db_host }} -p {{ db_port }} -U {{ db_admin_user }} -d postgres -c "GRANT ALL ON DATABASE {{ db_name }} TO {{ db_user }};"
+  environment:
+    PGPASSWORD: "{{ db_admin_password }}"
+
+- name: Restore database from dump
+  become: yes
+  ansible.builtin.shell: |
+    set -o pipefail
+    gunzip -c "{{ restore_dump_dest }}" | psql \
+      -h {{ db_host }} \
+      -p {{ db_port }} \
+      -U {{ db_user }} \
+      -d {{ db_name }} \
+      -w
+  args:
+    executable: /bin/bash
+  environment:
+    PGPASSWORD: "{{ db_password }}"
+
+- name: Copy create_extensions.sql
+  become: yes
+  ansible.builtin.copy:
+    src: create_extensions.sql
+    dest: /tmp/create_extensions.sql
+    mode: "0644"
+
+- name: Apply create_extensions.sql
+  become: yes
+  ansible.builtin.shell: |
+    psql -h {{ db_host }} -p {{ db_port }} \
+         -U {{ db_user }} -d {{ db_name }} \
+         -f /tmp/create_extensions.sql
+  environment:
+    PGPASSWORD: "{{ db_password }}"
+
+- name: Remove uploaded files
+  become: yes
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ restore_dump_dest }}"
+    - /tmp/create_extensions.sql

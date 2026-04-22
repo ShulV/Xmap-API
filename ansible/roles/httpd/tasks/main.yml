@@ -1,0 +1,92 @@
+- name: Sync all system packages on fresh host
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
+
+- name: Install httpd and certbot packages
+  dnf:
+    name:
+      - httpd
+      - mod_ssl
+      - certbot
+      - python3-certbot-apache
+    state: present
+
+- name: Ensure httpd is enabled and started
+  service:
+    name: httpd
+    enabled: true
+    state: started
+
+- name: Remove default httpd configs
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/httpd/conf.d/ssl.conf
+    - /etc/httpd/conf.d/welcome.conf
+    - /etc/httpd/conf.d/userdir.conf
+    - /etc/httpd/conf.d/autoindex.conf
+    - /etc/httpd/conf.d/README
+
+# В ssl.conf было много лишнего, но оттуда нужен Listen 443, иначе https не работает. '00-' - чтобы читался первым
+- name: Ensure Apache listens on 443
+  copy:
+    dest: /etc/httpd/conf.d/00-listen-ssl.conf
+    content: |
+      Listen 443 https
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart httpd
+
+- name: Copy temporary HTTP app vhost
+  template:
+    src: app_http_vhost.conf.j2
+    dest: /etc/httpd/conf.d/{{ domain_name }}.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart httpd
+
+- name: Validate httpd config before first start
+  command: httpd -t
+  changed_when: false
+
+- name: Flush handlers before requesting certificates
+  meta: flush_handlers
+
+- name: Ensure httpd is running before certbot
+  systemd:
+    name: httpd
+    state: started
+
+- name: Obtain Let's Encrypt certificate for app domain
+  command: >
+    certbot certonly --apache
+    -d {{ domain_name }}
+    --non-interactive
+    --agree-tos
+    -m {{ certbot_email }}
+  args:
+    creates: "/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem"
+
+- name: Copy final HTTPS app vhost
+  template:
+    src: app_vhost.conf.j2
+    dest: /etc/httpd/conf.d/{{ domain_name }}.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart httpd
+
+- name: Validate httpd config before final restart
+  command: httpd -t
+  changed_when: false
+
+- name: Flush handlers after final configs
+  meta: flush_handlers
+
+- import_tasks: grafana.yml
+  when: monitoring_domain_name is defined

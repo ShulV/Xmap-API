@@ -1,7 +1,14 @@
+- name: Sync all system packages on fresh host
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: yes
+
 # Установка базовых пакетов через dnf
 - name: Ensure basic packages are installed
   dnf:
     name:
+      - mc
       - vim
       - git
       - curl
@@ -10,6 +17,7 @@
       - unzip
       - tar
       - firewalld
+      - rsync
     state: present
 
 # Создание пользователя deployer

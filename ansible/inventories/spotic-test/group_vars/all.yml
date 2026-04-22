@@ -7,3 +7,16 @@ certbot_email: vshulpov@gmail.com
 ssh_authorized_keys:
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJdCxIToAgGNElGIxrgsDB6IE2IHklmaQ052tI5yb8+ vshulpov@gmail.com"
   - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIImwx3S1GoURcB8WfC59uB34KkQ7TjAI34m6JpXD/Rqd shulpov.v@fedora-mini-pc"
+
+db_host: 127.0.0.1
+db_port: 5432
+db_name: xmap
+db_user: xmap_admin
+db_password: "123"
+db_admin_user: xmap_admin   # суперпользователь
+db_admin_password: "123"  # если есть пароль
+restore_dump_src: "~/backup/spotic-2026-02-01T16:35:47.sql.gz"
+restore_dump_dest: "/tmp/spotic-restore.sql.gz"
+db_restore_recreate: true
+
+swap_size: 4G

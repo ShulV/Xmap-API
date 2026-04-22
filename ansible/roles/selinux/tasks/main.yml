@@ -1,0 +1,6 @@
+- name: Allow httpd to connect to network backends
+  become: yes
+  ansible.posix.seboolean:
+    name: httpd_can_network_connect
+    state: true
+    persistent: true

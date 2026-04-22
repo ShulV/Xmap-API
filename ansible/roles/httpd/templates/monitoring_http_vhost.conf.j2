@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+    ServerName {{ monitoring_domain_name }}
+
+    ErrorLog /var/log/httpd/grafana_error.log
+    CustomLog /var/log/httpd/grafana_access.log combined
+</VirtualHost>

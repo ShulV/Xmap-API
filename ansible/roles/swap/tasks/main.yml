@@ -1,0 +1,55 @@
+- name: Check if /swapfile exists
+  become: yes
+  ansible.builtin.stat:
+    path: /swapfile
+  register: swapfile_stat
+
+- name: Create swap file
+  become: yes
+  ansible.builtin.command: fallocate -l {{ swap_size }} /swapfile
+  when: not swapfile_stat.stat.exists
+
+- name: Set correct permissions on swap file
+  become: yes
+  ansible.builtin.file:
+    path: /swapfile
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Check swapfile type
+  become: yes
+  ansible.builtin.command: file -s /swapfile
+  register: swapfile_type
+  changed_when: false
+
+- name: Format swap file
+  become: yes
+  ansible.builtin.command: mkswap /swapfile
+  when: "'swap file' not in swapfile_type.stdout"
+
+- name: Get active swaps
+  become: yes
+  ansible.builtin.command: swapon --show=NAME --noheadings
+  register: active_swaps
+  changed_when: false
+
+- name: Enable swap file
+  become: yes
+  ansible.builtin.command: swapon /swapfile
+  when: "'/swapfile' not in active_swaps.stdout_lines"
+
+- name: Ensure swap is present in fstab
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: '/swapfile none swap sw 0 0'
+    state: present
+
+- name: Set vm.swappiness
+  become: yes
+  ansible.builtin.sysctl:
+    name: vm.swappiness
+    value: "10"
+    state: present
+    reload: true
