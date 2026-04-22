@@ -4,6 +4,7 @@ const SPOTS_SOURCE_ID = 'spots-cluster-source';
 let mapCenter = { longitude: undefined, latitude: undefined };
 let mapInstance = null;
 let clusterer = null
+let userLocationMarker = null;
 
 getUserLocation().then(res => {
     mapCenter = res;
@@ -69,10 +70,7 @@ async function initMap() {
     });
 
     mapInstance.addChild(clusterer);
-    // const userLocationFeature = await createUserLocationFeature();
-    // if (userLocationFeature) {
-    //     mapInstance.addChild(userLocationFeature);
-    // }
+    await addOrUpdateUserLocationMarker();
 }
 
 function createMarker(feature) {
@@ -175,6 +173,39 @@ function showToast(message) {
     toast.show();
 }
 
+function createUserLocationPinElement() {
+    const marker = document.createElement('div');
+    marker.className = 'user-location-pin';
+
+    const dot = document.createElement('div');
+    dot.className = 'user-location-pin__dot';
+
+    marker.appendChild(dot);
+    return marker;
+}
+
+async function addOrUpdateUserLocationMarker() {
+    const location = await getUserLocation(false);
+    if (!location?.longitude || !location?.latitude) return;
+
+    const coordinates = [Number(location.longitude), Number(location.latitude)];
+    if (!Number.isFinite(coordinates[0]) || !Number.isFinite(coordinates[1])) return;
+
+    if (userLocationMarker) {
+        userLocationMarker.update({ coordinates });
+        return;
+    }
+
+    userLocationMarker = new ymaps3.YMapMarker(
+        {
+            coordinates,
+            source: SPOTS_SOURCE_ID
+        },
+        createUserLocationPinElement()
+    );
+    mapInstance.addChild(userLocationMarker);
+}
+
 async function updatePoints() {
     if (!mapInstance) return;
 
@@ -193,6 +224,7 @@ async function updatePoints() {
     });
 
     mapInstance.addChild(clusterer);
+    await addOrUpdateUserLocationMarker();
 }
 //
 // async function createUserLocationFeature() {
