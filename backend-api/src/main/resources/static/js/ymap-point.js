@@ -46,7 +46,15 @@ async function initMap() {
             {
                 coordinates: coords,
                 draggable: true,
-                mapFollowsOnDrag: true
+                mapFollowsOnDrag: true,
+                onDragMove: (coordinates) => {
+                    setCoordinates(coordinates);
+                    marker.update({coordinates});
+                },
+                onDragEnd: (coordinates) => {
+                    setCoordinates(coordinates);
+                    marker.update({coordinates});
+                }
             },
             markerElement
         );

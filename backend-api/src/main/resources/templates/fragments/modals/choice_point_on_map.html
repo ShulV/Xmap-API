@@ -29,6 +29,7 @@
     function setCoordinates([lon, lat]) {
       document.getElementById('[[${latInputId}]]').value = lat.toFixed(6);
       document.getElementById('[[${lonInputId}]]').value = lon.toFixed(6);
+      window.dispatchEvent(new CustomEvent('map-point-selected'));
     }
     let map = undefined;
 

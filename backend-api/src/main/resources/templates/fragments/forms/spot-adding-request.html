@@ -18,13 +18,17 @@
     </div>
 
     <div class="input-label">
-      <div th:if="${#fields.hasErrors('spotLon') || #fields.hasErrors('spotLat')}"
+      <div id="mapCoordsError" th:if="${#fields.hasErrors('spotLon') || #fields.hasErrors('spotLat')}"
            class="input-msg-error">Не указана точка</div>
       <label for="map-coords-id" class="input-label__label">Точка на карте</label>
-      <div id="map-coords-id" class="coords-inputs" data-bs-toggle="modal" data-bs-target="#mapModal">
-        <div>указать </div>
+      <div id="map-coords-id" class="coords-inputs"
+           th:classappend="${#fields.hasErrors('spotLon') || #fields.hasErrors('spotLat')} ? ' coords-inputs--invalid' : ''"
+           data-bs-toggle="modal" data-bs-target="#mapModal" role="button" tabindex="0"
+           aria-describedby="mapCoordsHelp">
+        <div id="mapCoordsText" class="map-coords-help">Точка не выбрана</div>
         <img src="/assets/marker.svg" alt="map marker" class="coords-inputs__marker">
       </div>
+      <div id="mapCoordsHelp" class="coords-inputs__help">Нажмите, чтобы выбрать точку на карте</div>
       <input type="hidden" id="lon" name="lon" th:field="*{spotLon}"/>
       <input type="hidden" id="lat" name="lat" th:field="*{spotLat}"/>
     </div>
@@ -59,6 +63,71 @@
       </div>
     </div>
     <script type="application/javascript">
+      const spotAddingRequestForm = document.querySelector('form[action="/spot-adding-request"]');
+      const mapCoordsInput = document.getElementById('map-coords-id');
+      const mapCoordsText = document.getElementById('mapCoordsText');
+      const mapCoordsHelp = document.getElementById('mapCoordsHelp');
+      const mapCoordsError = document.getElementById('mapCoordsError');
+      const lonInput = document.getElementById('lon');
+      const latInput = document.getElementById('lat');
+
+      function isSelectedMapPoint() {
+        const lonValue = lonInput.value.trim();
+        const latValue = latInput.value.trim();
+        if (!lonValue || !latValue) {
+          return false;
+        }
+
+        const lon = Number(lonValue);
+        const lat = Number(latValue);
+        return Number.isFinite(lon) && Number.isFinite(lat)
+                && lon >= -180 && lon <= 180
+                && lat >= -90 && lat <= 90;
+      }
+
+      function updateMapPointState(showError = false) {
+        const selected = isSelectedMapPoint();
+        mapCoordsInput.classList.toggle('coords-inputs--selected', selected);
+        mapCoordsInput.classList.toggle('coords-inputs--invalid', !selected && showError);
+
+        if (selected) {
+          if (mapCoordsError) {
+            mapCoordsError.style.display = 'none';
+          }
+          mapCoordsText.textContent = `Выбрано: ${latInput.value}, ${lonInput.value}`;
+          mapCoordsHelp.textContent = 'Нажмите, чтобы изменить точку';
+          return;
+        }
+
+        if (mapCoordsError) {
+          mapCoordsError.style.display = 'none';
+        }
+
+        mapCoordsText.textContent = 'Точка не выбрана';
+        mapCoordsHelp.textContent = showError
+                ? 'Выберите точку на карте перед созданием спота'
+                : 'Нажмите, чтобы выбрать точку на карте';
+      }
+
+      window.addEventListener('map-point-selected', () => updateMapPointState(false));
+      updateMapPointState(Boolean(mapCoordsError));
+
+      mapCoordsInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          mapCoordsInput.click();
+        }
+      });
+
+      spotAddingRequestForm.addEventListener('submit', function(event) {
+        if (!isSelectedMapPoint()) {
+          event.preventDefault();
+          updateMapPointState(true);
+          mapCoordsInput.focus();
+          mapCoordsInput.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+      });
+
       document.getElementById('photos').addEventListener('change', function() {
         const countSpan = document.querySelector('.custom-file-input__selected-count');
         if (this.files.length === 0) {

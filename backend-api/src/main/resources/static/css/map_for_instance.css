@@ -2,17 +2,43 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     color: var(--choice-map-point-btn-color);
     font-size: 20px;
-    text-decoration: underline;
+    min-height: 50px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: var(--input-bg-color);
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.coords-inputs:focus {
+    outline: 2px solid var(--input-focus-outline-color);
+}
+
+.coords-inputs--invalid .map-coords-help {
+    color: inherit;
 }
 
 .coords-inputs__marker {
     height: 30px;
+    flex: 0 0 auto;
 }
 
 .coords-inputs__input {
     margin-right: 30px;
+}
+
+.coords-inputs__help {
+    margin-top: 6px;
+    color: var(--input-label-color);
+    font-size: 14px;
+}
+
+.coords-inputs--invalid + .coords-inputs__help {
+    color: var(--input-msg-error-color);
 }
 
 .map-modal__body {
