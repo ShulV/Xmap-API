@@ -1,6 +1,7 @@
 // добавляем loader для пакета, где указываем из какого CDN загружать
 
 let mapCenter = {longitude: undefined, latitude: undefined};
+let userLocationMarker = null;
 
 async function buildMap() {
     getUserLocation().then(res => {
@@ -68,6 +69,10 @@ async function initMap() {
         });
     };
 
+    async function renderUserLocationMarker() {
+        userLocationMarker = await window.addOrUpdateUserLocationMarker(map, userLocationMarker);
+    }
+
     const clickCallback = async (object, event) => {
         setCoordinates(event.coordinates);
         if (singleMarker == null) {
@@ -88,4 +93,6 @@ async function initMap() {
         .addChild(new YMapDefaultSchemeLayer())
         // Слой с метками
         .addChild(new ymaps3.YMapDefaultFeaturesLayer({zIndex: 1800}));
+
+    await renderUserLocationMarker();
 }
