@@ -52,7 +52,7 @@ public class WebSecurityConfig  {
                                 "/profile",
                                 "/locale"
                         ).permitAll()
-                        .requestMatchers("/css/**", "/fonts/**", "/js/**", "/assets/**").permitAll()
+                        .requestMatchers("/css/**", "/fonts/**", "/js/**", "/assets/**", "/favicon.ico").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()
