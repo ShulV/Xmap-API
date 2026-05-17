@@ -21,8 +21,7 @@ public record NewSpotAddingRequestDTO(
         @DecimalMin("-180.0")
         @DecimalMax("180.0")
         Double spotLon,
-        @NotBlank
-        @Size(min = 10, max = 300)
+        @Size(max = 300)
         String spotDescription,
         @ValidFilesCount(min = 1, max = 5, message = "Должно быть от 1 до 5 файлов")
         @ValidFilesSize(maxFileSize = 10 * 1024 * 1024, maxTotalFileListSize = 30 * 1024 * 1024,
