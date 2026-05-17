@@ -27,8 +27,7 @@ db_backup_dir_mode: "0750"
 db_backup_local_dir: "~/backup"
 db_backup_local_dir_mode: "0750"
 # выставьте значения при необходимости, иначе останется текущий владелец/группа
-# db_backup_owner: backup_owner
-# db_backup_group: backup_owner_group
+db_backup_group: deployer
 db_backup_docker_container: "spotic-postgres-db"
 
 swap_size: 4G

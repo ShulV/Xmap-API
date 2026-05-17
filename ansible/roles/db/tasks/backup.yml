@@ -3,6 +3,7 @@
   ansible.builtin.dnf:
     name:
       - gzip
+      - rsync
     state: present
 
 - name: Check PostgreSQL container exists
@@ -17,7 +18,6 @@
     path: "{{ db_backup_dir | default('/srv/backup') }}"
     state: directory
     mode: "{{ db_backup_dir_mode | default('0750') }}"
-    owner: "{{ db_backup_owner | default(omit) }}"
     group: "{{ db_backup_group | default(omit) }}"
 
 - name: Find expired backup files
@@ -72,7 +72,6 @@
   ansible.builtin.file:
     path: "{{ db_last_backup_path }}"
     mode: "{{ db_backup_file_mode | default('0440') }}"
-    owner: "{{ db_backup_owner | default(omit) }}"
     group: "{{ db_backup_group | default(omit) }}"
 
 - name: Ensure local backup directory exists
@@ -84,7 +83,7 @@
     mode: "{{ db_backup_local_dir_mode | default('0750') }}"
 
 - name: Download backup to local machine
-  become: yes
+  become: false
   ansible.builtin.fetch:
     src: "{{ db_last_backup_path }}"
     dest: "{{ db_backup_local_dir | default(lookup('env', 'HOME') + '/backup') }}/"
@@ -95,4 +94,4 @@
   ansible.builtin.debug:
     msg:
       - "Backup created on server: {{ db_last_backup_path }}"
-      - "Backup downloaded locally: {{ local_backup_fetch_result.dest }}"
+      - "Backup downloaded locally: {{ db_backup_local_dir | default(lookup('env', 'HOME') + '/backup') }}/{{ db_last_backup_path | basename }}"
